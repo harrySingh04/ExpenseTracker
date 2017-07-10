@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteStatement;
 
 import com.expensetracker.Model.Expense;
 
+import java.util.ArrayList;
+
 public class Expensetable extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -56,7 +58,7 @@ public class Expensetable extends SQLiteOpenHelper {
     public void insert_expense(Expense expense) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        SQLiteStatement stmt =  db.compileStatement("Insert into " + TABLE + " (" +  KEY_Amount + "," + KEY_Date + ") VALUES  " + "(?,?)");
+        SQLiteStatement stmt = db.compileStatement("Insert into " + TABLE + " (" + KEY_Amount + "," + KEY_Date + ") VALUES  " + "(?,?)");
 
         stmt.bindLong(1, expense.getAmount());
         stmt.bindString(2, expense.getDate());
@@ -68,32 +70,56 @@ public class Expensetable extends SQLiteOpenHelper {
     public void delete_expense(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        SQLiteStatement stmt =  db.compileStatement("Delete from" + TABLE + " where id=?");
+        SQLiteStatement stmt = db.compileStatement("Delete from" + TABLE + " where id=?");
 
         stmt.bindLong(1, id);
         stmt.executeUpdateDelete();
 
     }
 
-    public void get_all_expenses() {
+    public ArrayList<Expense> get_all_expenses() {
 
+        ArrayList<Expense> expense = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String s = "SELECT  * FROM " + TABLE + " LIMIT 1;";
+        String s = "SELECT  * FROM " + TABLE;
         Cursor cursor = db.rawQuery(s, null);
 
-        while(cursor.moveToNext()){
-
+        while (cursor.moveToNext()) {
+            expense.add(new Expense(cursor.getInt(1), cursor.getInt(2), cursor.getString(3)));
         }
 
+        return expense;
+    }
+
+    public void update_expense(Expense expense) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteStatement stmt = db.compileStatement("update " + TABLE + " set " + KEY_Amount + "=?," + KEY_Date + "=? where " + KEY_ID + "=?");
+
+        stmt.bindLong(1, expense.getAmount());
+        stmt.bindString(2, expense.getDate());
+        stmt.bindString(3, expense.getDate());
+        stmt.executeUpdateDelete();
+
 
     }
 
-    public void edit_expense(Expensetable expense) {
+    public Expense get_single_expense(int id) {
 
-    }
+        Expense expense = null;
+        SQLiteDatabase db = this.getWritableDatabase();
 
-    public void get_single_expense(int id){
+        String s = "SELECT  * FROM " + TABLE + " where "+KEY_ID+"=?;";
+        Cursor cursor = db.rawQuery(s, null);
+
+        while (cursor.moveToNext()) {
+            expense = new Expense(cursor.getInt(1), cursor.getInt(2), cursor.getString(3));
+        }
+
+        return expense;
+
 
     }
 
