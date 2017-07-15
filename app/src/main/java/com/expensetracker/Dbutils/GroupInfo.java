@@ -88,5 +88,25 @@ public class GroupInfo {
         networkUtils.execute(asyncTaskdata);
     }
 
+    public void getAllGroupsForUser(int user_id){
+
+
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/getAllGroupsForUser";
+        URL url = null;
+        JSONObject jsonObject = null;
+        try {
+            url = new URL(stringurl);
+            jsonObject = new JSONObject();
+            jsonObject.put("user_id", user_id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
+        networkUtils.execute(asyncTaskdata);
+
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.expensetracker.Dbutils;
 import com.expensetracker.AsyncResponse;
 import com.expensetracker.Model.AsyncData;
 import com.expensetracker.NetworkUtils;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONObject;
 
@@ -46,6 +47,8 @@ public class UserInfo {
 
         String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/registeruser";
 
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
         URL url = null;
         JSONObject jsonObject = null;
         try {
@@ -54,6 +57,8 @@ public class UserInfo {
             jsonObject.put("username", username);
             jsonObject.put("password", password);
             jsonObject.put("email", email);
+            jsonObject.put("registration_token", refreshedToken);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

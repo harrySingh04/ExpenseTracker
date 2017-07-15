@@ -44,7 +44,7 @@ public class ExpenseInfo {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/getallexpense";
+        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/getallexpenses";
 
         URL url = null;
         JSONObject jsonObject = null;

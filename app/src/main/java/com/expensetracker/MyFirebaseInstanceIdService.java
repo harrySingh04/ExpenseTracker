@@ -1,4 +1,4 @@
-package com.expensetracker.PushNotification;
+package com.expensetracker;
 
 import android.content.Intent;
 import android.util.Log;
@@ -20,7 +20,9 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
             String recent_token = FirebaseInstanceId.getInstance().getToken();
 
-        Log.d(REG_TOKEN,recent_token);
+        Log.e(REG_TOKEN,recent_token);
+
+
 
     }
 }

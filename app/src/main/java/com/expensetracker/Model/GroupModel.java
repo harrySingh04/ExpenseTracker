@@ -4,14 +4,14 @@ package com.expensetracker.Model;
  * Created by user on 09-07-2017.
  */
 
-public class Group {
+public class GroupModel {
 
 
     String name;
     int user_id;
     int group_id;
 
-    public Group(String name, int user_id, int group_id) {
+    public GroupModel(String name, int user_id, int group_id) {
         super();
         this.name = name;
         this.user_id = user_id;
