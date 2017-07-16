@@ -1,16 +1,20 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.expensetracker.AsyncResponse;
 import com.expensetracker.Dbutils.GroupInfo;
-import com.expensetracker.GroupAdapter;
+import com.expensetracker.Adapters.GroupAdapter;
 import com.expensetracker.ItemClickListener;
+import com.expensetracker.MenuPane;
 import com.expensetracker.Model.GroupModel;
 import com.expensetracker.R;
 
@@ -26,9 +30,9 @@ public class GroupView extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<GroupModel> groupdetails = new ArrayList<GroupModel>();
-
     Context context;
     ItemClickListener itemClickListener;
+    public static String TAG = "GroupView";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +63,16 @@ public class GroupView extends AppCompatActivity {
                         groupdetails.add(new GroupModel(name, group_id, userid));
                     }
 
-                    for(GroupModel g: groupdetails){
-                        Log.e("name of group",g.getName());
+                    for (GroupModel g : groupdetails) {
+                        Log.e("name of group", g.getName());
                     }
 
 
-                    adapter = new GroupAdapter(groupdetails,itemClickListener);
+                    adapter = new GroupAdapter(groupdetails, itemClickListener);
                     layoutManager = new LinearLayoutManager(context);
                     group_container.setLayoutManager(layoutManager);
                     group_container.setHasFixedSize(true);
                     group_container.setAdapter(adapter);
-
-
-
 
 
                     Log.e("this is trhe dta", data);
@@ -89,9 +90,39 @@ public class GroupView extends AppCompatActivity {
             @Override
             public void onItemClick(int clickedItemIndex) {
 
+
+                Log.e(TAG,String.valueOf(clickedItemIndex));
+                Intent intent = new Intent();
+                intent.setClass(context,SingleGroupDetails.class);
+                intent.putExtra("groupid",clickedItemIndex);
+                context.startActivity(intent);
+
+
             }
         };
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button_brown, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        MenuPane menupane = new MenuPane();
+        menupane.menu(this, id);
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

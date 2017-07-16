@@ -51,7 +51,11 @@
         <!-- </intent-filter> -->
         <!-- </service> -->
 
-        <activity android:name=".Activities.GroupView"></activity>
+        <activity android:name=".Activities.GroupView" />
+        <activity
+            android:name=".Activities.SingleGroupDetails"
+            android:label="@string/title_activity_single_group_details"
+           ></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.expensetracker.ItemClickListener;
 import com.expensetracker.Model.ExpenseModel;
+import com.expensetracker.R;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     private ArrayList<ExpenseModel> expenseDetails;
     private ItemClickListener itemClickListener;
-    public static final String class_name = "Recycler Adapter";
+    public static final String TAG = "Recycler Adapter";
 
     public ExpenseAdapter(ArrayList<ExpenseModel> expenseDetails, ItemClickListener itemClickListener) {
         this.expenseDetails = expenseDetails;
@@ -27,14 +29,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     }
 
 
-
-
-
-
     @Override
     public ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_expense, parent, false);
-        Log.e(class_name, "In onCreateViewHolder");
+        Log.e(TAG, "In onCreateViewHolder");
         ExpenseViewHolder recyclerViewHolder = new ExpenseViewHolder(view);
         return recyclerViewHolder;
 
@@ -44,13 +42,19 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     public void onBindViewHolder(ExpenseViewHolder holder, int position) {
 
 
-      //  holder.amount.setText(expenseDetails.get(position).getDescription());
+        //  holder.amount.setText(expenseDetails.get(position).getDescription());
+
+        Log.e(TAG, "Amount" + String.valueOf(expenseDetails.get(position).getAmount()));
+
+        holder.category.setContentDescription(String.valueOf(R.string.category));
 
         holder.amount.setText(String.valueOf(expenseDetails.get(position).getAmount()));
         holder.description.setText(expenseDetails.get(position).getDescription());
         holder.category.setText(expenseDetails.get(position).getCategory());
         holder.date.setText(expenseDetails.get(position).getDate());
-        holder.groupname.setText(expenseDetails.get(position).getDate());
+        holder.groupname.setText(expenseDetails.get(position).getGroupname());
+
+        holder.category.setContentDescription(String.valueOf(R.string.category));
 
     }
 
@@ -72,7 +76,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             category = (TextView) view.findViewById(R.id.category);
             date = (TextView) view.findViewById((R.id.date));
             groupname = (TextView) view.findViewById((R.id.groupname));
-//            view.setOnClickListener(this);
+
+            groupname.setContentDescription(String.valueOf(R.string.group));
+            category.setContentDescription(String.valueOf(R.string.category));
+
         }
 
 
