@@ -56,7 +56,12 @@
             android:name=".Activities.SingleGroupDetails"
             android:label="@string/title_activity_single_group_details" />
         <activity android:name=".Activities.LoginUser" />
-        <activity android:name=".Activities.RegisterUser"></activity>
+        <activity android:name=".Activities.RegisterUser" />
+        <activity android:name=".Activities.AddFriend" />
+        <activity
+            android:name=".Activities.AddGroup"
+            android:label="@string/title_activity_add_group"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
