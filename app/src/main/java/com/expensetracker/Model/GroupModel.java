@@ -10,8 +10,8 @@ public class GroupModel {
 
 
     String name;
-    int user_id;
-    int group_id;
+    Integer user_id;
+    Integer group_id;
     ArrayList<UserModel> group_members;
 
     public GroupModel(String name, int user_id, int group_id) {
@@ -28,6 +28,10 @@ public class GroupModel {
         this.group_members = group_members;
     }
 
+    public GroupModel(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -36,20 +40,26 @@ public class GroupModel {
         this.name = name;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
-    public int getGroup_id() {
+    public Integer getGroup_id() {
         return group_id;
     }
 
-    public void setGroup_id(int group_id) {
+    public void setGroup_id(Integer group_id) {
         this.group_id = group_id;
+    }
+
+
+    public String toString(){
+
+        return name;
     }
 
 

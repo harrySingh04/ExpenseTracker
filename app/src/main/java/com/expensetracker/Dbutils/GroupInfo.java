@@ -1,9 +1,13 @@
 package com.expensetracker.Dbutils;
 
-import com.expensetracker.AsyncResponse;
+import android.util.Log;
+
+import com.expensetracker.Constants;
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Model.AsyncData;
 import com.expensetracker.NetworkUtils;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -17,16 +21,16 @@ import java.util.Date;
 public class GroupInfo {
 
 
-    AsyncResponse asyncResponse;
 
-    public GroupInfo(AsyncResponse asyncResponse) {
-        this.asyncResponse = asyncResponse;
+    public static String TAG = "groupinfo";
+
+    public GroupInfo(){
     }
 
-    public void addgroup(ArrayList<String> email, String groupname) {
+    public void addgroup(ArrayList<String> email, String groupname,AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/addgroup";
+        String stringurl = Constants.ADD_GROUP;
         URL url = null;
         JSONObject jsonObject = null;
         try {
@@ -43,11 +47,41 @@ public class GroupInfo {
 
     }
 
-    public void deletegroup(int group_id) {
+    public void addGroupFromId(ArrayList<Integer> ids, String groupname,AsyncResponse asyncResponse) {
+
+
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+        String stringurl = Constants.ADD_GROUP_FROM_ID;
+        URL url = null;
+        JSONObject jsonObject = null;
+        JSONArray arr = new JSONArray();
+
+        for(Integer i:ids){
+            arr.put(i);
+        }
+
+
+        try {
+            url = new URL(stringurl);
+            jsonObject = new JSONObject();
+            jsonObject.put("userids", arr);
+            jsonObject.put("groupname", groupname);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.e(TAG,String.valueOf(jsonObject));
+        AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
+        networkUtils.execute(asyncTaskdata);
+
+    }
+
+    public void deletegroup(int group_id,AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/deletegroup";
+        String stringurl = Constants.DELETE_GROUP;
 
         URL url = null;
         JSONObject jsonObject = null;
@@ -70,10 +104,10 @@ public class GroupInfo {
     }
 
 
-    public void getgroupmembers(int group_id) {
+    public void getgroupmembers(int group_id,AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/getgroupmembers";
+        String stringurl = Constants.GET_GROUP_MEMBERS;
         URL url = null;
         JSONObject jsonObject = null;
         try {
@@ -88,11 +122,11 @@ public class GroupInfo {
         networkUtils.execute(asyncTaskdata);
     }
 
-    public void getAllGroupsForUser(int user_id){
+    public void getAllGroupsForUser(int user_id,AsyncResponse asyncResponse) {
 
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/getAllGroupsForUser";
+        String stringurl = Constants.GET_GROUP_MEMBERS_FOR_SINGLE_USER;
         URL url = null;
         JSONObject jsonObject = null;
         try {

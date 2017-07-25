@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.expensetracker.Activities.FriendsView;
 import com.expensetracker.Activities.GroupView;
 import com.expensetracker.Activities.Home;
 
@@ -17,9 +18,9 @@ import com.expensetracker.Activities.Home;
 
 public class MenuPane {
 
-    public void menu(final Context context, int id) {
+    public static void menu(final Context context, int id) {
 
-        if (id == R.id.home) {
+        if (id == 0) {
             Intent i = new Intent();
             i.setClass(context, Home.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -28,9 +29,18 @@ public class MenuPane {
             ((Activity) (context)).finish();
         }
 
-        if (id == R.id.group) {
+        if (id ==1) {
             Intent i = new Intent();
             i.setClass(context, GroupView.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+            ((Activity) (context)).finish();
+        }
+
+        if (id == 2) {
+            Intent i = new Intent();
+            i.setClass(context, FriendsView.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);

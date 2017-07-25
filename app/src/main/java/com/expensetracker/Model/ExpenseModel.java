@@ -14,7 +14,7 @@ public class ExpenseModel {
     String groupname;
     String description;
 
-    public ExpenseModel(int id, int amount, String date, String category, int groupid, String groupname, String description) {
+    public ExpenseModel(int id, int amount, String date, String category, int groupid, String description,String groupname) {
         this.id = id;
         this.amount = amount;
         this.date = date;

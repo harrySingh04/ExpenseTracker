@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.expensetracker.ItemClickListener;
+import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.Model.UserModel;
 import com.expensetracker.R;
 
