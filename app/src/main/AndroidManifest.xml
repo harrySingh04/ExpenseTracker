@@ -54,8 +54,9 @@
         <activity android:name=".Activities.GroupView" />
         <activity
             android:name=".Activities.SingleGroupDetails"
-            android:label="@string/title_activity_single_group_details"
-           ></activity>
+            android:label="@string/title_activity_single_group_details" />
+        <activity android:name=".Activities.LoginUser" />
+        <activity android:name=".Activities.RegisterUser"></activity>
     </application>
 
 </manifest>
