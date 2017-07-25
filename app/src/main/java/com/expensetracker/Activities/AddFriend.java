@@ -144,3 +144,55 @@ public class AddFriend extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void setLeftPane() {
+
+
+        //  mTitle = mDrawerTitle = getTitle();
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        navigationItems = getResources().getStringArray(R.array.navigationItems);
+//        setLeftPane();
+        // set a custom shadow that overlays the main content when the drawer opens
+        //  mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        // set up the drawer's list view with items and click listener
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.navigation_list_view, navigationItems));
+        mDrawerList.setOnItemClickListener(new AddFriend.DrawerItemClickListener());
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                /* nav drawer image to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
+        ) {
+            public void onDrawerClosed(View view) {
+                Log.e(TAG, "ondrawer clossed");
+                // getSupportActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                Log.e(TAG, "ondrawer opened");
+                //   getSupportActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        //     mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+//        if (savedInstanceState == null) {
+//            //   selectItem(0);
+//        }
+
+
+    }
+
+
+}
