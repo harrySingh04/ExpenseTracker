@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.expensetracker.ItemClickListener;
+import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.Model.GroupModel;
 import com.expensetracker.R;
 
@@ -20,7 +20,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     ArrayList<GroupModel> groupDetails = new ArrayList<>();
     public static final String class_name = "Recycler Adapter";
     ItemClickListener itemClickListener;
-    int groupid;
+    private int groupid;
     public static String TAG= "groupView";
 
     //    public RecyclerAdapter(NewsDetails newsDetails) {
@@ -56,6 +56,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     public class GroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name;
+        String id;
 
         public GroupViewHolder(View view) {
             super(view);
@@ -65,13 +66,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
         }
 
 
+
+
+
+
         @Override
         public void onClick(View v) {
-
             Log.e(TAG,String.valueOf(groupid));
             itemClickListener.onItemClick(groupid);
-
-
         }
     }
 

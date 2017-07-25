@@ -4,11 +4,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
-
+import android.util.Log;
 
 import com.expensetracker.Activities.Home;
-import com.expensetracker.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -17,23 +17,25 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    public static String TAG = "Firebase";
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage){
+    public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Intent intent = new Intent(this,Home.class);
+        Intent intent = new Intent(this, Home.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationbuilder = new NotificationCompat.Builder(this);
-        notificationbuilder.setContentTitle("Notification Builder");
+        notificationbuilder.setContentTitle(remoteMessage.getNotification().getTitle());
         notificationbuilder.setContentText(remoteMessage.getNotification().getBody());
         notificationbuilder.setAutoCancel(true);
-        notificationbuilder.setSmallIcon(R.drawable.ic_settings_black_24dp);
+        notificationbuilder.setColor(Color.BLUE);
+        notificationbuilder.setSmallIcon(R.drawable.whitebackground);
         notificationbuilder.setContentIntent(pendingIntent);
-
-        NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0,notificationbuilder.build());
+        Log.d(TAG, "I am here");
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, notificationbuilder.build());
     }
 
 }

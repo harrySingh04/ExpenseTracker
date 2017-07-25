@@ -1,15 +1,17 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +20,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.expensetracker.Adapters.SingleGroupMemberAdapter;
+import com.expensetracker.Adapters.FriendsAdapter;
+import com.expensetracker.Dbutils.ExpenseInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
-import com.expensetracker.Dbutils.GroupInfo;
+import com.expensetracker.Dbutils.FriendsInfo;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.UserModel;
@@ -31,31 +34,75 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SingleGroupDetails extends AppCompatActivity {
-    public static String TAG = "SingleGroupDetails";
-    ArrayList<UserModel> usermodel;
-    RecyclerView recyclerView;
+public class FriendsView extends AppCompatActivity {
+
+
+    private RecyclerView friendsView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<UserModel> userdetails = new ArrayList<UserModel>();
     Context context;
     ItemClickListener itemClickListener;
+    FriendsInfo friendsInfo;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-
+SharedPreferences sharedPreferences;
+    public static String TAG = "GroupView";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_details);
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-     //   setSupportActionBar(toolbar);
-        usermodel = new ArrayList<UserModel>();
+        setContentView(R.layout.activity_friends_view);
+
+
         context = this;
         setLeftPane();
+        friendsView = (RecyclerView) findViewById(R.id.friendsrecyclerview);
+        layoutManager = new LinearLayoutManager(context);
+        sharedPreferences = getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
+        friendsInfo = new FriendsInfo();
+        friendsInfo.getallfriends(sharedPreferences.getInt("userid",0),  new AsyncResponse() {
+            @Override
+            public void sendData(String data) {
+
+                Log.e("in async response", data);
+
+                try {
+                    JSONArray main = new JSONArray(data);
+
+                    for (int i = 0; i < main.length(); i++) {
+                        JSONObject item = main.getJSONObject(i);
+
+                        int id = item.getInt("id");
+                        String name = item.getString("username");
+                        String email = item.getString("email");
+
+                        userdetails.add(new UserModel(id,name, email));
+                    }
+
+                    for(UserModel u: userdetails){
+                        Log.e(TAG, String.valueOf("username"+u.getUsername()));
+                    }
+
+                    adapter = new FriendsAdapter(userdetails, itemClickListener);
+                    layoutManager = new LinearLayoutManager(context);
+                    friendsView.setLayoutManager(layoutManager);
+                    friendsView.setHasFixedSize(true);
+                    friendsView.setAdapter(adapter);
+
+
+                    Log.e("this is trhe dta", data);
+                } catch (Exception e) {
+                    Log.e("oiasdha", "lskdkj", e);
+                }
+            }
+        });
+
+
 
 
 
@@ -63,76 +110,55 @@ public class SingleGroupDetails extends AppCompatActivity {
             @Override
             public void onItemClick(int clickedItemIndex) {
 
-
             }
         };
-
-
-        Bundle extras = getIntent().getExtras();
-        int groupid = extras.getInt("groupid");
-
-
-        GroupInfo groupInfo = new GroupInfo();
-
-        groupInfo.getgroupmembers(groupid,  new AsyncResponse() {
-            @Override
-            public void sendData(String data) {
-                Log.e(TAG, data);
-
-                try {
-                    JSONArray main = new JSONArray(data);
-
-//                    String name = main.getString("id");
-//                    String id = main.getString("username");
-//                    String email = main.getString("email");
-                    //     JSONArray items = main.getJSONArray("");
-
-                    Log.e("data", data);
-
-                    for (int i = 0; i <= main.length()-1; i++) {
-                        JSONObject item = main.getJSONObject(i);
-
-                        int id = item.getInt("id");
-                        String username = item.getString("username");
-                        String email = item.getString("email");
-
-
-                        Log.e(TAG,"I am in for loop");
-                        usermodel.add(new UserModel(id, username, email));
-
-//                        for (UserModel u : usermodel) {
-//                            Log.e(e.getDate(), e.getDate());
-//                        }
-
-
-                        adapter = new SingleGroupMemberAdapter(usermodel, itemClickListener);
-                        layoutManager = new LinearLayoutManager(context);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setAdapter(adapter);
-
-
-                    }
-
-                } catch (Exception e) {
-                    Log.e("error", "error", e);
-
-                }
-
-
-            }
-        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+                Intent intent = new Intent();
+                intent.setClass(context,AddFriend.class);
+                startActivity(intent);
+
+
             }
         });
-    }
 
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int id = (int) viewHolder.itemView.getTag();
+                Log.d(TAG, "passing id: " + id);
+
+
+                new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
+                    @Override
+                    public void sendData(String data) {
+                        Intent intent = new Intent();
+                        intent.setClass(context,Home.class);
+                        startActivity(intent);
+                    }
+                });
+
+
+            }
+        }).attachToRecyclerView(friendsView);
+
+
+
+
+
+    }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
@@ -145,28 +171,7 @@ public class SingleGroupDetails extends AppCompatActivity {
         }
     }
 
-    public void selectedItem(int position){
 
-        switch(position){
-
-            case 0:
-                Log.e(TAG,"Item 1");
-                break;
-
-            case 1:
-                Log.e(TAG,"Item 2");
-                break;
-
-            case 2:
-                Log.e(TAG,"Item 3");
-                break;
-
-            case 3:
-                Log.e(TAG,"Item 4");
-                break;
-
-        }
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -217,7 +222,7 @@ public class SingleGroupDetails extends AppCompatActivity {
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.navigation_list_view, navigationItems));
-        mDrawerList.setOnItemClickListener(new SingleGroupDetails.DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new FriendsView.DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -255,3 +260,4 @@ public class SingleGroupDetails extends AppCompatActivity {
 
 
 }
+

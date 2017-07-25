@@ -1,6 +1,7 @@
 package com.expensetracker.Dbutils;
 
-import com.expensetracker.AsyncResponse;
+import com.expensetracker.Constants;
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Model.AsyncData;
 import com.expensetracker.NetworkUtils;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -16,16 +17,17 @@ import java.net.URL;
 public class UserInfo {
 
 
-    AsyncResponse asyncResponse;
 
-    public UserInfo(AsyncResponse asyncResponse) {
-        this.asyncResponse = asyncResponse;
+
+
+    public UserInfo() {
+
     }
 
-    public void get_users(String username, String password) {
+    public void get_users(String username, String password, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/getuser";
+        String stringurl = Constants.GET_USER;
         URL url = null;
         JSONObject jsonObject = null;
         try {
@@ -41,11 +43,11 @@ public class UserInfo {
 
     }
 
-    public void insert_user(String username, String password, String email) {
+    public void insert_user(String username, String password, String email, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/registeruser";
+        String stringurl = Constants.REGISTER_USER;
 
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
@@ -67,10 +69,10 @@ public class UserInfo {
     }
 
 
-    public void delete_user(int id) {
+    public void delete_user(int id, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/deleteuser";
+        String stringurl =Constants.DELETE_USER ;
         URL url = null;
         JSONObject jsonObject = null;
         try {
@@ -86,11 +88,11 @@ public class UserInfo {
     }
 
 
-    public void edit_user(int id, String password, String email) {
+    public void edit_user(int id, String password, String email, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
-        String stringurl = "http://cs3.calstatela.edu:8080/cs3220stu52/registeruser";
+        String stringurl =Constants.EDIT_USER;
 
         URL url = null;
         JSONObject jsonObject = null;

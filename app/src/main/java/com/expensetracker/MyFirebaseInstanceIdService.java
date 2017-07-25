@@ -1,6 +1,7 @@
 package com.expensetracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 
@@ -14,6 +15,8 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
     private static final String REG_TOKEN = "REG_TOKEN";
+    SharedPreferences sharedPreferences;
+
 
     @Override
     public void onTokenRefresh() {

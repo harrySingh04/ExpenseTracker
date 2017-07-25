@@ -1,7 +1,9 @@
 package com.expensetracker;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Model.AsyncData;
 
 import java.io.InputStream;
@@ -55,7 +57,7 @@ public class NetworkUtils extends AsyncTask<AsyncData, String, String> {
             }
 
         } catch (Exception e) {
-
+            Log.e("error","error",e);
         }
 
         return null;
