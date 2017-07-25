@@ -1,8 +1,45 @@
 <resources>
     <string name="app_name">Expense Tracker</string>
-    <string name="group">Group</string>
-    <string name="date">DATE</string>
-    <string name="category">Category</string>
+    <string name="group">Group: </string>
+    <string name="date">Date: </string>
+    <string name="category">Category: </string>
     <string name="title_activity_single_group_details">SingleGroupDetails</string>
+    <string name="title_activity_add_expense">AddExpense</string>
+    <string name="amount">Amount</string>
+    <string name="description">Description: </string>
+    <string name="Add">ADD</string>
+    <string name="email">Email</string>
+    <string name="groupName">Group Name</string>
+    <string name="Register">Register</string>
+    <string name="username">Username</string>
+    <string name="usernameWithColon">Username: </string>
+    <string name="password">Password</string>
+    <string name="emailwithcolon">Email: </string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string-array name="category_array">
+        <item>Restaurant</item>
+        <item>Groceries</item>
+        <item>Bills</item>
+        <item>Food</item>
+        <item>gas</item>
+        <item>shopping</item>
+        <item>Education</item>
+        <item>Travelling</item>
+        <item>Other utilities</item>
+    </string-array>
+
+
+    <string-array name="navigationItems">
+        <item>Home</item>
+        <item>Groups</item>
+        <item>Friends</item>
+        <item>Logout</item>
+
+    </string-array>
+    <string name="title_activity_friends_view">FriendsView</string>
     <string name="title_activity_add_group">AddGroup</string>
+
+
 </resources>
