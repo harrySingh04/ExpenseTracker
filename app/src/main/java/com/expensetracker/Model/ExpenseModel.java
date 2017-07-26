@@ -13,6 +13,7 @@ public class ExpenseModel {
     int groupid;
     String groupname;
     String description;
+    UserModel usermodel;
 
     public ExpenseModel(int id, int amount, String date, String category, int groupid, String description,String groupname) {
         this.id = id;
@@ -31,6 +32,17 @@ public class ExpenseModel {
         this.category = category;
         this.groupid = groupid;
         this.description = description;
+    }
+
+    public ExpenseModel(int id,int groupid,int amount, String date, String category, String description,String groupname, UserModel usermodel) {
+       this.groupname = groupname;
+        this.groupid = groupid;
+        this.id = id;
+        this.amount = amount;
+        this.date = date;
+        this.category = category;
+        this.description = description;
+        this.usermodel = usermodel;
     }
 
     public int getId() {
@@ -87,6 +99,14 @@ public class ExpenseModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UserModel getUsermodel() {
+        return usermodel;
+    }
+
+    public void setUsermodel(UserModel usermodel) {
+        this.usermodel = usermodel;
     }
 }
 

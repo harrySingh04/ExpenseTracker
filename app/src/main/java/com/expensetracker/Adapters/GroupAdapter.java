@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.expensetracker.Interfaces.GroupData;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.Model.GroupModel;
 import com.expensetracker.R;
@@ -19,16 +20,16 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
 
     ArrayList<GroupModel> groupDetails = new ArrayList<>();
     public static final String class_name = "Recycler Adapter";
-    ItemClickListener itemClickListener;
+    GroupData groupData;
     private int groupid;
     public static String TAG= "groupView";
 
     //    public RecyclerAdapter(NewsDetails newsDetails) {
 //
 //    }
-    public GroupAdapter(ArrayList<GroupModel> groupDetails, ItemClickListener itemClickListener) {
+    public GroupAdapter(ArrayList<GroupModel> groupDetails, GroupData groupData) {
         this.groupDetails = groupDetails;
-        this.itemClickListener = itemClickListener;
+        this.groupData = groupData;
     }
 
     @Override
@@ -67,13 +68,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
 
 
 
-
-
-
         @Override
         public void onClick(View v) {
-            Log.e(TAG,String.valueOf(groupid));
-            itemClickListener.onItemClick(groupid);
+            Log.e(TAG,String.valueOf("value of group id in adapter"+groupid));
+
+            groupData.groupDetails(groupid,name.getText().toString());
         }
     }
 

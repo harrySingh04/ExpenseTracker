@@ -11,6 +11,7 @@ import android.content.Intent;
 import com.expensetracker.Activities.FriendsView;
 import com.expensetracker.Activities.GroupView;
 import com.expensetracker.Activities.Home;
+import com.expensetracker.Activities.PieChartExpense;
 
 /**
  * Created by user on 10-12-2016.
@@ -41,6 +42,15 @@ public class MenuPane {
         if (id == 2) {
             Intent i = new Intent();
             i.setClass(context, FriendsView.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+            ((Activity) (context)).finish();
+        }
+
+        if (id == 4) {
+            Intent i = new Intent();
+            i.setClass(context, PieChartExpense.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);

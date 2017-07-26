@@ -56,6 +56,11 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.date.setText(expenseDetails.get(position).getDate());
         holder.groupname.setText(expenseDetails.get(position).getGroupname());
 
+        if (expenseDetails.get(position).getUsermodel() != null) {
+            holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
+        }
+
+
         holder.Bind(holder, position);
 
 
@@ -70,7 +75,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     public class ExpenseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView amount, description, category, date, groupname;
+        TextView amount, description, category, date, groupname, username;
         String totalDescription, categoryName, expenseDate, group;
         int id, totalAmount;
 
@@ -83,6 +88,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             category = (TextView) view.findViewById(R.id.category);
             date = (TextView) view.findViewById((R.id.date));
             groupname = (TextView) view.findViewById((R.id.groupname));
+            username = (TextView) view.findViewById((R.id.username));
             view.setOnClickListener(this);
 //            groupname.setContentDescription(String.valueOf(R.string.group));
 //            category.setContentDescription(String.valueOf(R.string.category));
@@ -104,7 +110,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
         @Override
         public void onClick(View v) {
-
 
 
             expenseData.expenseDetails(id, totalDescription, totalAmount, expenseDate, categoryName, group);

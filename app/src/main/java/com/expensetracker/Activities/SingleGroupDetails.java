@@ -1,6 +1,7 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,16 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.expensetracker.Adapters.SingleGroupMemberAdapter;
-import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Dbutils.GroupInfo;
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.UserModel;
@@ -43,38 +44,39 @@ public class SingleGroupDetails extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-
+    private Button groupExpense,pieChart;
+    private int groupid;
+    private String groupname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_details);
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-     //   setSupportActionBar(toolbar);
         usermodel = new ArrayList<UserModel>();
+        groupExpense = (Button) findViewById(R.id.groupexpense);
+        pieChart= (Button) findViewById(R.id.piechart);
         context = this;
         setLeftPane();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 
 
-
         itemClickListener = new ItemClickListener() {
             @Override
             public void onItemClick(int clickedItemIndex) {
-
 
             }
         };
 
 
         Bundle extras = getIntent().getExtras();
-        int groupid = extras.getInt("groupid");
-
+        groupid = extras.getInt("groupid");
+        groupname = extras.getString("groupname");
+        Log.e(TAG, "value of id is: " + String.valueOf(groupid));
 
         GroupInfo groupInfo = new GroupInfo();
 
-        groupInfo.getgroupmembers(groupid,  new AsyncResponse() {
+        groupInfo.getgroupmembers(groupid, new AsyncResponse() {
             @Override
             public void sendData(String data) {
                 Log.e(TAG, data);
@@ -89,7 +91,7 @@ public class SingleGroupDetails extends AppCompatActivity {
 
                     Log.e("data", data);
 
-                    for (int i = 0; i <= main.length()-1; i++) {
+                    for (int i = 0; i <= main.length() - 1; i++) {
                         JSONObject item = main.getJSONObject(i);
 
                         int id = item.getInt("id");
@@ -97,7 +99,7 @@ public class SingleGroupDetails extends AppCompatActivity {
                         String email = item.getString("email");
 
 
-                        Log.e(TAG,"I am in for loop");
+                        Log.e(TAG, "I am in for loop");
                         usermodel.add(new UserModel(id, username, email));
 
 //                        for (UserModel u : usermodel) {
@@ -131,6 +133,44 @@ public class SingleGroupDetails extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        groupExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setClass(context, SingleGroupExpense.class);
+
+                Log.e(TAG, groupname);
+                Log.e(TAG, "group id is : " + String.valueOf(groupid));
+
+                intent.putExtra("groupid", groupid);
+                intent.putExtra("groupname", groupname);
+                startActivity(intent);
+
+
+            }
+        });
+
+        pieChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setClass(context, PieChartExpense.class);
+
+                Log.e(TAG, groupname);
+                Log.e(TAG, "group id is : " + String.valueOf(groupid));
+
+                intent.putExtra("groupid", groupid);
+                intent.putExtra("groupname", groupname);
+                startActivity(intent);
+
+
+            }
+        });
+
     }
 
 
@@ -140,33 +180,11 @@ public class SingleGroupDetails extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
-            // selectedItem();
-        }
-    }
-
-    public void selectedItem(int position){
-
-        switch(position){
-
-            case 0:
-                Log.e(TAG,"Item 1");
-                break;
-
-            case 1:
-                Log.e(TAG,"Item 2");
-                break;
-
-            case 2:
-                Log.e(TAG,"Item 3");
-                break;
-
-            case 3:
-                Log.e(TAG,"Item 4");
-                break;
+            MenuPane.menu(context, position);
 
         }
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -182,23 +200,12 @@ public class SingleGroupDetails extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }

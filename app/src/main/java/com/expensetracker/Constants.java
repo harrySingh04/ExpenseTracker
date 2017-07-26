@@ -24,6 +24,7 @@ public class Constants {
     public static String GET_FRIEND ="http://cs3.calstatela.edu:8080/cs3220stu52/getallfriends";
     public static String DELETE_FRIEND ="";
     public static String ADD_FRIEND ="http://cs3.calstatela.edu:8080/cs3220stu52/addfriend";
+    public static String GET_GROUP_EXPENSE = "http://cs3.calstatela.edu:8080/cs3220stu52/getGroupExpense";
   //  public static String GET_SINGLE_EXPENSE =
 
 

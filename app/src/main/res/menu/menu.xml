@@ -16,4 +16,10 @@
         android:orderInCategory="103"
         android:title="Friends" />
 
+    <item
+        android:id="@+id/graph"
+        android:orderInCategory="104"
+        android:title="Graph" />
+
+
 </menu>

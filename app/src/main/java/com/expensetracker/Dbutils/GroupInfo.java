@@ -142,5 +142,24 @@ public class GroupInfo {
 
     }
 
+    public void getGroupExpense(int groupID,AsyncResponse asyncResponse){
+
+        Log.e(TAG,String.valueOf(groupID));
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+        String stringurl = Constants.GET_GROUP_EXPENSE;
+        URL url = null;
+        JSONObject jsonObject = null;
+        try {
+            url = new URL(stringurl);
+            jsonObject = new JSONObject();
+            jsonObject.put("group_id", groupID);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
+        networkUtils.execute(asyncTaskdata);
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.expensetracker.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,17 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.expensetracker.Interfaces.AsyncResponse;
-import com.expensetracker.Dbutils.GroupInfo;
 import com.expensetracker.Adapters.GroupAdapter;
-import com.expensetracker.Interfaces.ItemClickListener;
+import com.expensetracker.Dbutils.GroupInfo;
+import com.expensetracker.Interfaces.AsyncResponse;
+import com.expensetracker.Interfaces.GroupData;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.GroupModel;
 import com.expensetracker.R;
@@ -39,12 +39,14 @@ public class GroupView extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<GroupModel> groupdetails = new ArrayList<GroupModel>();
     Context context;
-    ItemClickListener itemClickListener;
+    GroupData itemClickListener;
     public static String TAG = "GroupView";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +56,11 @@ public class GroupView extends AppCompatActivity {
         setLeftPane();
         group_container = (RecyclerView) findViewById(R.id.single_group_container);
         layoutManager = new LinearLayoutManager(context);
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
 
-      ;
 
         GroupInfo groupInfo = new GroupInfo();
-        groupInfo.getAllGroupsForUser(1,  new AsyncResponse() {
+        groupInfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
             public void sendData(String data) {
 
@@ -74,7 +76,7 @@ public class GroupView extends AppCompatActivity {
                         int userid = item.getInt("user_id");
                         Log.e("name", name);
 
-                        groupdetails.add(new GroupModel(name, group_id, userid));
+                        groupdetails.add(new GroupModel(name,userid,group_id));
                     }
 
                     for (GroupModel g : groupdetails) {
@@ -82,7 +84,18 @@ public class GroupView extends AppCompatActivity {
                     }
 
 
-                    adapter = new GroupAdapter(groupdetails, itemClickListener);
+                    adapter = new GroupAdapter(groupdetails, new GroupData() {
+                        @Override
+                        public void groupDetails(int id, String groupName) {
+                            //    Log.e(TAG,String.valueOf(clickedItemIndex));
+                            Intent intent = new Intent();
+                            intent.setClass(context, SingleGroupDetails.class);
+                            intent.putExtra("groupid", id);
+                            intent.putExtra("groupname", groupName);
+                            context.startActivity(intent);
+
+                        }
+                    });
                     layoutManager = new LinearLayoutManager(context);
                     group_container.setLayoutManager(layoutManager);
                     group_container.setHasFixedSize(true);
@@ -95,22 +108,6 @@ public class GroupView extends AppCompatActivity {
                 }
             }
         });
-
-
-        itemClickListener = new ItemClickListener() {
-            @Override
-            public void onItemClick(int clickedItemIndex) {
-
-
-                Log.e(TAG,String.valueOf(clickedItemIndex));
-                Intent intent = new Intent();
-                intent.setClass(context,SingleGroupDetails.class);
-                intent.putExtra("groupid",clickedItemIndex);
-                context.startActivity(intent);
-
-
-            }
-        };
 
 
         FloatingActionButton add_group = (FloatingActionButton) findViewById(R.id.add_group);
@@ -138,31 +135,8 @@ public class GroupView extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
+            MenuPane.menu(context, position);
             // selectedItem();
-        }
-    }
-
-    public void selectedItem(int position){
-
-        switch(position){
-
-            case 0:
-                Log.e(TAG,"Item 1");
-                break;
-
-            case 1:
-                Log.e(TAG,"Item 2");
-                break;
-
-            case 2:
-                Log.e(TAG,"Item 3");
-                break;
-
-            case 3:
-                Log.e(TAG,"Item 4");
-                break;
-
         }
     }
 
@@ -181,18 +155,9 @@ public class GroupView extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -204,15 +169,10 @@ public class GroupView extends AppCompatActivity {
 
     public void setLeftPane() {
 
-
-        //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         navigationItems = getResources().getStringArray(R.array.navigationItems);
-//        setLeftPane();
-        // set a custom shadow that overlays the main content when the drawer opens
-        //  mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
+
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.navigation_list_view, navigationItems));
         mDrawerList.setOnItemClickListener(new GroupView.DrawerItemClickListener());

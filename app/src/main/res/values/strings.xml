@@ -17,6 +17,12 @@
     <string name="emailwithcolon">Email: </string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="graph">Graph</string>
+    <string name="groupExpense">Group Expenses</string>
+    <string name="bywithcolon">By: </string>
+    <string name="you">You </string>
+    <string name="piechart">Piechart </string>
+
 
     <string-array name="category_array">
         <item>Restaurant</item>
@@ -36,6 +42,7 @@
         <item>Groups</item>
         <item>Friends</item>
         <item>Logout</item>
+        <item>Graph</item>
 
     </string-array>
     <string name="title_activity_friends_view">FriendsView</string>

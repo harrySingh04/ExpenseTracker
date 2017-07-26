@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Home"></activity>
+        <activity android:name=".Activities.Home" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
@@ -61,6 +61,9 @@
         <activity
             android:name=".Activities.AddGroup"
             android:label="@string/title_activity_add_group" />
+        <activity
+            android:name=".Activities.PieChartExpense"
+            android:label="@string/graph" />
         <activity android:name=".Activities.RegisterUser" />
         <activity android:name=".Activities.LoginUser">
             <intent-filter>
@@ -69,7 +72,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Updatexpense"></activity>
+        <activity android:name=".Activities.Updatexpense" />
+        <activity android:name=".Activities.SingleGroupExpense"></activity>
     </application>
 
 </manifest>
