@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.expensetracker.Adapters.SingleGroupMemberAdapter;
 import com.expensetracker.Dbutils.GroupInfo;
@@ -38,15 +40,17 @@ public class SingleGroupDetails extends AppCompatActivity {
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    Context context;
-    ItemClickListener itemClickListener;
+    private Context context;
+    private ItemClickListener itemClickListener;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-    private Button groupExpense,pieChart;
+    private Button groupExpense, pieChart;
     private int groupid;
     private String groupname;
+    TextView grpame;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,25 +58,25 @@ public class SingleGroupDetails extends AppCompatActivity {
         setContentView(R.layout.activity_group_details);
         usermodel = new ArrayList<UserModel>();
         groupExpense = (Button) findViewById(R.id.groupexpense);
-        pieChart= (Button) findViewById(R.id.piechart);
+        pieChart = (Button) findViewById(R.id.piechart);
         context = this;
         setLeftPane();
 
+     //   Log.e(TAG,"value of groupname"+groupname);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        grpame = (TextView) findViewById(R.id.group_name);
+        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar.setVisibility(View.VISIBLE);
 
 
-        itemClickListener = new ItemClickListener() {
-            @Override
-            public void onItemClick(int clickedItemIndex) {
-
-            }
-        };
 
 
         Bundle extras = getIntent().getExtras();
         groupid = extras.getInt("groupid");
         groupname = extras.getString("groupname");
-        Log.e(TAG, "value of id is: " + String.valueOf(groupid));
+        Log.e(TAG,"value of group name"+groupname);
+        grpame.setText(groupname);
+     //   Log.e(TAG, "value of id is: " + String.valueOf(groupid));
 
         GroupInfo groupInfo = new GroupInfo();
 
@@ -80,7 +84,7 @@ public class SingleGroupDetails extends AppCompatActivity {
             @Override
             public void sendData(String data) {
                 Log.e(TAG, data);
-
+                progressBar.setVisibility(View.INVISIBLE);
                 try {
                     JSONArray main = new JSONArray(data);
 

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.expensetracker.Adapters.GroupAdapter;
 import com.expensetracker.Dbutils.GroupInfo;
@@ -46,6 +47,7 @@ public class GroupView extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
     SharedPreferences sharedPreferences;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,14 @@ public class GroupView extends AppCompatActivity {
         group_container = (RecyclerView) findViewById(R.id.single_group_container);
         layoutManager = new LinearLayoutManager(context);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
-
+        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar.setVisibility(View.VISIBLE);
 
         GroupInfo groupInfo = new GroupInfo();
         groupInfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
             public void sendData(String data) {
-
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.e("in async response", data);
 
                 try {

@@ -31,7 +31,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationbuilder.setContentText(remoteMessage.getNotification().getBody());
         notificationbuilder.setAutoCancel(true);
         notificationbuilder.setColor(Color.BLUE);
-        notificationbuilder.setSmallIcon(R.drawable.whitebackground);
+
+
+        int resID = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+//
+        Log.e(TAG, "name of image" + remoteMessage.getNotification().getIcon());
+        Log.e(TAG, "value of image int" + String.valueOf(resID));
+        Log.e(TAG, "value of inbuilt image" + String.valueOf(R.drawable.bill));
+        notificationbuilder.setSmallIcon(resID);
         notificationbuilder.setContentIntent(pendingIntent);
         Log.d(TAG, "I am here");
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

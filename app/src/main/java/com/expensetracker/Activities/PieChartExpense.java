@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.expensetracker.Dbutils.GroupInfo;
@@ -44,6 +46,7 @@ public class PieChartExpense extends AppCompatActivity {
     private String groupName;
     ArrayList<ExpenseModel> expenseModel;
     public static String TAG = "PieChartExpense";
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +57,16 @@ public class PieChartExpense extends AppCompatActivity {
         groupID = intent.getIntExtra("groupid", 0);
         groupName = intent.getStringExtra("groupname");
 
-        Log.e(TAG,"I am here");
-        Log.e(TAG,String.valueOf(groupID));
+        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar.setVisibility(View.VISIBLE);
+
+        Log.e(TAG, "I am here");
+        Log.e(TAG, String.valueOf(groupID));
         GroupInfo groupInfo = new GroupInfo();
         groupInfo.getGroupExpense(groupID, new AsyncResponse() {
             @Override
             public void sendData(String data) {
-
-
+                progressBar.setVisibility(View.INVISIBLE);
 
                 try {
                     JSONArray main = new JSONArray(data);
@@ -87,10 +92,9 @@ public class PieChartExpense extends AppCompatActivity {
 //
 //                        }
 
-                        Log.e(TAG,"I am inside function");
+                        Log.e(TAG, "I am inside function");
 
                         expenseModel.add(new ExpenseModel(id, groupID, amount, date, category, description, groupName, userModel));
-
 
 
 //                        Log.e("amount", String.valueOf(amount));
@@ -111,7 +115,7 @@ public class PieChartExpense extends AppCompatActivity {
 //                    }
 
                 } catch (Exception e) {
-                           Log.e("error", "error", e);
+                    Log.e("error", "error", e);
 
                 }
 
@@ -171,8 +175,8 @@ public class PieChartExpense extends AppCompatActivity {
     private void addData() {
         ArrayList<PieEntry> yVals = new ArrayList<PieEntry>();
 
-        for (int i = 0; i <= expenseModel.size()-1; i++) {
-            yVals.add(new PieEntry(expenseModel.get(i).getAmount(),expenseModel.get(i).getUsermodel().getUsername()));
+        for (int i = 0; i <= expenseModel.size() - 1; i++) {
+            yVals.add(new PieEntry(expenseModel.get(i).getAmount(), expenseModel.get(i).getUsermodel().getUsername()));
 
 
         }
@@ -225,11 +229,11 @@ public class PieChartExpense extends AppCompatActivity {
     public ArrayList<ExpenseModel> processData(ArrayList<ExpenseModel> expenseModel) {
 
         for (int i = 0; i <= expenseModel.size() - 1; i++) {
-            for (int j = i+1; j <= expenseModel.size() - 1; j++) {
+            for (int j = i + 1; j <= expenseModel.size() - 1; j++) {
                 if (expenseModel.get(i).getUsermodel().getUser_id() == expenseModel.get(j).getUsermodel().getUser_id()) {
-                    expenseModel.get(i).setAmount(expenseModel.get(i).getAmount()+expenseModel.get(j).getAmount());
+                    expenseModel.get(i).setAmount(expenseModel.get(i).getAmount() + expenseModel.get(j).getAmount());
                     expenseModel.remove(expenseModel.get(j));
-                    j -=1;
+                    j -= 1;
                 }
             }
         }

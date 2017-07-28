@@ -13,17 +13,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.expensetracker.Adapters.FriendsAdapter;
-import com.expensetracker.Dbutils.ExpenseInfo;
-import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Dbutils.FriendsInfo;
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.UserModel;
@@ -38,7 +38,7 @@ public class FriendsView extends AppCompatActivity {
 
 
     private RecyclerView friendsView;
-    private RecyclerView.Adapter adapter;
+    private FriendsAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<UserModel> userdetails = new ArrayList<UserModel>();
     Context context;
@@ -48,8 +48,10 @@ public class FriendsView extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences;
     public static String TAG = "GroupView";
+    private ProgressBar progressBar;
+    private TextView staticnofriendtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,39 +63,44 @@ SharedPreferences sharedPreferences;
         setLeftPane();
         friendsView = (RecyclerView) findViewById(R.id.friendsrecyclerview);
         layoutManager = new LinearLayoutManager(context);
-        sharedPreferences = getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
-
-
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar.setVisibility(View.VISIBLE);
+        staticnofriendtext = (TextView) findViewById(R.id.nofriendmessage);
         friendsInfo = new FriendsInfo();
-        friendsInfo.getallfriends(sharedPreferences.getInt("userid",0),  new AsyncResponse() {
+        friendsInfo.getallfriends(sharedPreferences.getInt("userid", 0), new AsyncResponse() {
             @Override
             public void sendData(String data) {
-
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.e("in async response", data);
 
                 try {
                     JSONArray main = new JSONArray(data);
 
-                    for (int i = 0; i < main.length(); i++) {
-                        JSONObject item = main.getJSONObject(i);
+                    if (main.length() != 0) {
 
-                        int id = item.getInt("id");
-                        String name = item.getString("username");
-                        String email = item.getString("email");
+                        for (int i = 0; i < main.length(); i++) {
+                            JSONObject item = main.getJSONObject(i);
 
-                        userdetails.add(new UserModel(id,name, email));
+                            int id = item.getInt("id");
+                            String name = item.getString("username");
+                            String email = item.getString("email");
+
+                            userdetails.add(new UserModel(id, name, email));
+                        }
+
+                        for (UserModel u : userdetails) {
+                            Log.e(TAG, String.valueOf("username" + u.getUsername()));
+                        }
+
+                        adapter = new FriendsAdapter(userdetails, itemClickListener);
+                        layoutManager = new LinearLayoutManager(context);
+                        friendsView.setLayoutManager(layoutManager);
+                        friendsView.setHasFixedSize(true);
+                        friendsView.setAdapter(adapter);
+                    } else {
+                        staticnofriendtext.setVisibility(View.VISIBLE);
                     }
-
-                    for(UserModel u: userdetails){
-                        Log.e(TAG, String.valueOf("username"+u.getUsername()));
-                    }
-
-                    adapter = new FriendsAdapter(userdetails, itemClickListener);
-                    layoutManager = new LinearLayoutManager(context);
-                    friendsView.setLayoutManager(layoutManager);
-                    friendsView.setHasFixedSize(true);
-                    friendsView.setAdapter(adapter);
-
 
                     Log.e("this is trhe dta", data);
                 } catch (Exception e) {
@@ -101,9 +108,6 @@ SharedPreferences sharedPreferences;
                 }
             }
         });
-
-
-
 
 
         itemClickListener = new ItemClickListener() {
@@ -121,7 +125,7 @@ SharedPreferences sharedPreferences;
 //                        .setAction("Action", null).show();
 
                 Intent intent = new Intent();
-                intent.setClass(context,AddFriend.class);
+                intent.setClass(context, AddFriend.class);
                 startActivity(intent);
 
 
@@ -137,25 +141,39 @@ SharedPreferences sharedPreferences;
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int id = (int) viewHolder.itemView.getTag();
-                Log.d(TAG, "passing id: " + id);
-
-
-                new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
+                final int friendid = (int) viewHolder.itemView.getTag();
+                Log.d(TAG, "passing id: " + friendid);
+                SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+                final int userid = sharedPreferences.getInt("userid", 0);
+                new FriendsInfo().deletefriend(userid, friendid, new AsyncResponse() {
                     @Override
                     public void sendData(String data) {
-                        Intent intent = new Intent();
-                        intent.setClass(context,Home.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent();
+//                        intent.setClass(context, Home.class);
+//                        startActivity(intent);
+
+                        for(UserModel u:userdetails){
+                            if(u.getUser_id()==friendid){
+                                userdetails.remove(u);
+                                adapter.swapCursor(userdetails);
+                                break;
+                            }
+                        }
+
+                        if(userdetails.isEmpty()){
+
+                            staticnofriendtext.setVisibility(View.VISIBLE);
+
+                        }
+
                     }
                 });
 
 
+
+
             }
         }).attachToRecyclerView(friendsView);
-
-
-
 
 
     }
@@ -166,11 +184,10 @@ SharedPreferences sharedPreferences;
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
+            MenuPane.menu(context, position);
             // selectedItem();
         }
     }
-
 
 
     @Override
@@ -188,72 +205,47 @@ SharedPreferences sharedPreferences;
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items...
-
         return super.onOptionsItemSelected(item);
     }
 
 
     public void setLeftPane() {
-
-
-        //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         navigationItems = getResources().getStringArray(R.array.navigationItems);
-//        setLeftPane();
-        // set a custom shadow that overlays the main content when the drawer opens
-        //  mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
+
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.navigation_list_view, navigationItems));
         mDrawerList.setOnItemClickListener(new FriendsView.DrawerItemClickListener());
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
+
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                this,
+                mDrawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
                 Log.e(TAG, "ondrawer clossed");
-                // getSupportActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 Log.e(TAG, "ondrawer opened");
-                //   getSupportActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
         };
-        //     mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-//        if (savedInstanceState == null) {
-//            //   selectItem(0);
-//        }
 
 
     }

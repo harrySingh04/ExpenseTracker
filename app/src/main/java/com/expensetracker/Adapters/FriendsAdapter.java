@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expensetracker.Interfaces.ItemClickListener;
+import com.expensetracker.Model.ExpenseModel;
 import com.expensetracker.Model.UserModel;
 import com.expensetracker.R;
 
@@ -55,6 +56,15 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
     public int getItemCount()
     {
         return userDetails.size();
+    }
+
+    public void swapCursor( ArrayList<UserModel> userDetails) {
+
+        this.userDetails =  userDetails;
+        //  if (newCursor != null) {
+        // Force the RecyclerView to refresh
+        this.notifyDataSetChanged();
+        //   }
     }
 
     public class FriendsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

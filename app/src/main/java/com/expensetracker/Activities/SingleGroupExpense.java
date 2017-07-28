@@ -70,8 +70,11 @@ public class SingleGroupExpense extends AppCompatActivity {
         expense_container = (RecyclerView) findViewById(R.id.expense_container);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
 
-        Log.e(TAG,"value id groupid is"+groupID);
-        Log.e(TAG,"value id groupname is"+groupName);
+        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar.setVisibility(View.VISIBLE);
+
+//        Log.e(TAG,"value id groupid is"+groupID);
+//        Log.e(TAG,"value id groupname is"+groupName);
         //  String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         setLeftPane();
         //  Log.e("token", refreshedToken);
@@ -83,6 +86,8 @@ public class SingleGroupExpense extends AppCompatActivity {
         groupInfo.getGroupExpense(groupID, new AsyncResponse() {
             @Override
             public void sendData(String data) {
+                progressBar.setVisibility(View.INVISIBLE);
+
 
                 try {
                     JSONArray main = new JSONArray(data);

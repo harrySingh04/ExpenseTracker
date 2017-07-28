@@ -1,12 +1,14 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.expensetracker.Dbutils.FriendsInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
@@ -32,11 +35,13 @@ public class AddFriend extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-    public static String TAG = "Home";
+    public static String TAG = "Add friend";
     Context context;
     SharedPreferences sharedPreferences;
     String username;
     Integer userid;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +54,59 @@ public class AddFriend extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
         userid = sharedPreferences.getInt("userid", 0);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG,String.valueOf(userid));
+                // Log.e(TAG,String.valueOf(userid));
+                progressBar.setVisibility(View.VISIBLE);
                 friendsInfo.addfriend(userid, email.getText().toString(), username, asyncResponse = new AsyncResponse() {
                     @Override
                     public void sendData(String data) {
+                        progressBar.setVisibility(View.INVISIBLE);
 
-                        Intent intent = new Intent();
-                        intent.setClass(context,FriendsView.class);
-                        startActivity(intent);
+                        if(data.isEmpty()){
+
+                                Log.e(TAG, "thisd is the data for add" + data);
+                                Intent intent = new Intent();
+                                intent.setClass(context, FriendsView.class);
+                                startActivity(intent);
+
+                        }
+
+                       else if(Integer.parseInt(data) ==1){
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                            builder1.setMessage("Email ID does not exist with us. Please check the Email ID");
+                            builder1.setCancelable(true);
+                            builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+
+
+                            });
+                            builder1.create().show();
+                        }
+                        else if(Integer.parseInt(data) ==2){
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                            builder1.setMessage("The person is already in your Friend List");
+                            builder1.setCancelable(true);
+                            builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+
+
+                            });
+                            builder1.create().show();
+                        }
+
 
 
                     }

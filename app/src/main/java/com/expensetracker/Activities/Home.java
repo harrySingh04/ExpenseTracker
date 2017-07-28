@@ -40,7 +40,7 @@ public class Home extends AppCompatActivity {
 
 
     private RecyclerView expense_container;
-    private RecyclerView.Adapter adapter;
+    private ExpenseAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<ExpenseModel> expenseModel = new ArrayList<ExpenseModel>();
     private final Context context = this;
@@ -65,8 +65,10 @@ public class Home extends AppCompatActivity {
         expense_container = (RecyclerView) findViewById(R.id.expense_container);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar.setVisibility(View.VISIBLE);
         setLeftPane();
-        Log.e("token", refreshedToken);
+      //  Log.e("token", refreshedToken);
 
 
         button = (FloatingActionButton) findViewById(R.id.AddExpense);
@@ -81,12 +83,13 @@ public class Home extends AppCompatActivity {
 
 
         //  UserInfo userInfo = new UserInfo(asyncResponse);
-        ExpenseInfo expenseInfo = new ExpenseInfo();
+        final ExpenseInfo expenseInfo = new ExpenseInfo();
         expenseInfo.getallexpense(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
             public void sendData(String data) {
 
                 try {
+                    progressBar.setVisibility(View.INVISIBLE);
                     JSONArray main = new JSONArray(data);
 
                     Log.e(TAG, data);
@@ -171,16 +174,24 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int id = (int) viewHolder.itemView.getTag();
+               final int id = (int) viewHolder.itemView.getTag();
                 Log.d(TAG, "passing id: " + id);
 
 
                 new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
                     @Override
                     public void sendData(String data) {
-                        Intent intent = new Intent();
-                        intent.setClass(context, Home.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent();
+//                        intent.setClass(context, Home.class);
+//                        startActivity(intent);
+                      for(ExpenseModel e:expenseModel){
+                          if(e.getId() == id){
+                              expenseModel.remove(e);
+                              adapter.swapCursor(expenseModel);
+                          }
+                      }
+
+
                     }
                 });
 

@@ -73,17 +73,28 @@ public class FriendsInfo {
 
     }
 
-    public void deletefriend(){
+    public void deletefriend(int userid,int friendid, AsyncResponse asyncResponse) {
 
+        Log.e(TAG, "userid: "+String.valueOf(userid));
+        Log.e(TAG, "friend id: "+String.valueOf(friendid));
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+        String stringurl = Constants.DELETE_FRIEND;
+        URL url = null;
+        JSONObject jsonObject = null;
+        try {
+            url = new URL(stringurl);
+            jsonObject = new JSONObject();
+            jsonObject.put("userid", userid);
+            jsonObject.put("single_friend", friendid);
 
-
-
-
-
-
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
+        networkUtils.execute(asyncTaskdata);
 
     }
+
 
 
 }

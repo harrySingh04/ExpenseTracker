@@ -1,5 +1,6 @@
 package com.expensetracker.Adapters;
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,6 +67,15 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
         //     holder.category.setContentDescription(String.valueOf(R.string.category));
 
+    }
+
+    public void swapCursor( ArrayList<ExpenseModel> expenseDetails) {
+
+        this. expenseDetails =  expenseDetails;
+      //  if (newCursor != null) {
+            // Force the RecyclerView to refresh
+            this.notifyDataSetChanged();
+     //   }
     }
 
     @Override
