@@ -12,7 +12,7 @@ public class Constants {
     public static String EDIT_USER = "http://cs3.calstatela.edu:8080/cs3220stu52/edituser";
     public static String ADD_GROUP = "http://cs3.calstatela.edu:8080/cs3220stu52/addgroup";
     public static String ADD_GROUP_FROM_ID = "http://cs3.calstatela.edu:8080/cs3220stu52/addgroupFromID";
-    public static String EDIT_GROUP = "";
+    public static String EDIT_GROUP = "http://cs3.calstatela.edu:8080/cs3220stu52/editgroup";
     public static String DELETE_GROUP = "http://cs3.calstatela.edu:8080/cs3220stu52/deletegroup";
     public static String GET_GROUP_MEMBERS ="http://cs3.calstatela.edu:8080/cs3220stu52/getgroupmembers";
     public static String GET_GROUP_MEMBERS_FOR_SINGLE_USER = "http://cs3.calstatela.edu:8080/cs3220stu52/getAllGroupsForUser";

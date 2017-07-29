@@ -47,51 +47,49 @@ public class LoginUser extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userInfo.get_users(username.getText().toString(), password.getText().toString(), new AsyncResponse() {
-                    @Override
-                    public void sendData(String data) {
-                        try {
-                            Log.e(TAG, "data comming from apllicaton" + data);
-                            if (!data.equals(null)) {
+
+                if (username.getText().toString().isEmpty()) {
+                    String message = "Username cannot be empty";
+                    showAlertDialog(message);
+                } else if (password.getText().toString().isEmpty()) {
+                    String message = "Password cannot be empty";
+                    showAlertDialog(message);
+                } else {
+
+                    userInfo.get_users(username.getText().toString(), password.getText().toString(), new AsyncResponse() {
+                        @Override
+                        public void sendData(String data) {
+                            try {
+                                Log.e(TAG, "data comming from apllicaton" + data);
+                                if (!data.equals("null")) {
 
 
-                                JSONObject main = new JSONObject(data);
+                                    JSONObject main = new JSONObject(data);
 
-                                String name = main.getString("username");
-                                int id = main.getInt("id");
-                                String email = main.getString("email");
-                                sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE); //1
-                                editor = sharedPreferences.edit();
+                                    String name = main.getString("username");
+                                    int id = main.getInt("id");
+                                    String email = main.getString("email");
+                                    sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE); //1
+                                    editor = sharedPreferences.edit();
 
-                                editor.putString("username", name);
-                                editor.putString("email", email);
-                                editor.putInt("userid", id);
-                                editor.commit();
+                                    editor.putString("username", name);
+                                    editor.putString("email", email);
+                                    editor.putInt("userid", id);
+                                    editor.commit();
 
-                                Intent intent = new Intent();
-                                intent.setClass(context, Home.class);
-                                startActivity(intent);
-                            } else {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                                builder1.setMessage("You seem to have entered the wrong credentials. Please enter the correct credentials");
-                                builder1.setCancelable(true);
-                                builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-
-
-                                });
-                                builder1.create().show();
+                                    Intent intent = new Intent();
+                                    intent.setClass(context, Home.class);
+                                    startActivity(intent);
+                                } else {
+                                    String message = "You seem to have entered the wrong credentials. Please enter the correct credentials";
+                                    showAlertDialog(message);
+                                }
+                            } catch (Exception e) {
+                                Log.e(TAG, "error", e);
                             }
-                        } catch (Exception e) {
-                            Log.e(TAG, "error", e);
                         }
-                    }
-                });
-
+                    });
+                }
             }
         });
 
@@ -106,6 +104,24 @@ public class LoginUser extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    public void showAlertDialog(String message) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+
+
+        });
+        builder1.create().show();
 
 
     }

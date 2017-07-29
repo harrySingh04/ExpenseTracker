@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.expensetracker.Adapters.GroupAdapter;
 import com.expensetracker.Dbutils.GroupInfo;
@@ -48,7 +49,7 @@ public class GroupView extends AppCompatActivity {
     private String navigationItems[];
     SharedPreferences sharedPreferences;
     ProgressBar progressBar;
-
+TextView nogrouptext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,7 @@ public class GroupView extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
         progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
         progressBar.setVisibility(View.VISIBLE);
+        nogrouptext = (TextView)findViewById(R.id.nogroupmessage);
 
         GroupInfo groupInfo = new GroupInfo();
         groupInfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
@@ -72,6 +74,10 @@ public class GroupView extends AppCompatActivity {
                 try {
                     JSONArray main = new JSONArray(data);
 
+
+                    if (main.length() != 0) {
+
+
                     for (int i = 0; i < main.length(); i++) {
                         JSONObject item = main.getJSONObject(i);
                         String name = item.getString("name");
@@ -79,7 +85,7 @@ public class GroupView extends AppCompatActivity {
                         int userid = item.getInt("user_id");
                         Log.e("name", name);
 
-                        groupdetails.add(new GroupModel(name,userid,group_id));
+                        groupdetails.add(new GroupModel(name, userid, group_id));
                     }
 
                     for (GroupModel g : groupdetails) {
@@ -106,6 +112,11 @@ public class GroupView extends AppCompatActivity {
 
 
                     Log.e("this is trhe dta", data);
+
+                }
+                    else{
+                        nogrouptext.setVisibility(View.VISIBLE);
+                    }
                 } catch (Exception e) {
                     Log.e("oiasdha", "lskdkj", e);
                 }

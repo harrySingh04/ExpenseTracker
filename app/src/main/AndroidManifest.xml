@@ -73,7 +73,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.Updatexpense" />
-        <activity android:name=".Activities.SingleGroupExpense"></activity>
+        <activity android:name=".Activities.SingleGroupExpense" />
+        <activity android:name=".Activities.EditGroup"></activity>
     </application>
 
 </manifest>

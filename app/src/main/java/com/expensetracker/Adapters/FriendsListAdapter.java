@@ -16,15 +16,23 @@ import java.util.ArrayList;
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.FriendsListViewHolder> {
 
 
-    private ArrayList<UserModel> userDetails;
+    private ArrayList<UserModel> friendDetails;
+    private ArrayList<UserModel> groupDetails;
     private ItemClickListener itemClickListener;
     public static final String TAG = "FriendsList Adapter";
 
 
-    public FriendsListAdapter(ArrayList<UserModel> userDetails, ItemClickListener itemClickListener) {
-        this.userDetails = userDetails;
+    public FriendsListAdapter(ArrayList<UserModel> friendDetails, ArrayList<UserModel> groupDetails, ItemClickListener itemClickListener) {
+        this.friendDetails = friendDetails;
+        this.groupDetails = groupDetails;
         this.itemClickListener = itemClickListener;
     }
+
+    public FriendsListAdapter(ArrayList<UserModel> friendDetails, ItemClickListener itemClickListener) {
+        this.friendDetails = friendDetails;
+        this.itemClickListener = itemClickListener;
+    }
+
 
     @Override
     public FriendsListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,15 +47,21 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     @Override
     public void onBindViewHolder(FriendsListViewHolder holder, int position) {
 
-        holder.friendDetails.setText(userDetails.get(position).getUsername());
+        holder.friendDetails.setText(friendDetails.get(position).getUsername());
         holder.bind(holder, position);
+
+        if(groupDetails !=null){
+        holder.setChecked(holder, position);
+        }
+
+        holder.friendDetails.isChecked();
 
 
     }
 
     @Override
     public int getItemCount() {
-        return userDetails.size();
+        return friendDetails.size();
     }
 
     public class FriendsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -66,12 +80,23 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         }
 
         public void bind(FriendsListViewHolder holder, int pos) {
+            username = FriendsListAdapter.this.friendDetails.get(pos).getUsername();
+            userID = FriendsListAdapter.this.friendDetails.get(pos).getUser_id();
+            email = FriendsListAdapter.this.friendDetails.get(pos).getEmail();
+        }
 
-            username = userDetails.get(pos).getUsername();
-            userID = userDetails.get(pos).getUser_id();
-            email = userDetails.get(pos).getEmail();
+        public void setChecked(FriendsListViewHolder holder, int pos) {
+
+//            Log.e(TAG, String.valueOf(FriendsListAdapter.this.friendDetails.get(pos).getUsername()));
+//            Log.e(TAG, String.valueOf(groupDetails.get(pos).getUsername()));
 
 
+            for (UserModel u : groupDetails) {
+                if (u.getUser_id() == FriendsListAdapter.this.friendDetails.get(pos).getUser_id()) {
+                    friendDetails.setChecked(true);
+                    itemClickListener.onItemClick(userID);
+                }
+            }
         }
 
 

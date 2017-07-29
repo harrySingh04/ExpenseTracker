@@ -110,7 +110,7 @@ public class ExpenseInfo {
         networkUtils.execute(asyncTaskdata);
     }
 
-    public void addexpense(int amount, String date, int user_id, String description, String category, int groupid, AsyncResponse asyncResponse) {
+    public void addexpense(int amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_EXPENSE;

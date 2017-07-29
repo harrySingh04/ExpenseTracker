@@ -1,10 +1,12 @@
 package com.expensetracker.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by user on 15-07-2017.
  */
 
-public class UserModel {
+public class UserModel implements Serializable {
 
     int user_id;
     String username;

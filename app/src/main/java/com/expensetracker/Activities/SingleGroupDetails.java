@@ -1,13 +1,13 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,11 +46,12 @@ public class SingleGroupDetails extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-    private Button groupExpense, pieChart;
+    private Button groupExpense, pieChart, editgroup,deletegroup;
     private int groupid;
     private String groupname;
     TextView grpame;
     ProgressBar progressBar;
+    GroupInfo groupInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,26 +60,26 @@ public class SingleGroupDetails extends AppCompatActivity {
         usermodel = new ArrayList<UserModel>();
         groupExpense = (Button) findViewById(R.id.groupexpense);
         pieChart = (Button) findViewById(R.id.piechart);
+        editgroup = (Button) findViewById(R.id.editgroup);
+        deletegroup = (Button)findViewById(R.id.deletegroup);
         context = this;
         setLeftPane();
 
-     //   Log.e(TAG,"value of groupname"+groupname);
+        //   Log.e(TAG,"value of groupname"+groupname);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         grpame = (TextView) findViewById(R.id.group_name);
-        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);
-
-
-
+        groupInfo = new GroupInfo();
 
         Bundle extras = getIntent().getExtras();
         groupid = extras.getInt("groupid");
         groupname = extras.getString("groupname");
-        Log.e(TAG,"value of group name"+groupname);
+        Log.e(TAG, "value of group name" + groupname);
         grpame.setText(groupname);
-     //   Log.e(TAG, "value of id is: " + String.valueOf(groupid));
+        //   Log.e(TAG, "value of id is: " + String.valueOf(groupid));
 
-        GroupInfo groupInfo = new GroupInfo();
+      //  GroupInfo groupInfo = new GroupInfo();
 
         groupInfo.getgroupmembers(groupid, new AsyncResponse() {
             @Override
@@ -87,11 +88,6 @@ public class SingleGroupDetails extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 try {
                     JSONArray main = new JSONArray(data);
-
-//                    String name = main.getString("id");
-//                    String id = main.getString("username");
-//                    String email = main.getString("email");
-                    //     JSONArray items = main.getJSONArray("");
 
                     Log.e("data", data);
 
@@ -105,11 +101,6 @@ public class SingleGroupDetails extends AppCompatActivity {
 
                         Log.e(TAG, "I am in for loop");
                         usermodel.add(new UserModel(id, username, email));
-
-//                        for (UserModel u : usermodel) {
-//                            Log.e(e.getDate(), e.getDate());
-//                        }
-
 
                         adapter = new SingleGroupMemberAdapter(usermodel, itemClickListener);
                         layoutManager = new LinearLayoutManager(context);
@@ -126,15 +117,6 @@ public class SingleGroupDetails extends AppCompatActivity {
                 }
 
 
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 
@@ -175,11 +157,61 @@ public class SingleGroupDetails extends AppCompatActivity {
             }
         });
 
+        editgroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, EditGroup.class);
+                intent.putExtra("groupdetails", usermodel);
+                intent.putExtra("groupname", groupname);
+                intent.putExtra("groupid", groupid);
+                startActivity(intent);
+            }
+        });
+
+        deletegroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setMessage("Are you sure you want to delete this group?");
+                builder.setTitle("Delete Group");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        progressBar.setVisibility(View.VISIBLE);
+
+
+                        groupInfo.deletegroup(groupid, new AsyncResponse() {
+                            @Override
+                            public void sendData(String data) {
+                                Intent intent = new Intent();
+                                intent.setClass(context,GroupView.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.create().show();
+
+            }
+        });
+
     }
 
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -218,48 +250,36 @@ public class SingleGroupDetails extends AppCompatActivity {
     public void setLeftPane() {
 
 
-        //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         navigationItems = getResources().getStringArray(R.array.navigationItems);
-//        setLeftPane();
-        // set a custom shadow that overlays the main content when the drawer opens
-        //  mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.navigation_list_view, navigationItems));
         mDrawerList.setOnItemClickListener(new SingleGroupDetails.DrawerItemClickListener());
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
+
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                this,
+                mDrawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
                 Log.e(TAG, "ondrawer clossed");
-                // getSupportActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 Log.e(TAG, "ondrawer opened");
-                //   getSupportActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+                invalidateOptionsMenu();
             }
         };
-        //     mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-//        if (savedInstanceState == null) {
-//            //   selectItem(0);
-//        }
 
 
     }

@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,9 +19,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Dbutils.ExpenseInfo;
 import com.expensetracker.Dbutils.GroupInfo;
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.GroupModel;
 import com.expensetracker.R;
@@ -55,12 +54,15 @@ public class AddExpense extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         setLeftPane();
         description = (EditText) findViewById(R.id.description);
         amount = (EditText) findViewById(R.id.amount);
         context = this;
+        userAuthentication();
         groupdetails = new ArrayList<GroupModel>();
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
         add_expense = (Button) findViewById(R.id.add_expense);
@@ -80,29 +82,22 @@ public class AddExpense extends AppCompatActivity {
         dp.updateDate(year, month, day);
 
 
-
-
-
-
-
-        groupNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
-                Log.e(TAG, String.valueOf(group_id));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        groupNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                int group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
+//                Log.e(TAG, String.valueOf(group_id));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
 
         groupinfo = new GroupInfo();
 
-        groupinfo.getAllGroupsForUser(sharedPreferences.getInt("userid",1),  new AsyncResponse() {
+        groupinfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
             public void sendData(String data) {
 
@@ -132,43 +127,38 @@ public class AddExpense extends AppCompatActivity {
         });
 
 
-
-
-
         add_expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 int day = dp.getDayOfMonth();
                 int month = dp.getMonth() + 1;
                 int year = dp.getYear();
 
-                String strDate = String.valueOf(year) +"-"+String.valueOf(month)+"-"+String.valueOf(day);
+                String strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
 
 
-                Log.e(TAG,"I am here");
-                //Integer.parseInt(amount.getText().toString())
-                //description.getText().toString()
-                int group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
-                expenseInfo.addexpense(Integer.parseInt(amount.getText().toString()),strDate, sharedPreferences.getInt("userid",1), description.getText().toString(), categorySpinner.getSelectedItem().toString(),group_id,
-                        add_data = new AsyncResponse() {
-                            @Override
-                            public void sendData(String data) {
+                if (amount.getText().toString().isEmpty()) {
 
-                            }
-                        });
+                } else if (description.getText().toString().isEmpty()) {
 
-                Intent intent = new Intent();
-                intent.setClass(context,Home.class);
-                startActivity(intent);
+                } else {
 
+                    Log.e(TAG, "I am here");
+                    Integer group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
+                    expenseInfo.addexpense(Integer.parseInt(amount.getText().toString()), strDate, sharedPreferences.getInt("userid", 1), description.getText().toString(), categorySpinner.getSelectedItem().toString(), group_id,
+                            add_data = new AsyncResponse() {
+                                @Override
+                                public void sendData(String data) {
 
+                                }
+                            });
+                    Intent intent = new Intent();
+                    intent.setClass(context, Home.class);
+                    startActivity(intent);
+                }
             }
         });
-
-
-
 
 
     }
@@ -179,11 +169,10 @@ public class AddExpense extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
+            MenuPane.menu(context, position);
             // selectedItem();
         }
     }
-
 
 
     @Override
@@ -267,6 +256,18 @@ public class AddExpense extends AppCompatActivity {
 //        if (savedInstanceState == null) {
 //            //   selectItem(0);
 //        }
+
+
+    }
+
+    public void userAuthentication() {
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+        if (sharedPreferences.getString("username", "").isEmpty()) {
+            Intent intent = new Intent();
+            intent.setClass(context, LoginUser.class);
+            startActivity(intent);
+        }
 
 
     }

@@ -40,41 +40,60 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                userInfo.insert_user(username.getText().toString(), password.getText().toString(), email.getText().toString(),
-                        asyncResponse = new AsyncResponse() {
-                            @Override
-                            public void sendData(String data) {
+                if (username.getText().toString().isEmpty()) {
+                    String message = "Username cannot be empty";
+                    showAlertDialog(message);
+                } else if (password.getText().toString().isEmpty()) {
+                    String message = "Password cannot be empty";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().isEmpty()) {
+                    String message = "Password cannot be empty";
+                    showAlertDialog(message);
+                } else {
 
-                                if (Integer.parseInt(data) == 0) {
-                                    Intent intent = new Intent();
-                                    intent.setClass(context, LoginUser.class);
-                                    startActivity(intent);
-                                } else {
-                                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                                    alert.setMessage("Either username or email already exists with us. Please choose a new username or email");
-                                    alert.setCancelable(true);
-                                    alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    userInfo.insert_user(username.getText().toString(), password.getText().toString(), email.getText().toString(),
+                            asyncResponse = new AsyncResponse() {
+                                @Override
+                                public void sendData(String data) {
 
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                    if (Integer.parseInt(data) == 0) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(context, LoginUser.class);
+                                        startActivity(intent);
+                                    } else {
 
-                                        }
+                                        String message = "Either username or email already exists with us. Please choose a new username or email";
+                                        showAlertDialog(message);
 
 
-                                    });
-                                    alert.create().show();
-
+                                    }
                                 }
-                            }
-
-
-                        });
-
+                            });
+                }
             }
         });
 
 
         userInfo = new UserInfo();
+
+    }
+
+
+    public void showAlertDialog(String message) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+
+
+        });
+        builder1.create().show();
+
 
     }
 }

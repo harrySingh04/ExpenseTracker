@@ -21,49 +21,44 @@
             android:layout_gravity="center"
             android:visibility="invisible" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/friendsrecyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:padding="10dp"
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/friendsrecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:scrollbars="vertical" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/plus_sign" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/plus_sign" />
 
 
         <LinearLayout
             android:id="@+id/nofriendmessagelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/nofriendmessage"
-                android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nofriendstext"
+                android:textAlignment="center"
                 android:textSize="40dp"
                 android:textStyle="bold"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
 
         </LinearLayout>
 
 
+    </android.support.design.widget.CoordinatorLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <include layout="@layout/menu_pane_holder" />
 
-<include layout="@layout/menu_pane_holder" />
-
-    </android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.DrawerLayout>
