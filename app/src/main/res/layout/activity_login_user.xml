@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.expensetracker.Activities.LoginUser"
-    android:background="@color/grey"
+    android:background="@color/white"
     android:paddingTop="20dp"
     >
 

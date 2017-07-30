@@ -1,14 +1,18 @@
 package com.expensetracker.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.expensetracker.Adapters.PieChartAdapter;
 import com.expensetracker.Dbutils.GroupInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Model.ExpenseModel;
@@ -36,10 +40,7 @@ import java.util.ArrayList;
 // Creation of new Activity by Harminder to display Pie Chart for Expense Tracker
 public class PieChartExpense extends AppCompatActivity {
 
-    //Private varibles yData to store the value of Expenses on which bases chart values will be drawn
-    private float[] yData = {50, 50, 50};
-    //Private variable to store the label of the chart expenses
-    private String[] xData = {"You", "John", "Jamie"};
+
     //Variable for the Pie Chart variable
     private PieChart mchart;
     private int groupID;
@@ -47,6 +48,9 @@ public class PieChartExpense extends AppCompatActivity {
     ArrayList<ExpenseModel> expenseModel;
     public static String TAG = "PieChartExpense";
     ProgressBar progressBar;
+    RecyclerView pieRecycler;
+    PieChartAdapter pieChartAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,13 @@ public class PieChartExpense extends AppCompatActivity {
 
         progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
         progressBar.setVisibility(View.VISIBLE);
+
+        pieRecycler = (RecyclerView) findViewById(R.id.pie_recycler);
+        pieRecycler.setVisibility(View.VISIBLE);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        pieRecycler.setLayoutManager(layoutManager);
 
         Log.e(TAG, "I am here");
         Log.e(TAG, String.valueOf(groupID));
@@ -108,6 +119,9 @@ public class PieChartExpense extends AppCompatActivity {
 
                     expenseModel = processData(expenseModel);
                     displayPieChart(expenseModel);
+                    Context context = getApplicationContext();
+                    pieChartAdapter = new PieChartAdapter(context,expenseModel);
+                    pieRecycler.setAdapter(pieChartAdapter);
 
 //                    for (ExpenseModel e : expenseModel) {
 //                        Log.e(TAG, "username: "+e.getUsermodel().getUsername());
@@ -132,11 +146,14 @@ public class PieChartExpense extends AppCompatActivity {
         //Apply Styling
         mchart.getDescription().setEnabled(false);
         mchart.setHoleRadius(54f);
-        mchart.setTransparentCircleRadius(57f);
+        mchart.setTransparentCircleRadius(50f);
         mchart.setUsePercentValues(true);
         mchart.setCenterText(groupName);
-        //mchart.setExtraOffsets(55, 10, 10, 10);
-        mchart.animateY(900);
+        mchart.setExtraLeftOffset(30);
+        mchart.setExtraTopOffset(20);
+        mchart.setExtraRightOffset(70);
+        //mchart.setExtraOffsets(0, 0, 0, 0);
+        mchart.animateY(300);
 
         //Enable Rotation of the chart by touch
         mchart.setRotationAngle(0);
@@ -165,9 +182,9 @@ public class PieChartExpense extends AppCompatActivity {
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setTextSize(13f);
-        l.setDrawInside(false);
+        l.setDrawInside(true);
         l.setYEntrySpace(2f);
-        l.setYOffset(10f);
+        l.setYOffset(30f);
 
     }
 
@@ -182,23 +199,39 @@ public class PieChartExpense extends AppCompatActivity {
         }
 
         //Create Pie Data Set
-        PieDataSet dataSet = new PieDataSet(yVals, "Expense Tracker");
-        dataSet.setSliceSpace(3);
+        PieDataSet dataSet = new PieDataSet(yVals,"");
+        dataSet.setSliceSpace(0);
         dataSet.setSelectionShift(5);
         dataSet.setValueTextSize(30f);
 
         //Add Many Colors
 
         ArrayList<Integer> colors = new ArrayList<Integer>();
+        Integer color1 = Color.parseColor("#BA68C8");
+        Integer color5= Color.parseColor("#81D4FA");
+        Integer color7 = Color.parseColor("#F44336");
+        Integer color3 = Color.parseColor("#64B5F6");
+        Integer color4 = Color.parseColor("#FFEB3B");
+        Integer color6 = Color.parseColor("#7986CB");
+        Integer color8 = Color.parseColor("#CDDC39");
+        Integer color2= Color.parseColor("#2196F3");
 
+        colors.add(color8);
+        colors.add(color6);
+        colors.add(color5);
+        colors.add(color4);
+        colors.add(color2);
+        colors.add(color3);
+        colors.add(color7);
+        colors.add(color1);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
 
         for (int c : ColorTemplate.JOYFUL_COLORS)
             colors.add(c);
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
             colors.add(c);
 
         for (int c : ColorTemplate.LIBERTY_COLORS)
