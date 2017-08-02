@@ -3,6 +3,7 @@ package com.expensetracker.Activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import com.expensetracker.Dbutils.UserInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -24,6 +26,8 @@ public class RegisterUser extends AppCompatActivity {
     AsyncResponse asyncResponse;
     Context context;
     public static String TAG = "register user";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,8 @@ public class RegisterUser extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         email = (EditText) findViewById(R.id.useremail);
         register = (Button) findViewById(R.id.register);
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,15 +63,16 @@ public class RegisterUser extends AppCompatActivity {
                                 public void sendData(String data) {
 
                                     if (Integer.parseInt(data) == 0) {
+                                        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                                        editor.putString("reg_token", refreshedToken);
+
+
                                         Intent intent = new Intent();
                                         intent.setClass(context, LoginUser.class);
                                         startActivity(intent);
                                     } else {
-
                                         String message = "Either username or email already exists with us. Please choose a new username or email";
                                         showAlertDialog(message);
-
-
                                     }
                                 }
                             });

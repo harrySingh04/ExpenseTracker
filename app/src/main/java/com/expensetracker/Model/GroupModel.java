@@ -28,6 +28,11 @@ public class GroupModel {
         this.group_members = group_members;
     }
 
+    public GroupModel(Integer group_id,String name ) {
+        this.name = name;
+        this.group_id = group_id;
+    }
+
     public GroupModel(String name) {
         this.name = name;
     }

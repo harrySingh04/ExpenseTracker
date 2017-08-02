@@ -1,5 +1,7 @@
 package com.expensetracker.Dbutils;
 
+import android.content.SharedPreferences;
+
 import com.expensetracker.Constants;
 import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Model.AsyncData;
@@ -15,9 +17,6 @@ import java.net.URL;
  */
 
 public class UserInfo {
-
-
-
 
 
     public UserInfo() {
@@ -46,10 +45,8 @@ public class UserInfo {
     public void insert_user(String username, String password, String email, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-
         String stringurl = Constants.REGISTER_USER;
-
-            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         URL url = null;
         JSONObject jsonObject = null;
@@ -72,7 +69,7 @@ public class UserInfo {
     public void delete_user(int id, AsyncResponse asyncResponse) {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
-        String stringurl =Constants.DELETE_USER ;
+        String stringurl = Constants.DELETE_USER;
         URL url = null;
         JSONObject jsonObject = null;
         try {
@@ -92,7 +89,7 @@ public class UserInfo {
 
         NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
-        String stringurl =Constants.EDIT_USER;
+        String stringurl = Constants.EDIT_USER;
 
         URL url = null;
         JSONObject jsonObject = null;
@@ -108,8 +105,29 @@ public class UserInfo {
         networkUtils.execute(asyncTaskdata);
     }
 
+    public void reg_new_token(int userid,String token,AsyncResponse asyncResponse){
+
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
+        String stringurl = Constants.UPDATE_TOKEN;
 
 
+
+        URL url = null;
+        JSONObject jsonObject = null;
+        try {
+            url = new URL(stringurl);
+            jsonObject = new JSONObject();
+            jsonObject.put("reg_token", token);
+            jsonObject.put("userid", userid);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
+        networkUtils.execute(asyncTaskdata);
+
+    }
 
 
 }
