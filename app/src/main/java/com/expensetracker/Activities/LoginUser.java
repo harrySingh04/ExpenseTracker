@@ -63,9 +63,7 @@ public class LoginUser extends AppCompatActivity {
                                 Log.e(TAG, "data comming from apllicaton" + data);
                                 if (!data.equals("null")) {
 
-
                                     JSONObject main = new JSONObject(data);
-
                                     String name = main.getString("username");
                                     int id = main.getInt("id");
                                     String email = main.getString("email");

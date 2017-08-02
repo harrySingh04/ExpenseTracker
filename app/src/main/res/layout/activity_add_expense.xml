@@ -81,10 +81,11 @@
 
                 <Button
                     android:id="@+id/add_expense"
-                    style="@style/Button_custom_theme"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    style="@style/Button_custom_theme"
                     android:background="@drawable/button_shape"
                     android:text="@string/Add" />
 

@@ -196,5 +196,28 @@ public class GroupInfo {
         networkUtils.execute(asyncTaskdata);
     }
 
+    public void getAllGroupExpensesForUser(int userid, AsyncResponse asyncResponse){
+
+
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+        String stringurl = Constants.GET_ALL_GROUP_EXPENSES_FOR_USER;
+        URL url = null;
+        JSONObject jsonObject = null;
+        try {
+            url = new URL(stringurl);
+            jsonObject = new JSONObject();
+            jsonObject.put("id", userid);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
+        networkUtils.execute(asyncTaskdata);
+
+
+
+
+    }
+
 
 }

@@ -14,6 +14,7 @@ import com.expensetracker.Activities.GroupView;
 import com.expensetracker.Activities.Home;
 import com.expensetracker.Activities.LoginUser;
 import com.expensetracker.Activities.PieChartExpense;
+import com.expensetracker.Activities.Summary;
 
 /**
  * Created by user on 10-12-2016.
@@ -52,7 +53,15 @@ public class MenuPane {
 
         if (id == 3) {
             Intent i = new Intent();
+            i.setClass(context, Summary.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+            ((Activity) (context)).finish();
+        }
 
+        if (id == 4) {
+            Intent i = new Intent();
             SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("data",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -66,15 +75,6 @@ public class MenuPane {
             context.startActivity(i);
             ((Activity) (context)).finish();
         }
-
-//        if (id == 4) {
-//            Intent i = new Intent();
-//            i.setClass(context, PieChartExpense.class);
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            context.startActivity(i);
-//            ((Activity) (context)).finish();
-//        }
 
     }
 

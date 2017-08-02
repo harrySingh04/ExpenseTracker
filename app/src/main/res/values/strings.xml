@@ -29,6 +29,11 @@
     <string name="editgroup">Edit Group</string>
     <string name="nogrouptext">Your GroupList is Empty</string>
     <string name="deletegroup">Delete Group</string>
+    <string name="submit">Submit</string>
+    <string name="fromwithcolon">From: </string>
+    <string name="towithcolon">To: </string>
+    <string name="nopiecharttext">There is no pie chart for your input </string>
+
 
 
 
@@ -52,6 +57,7 @@
         <item>Home</item>
         <item>Groups</item>
         <item>Friends</item>
+        <item>Summary</item>
         <item>Logout</item>
 
 
