@@ -262,12 +262,11 @@ public class Home extends AppCompatActivity {
         }
     }
 
-
-<<<<<<< HEAD
-        switch(position){
+    public void selectedItem(int position) {
+        switch (position) {
 
             case 0:
-                Log.e(TAG,"Item 1");
+                Log.e(TAG, "Item 1");
                 break;
 
            /* case 1:
@@ -279,13 +278,12 @@ public class Home extends AppCompatActivity {
                 break;*/
 
             case 3:
-                Log.e(TAG,"Item 4");
+                Log.e(TAG, "Item 4");
                 break;
 
         }
+
     }
-=======
->>>>>>> 9c95d79d70bb230bb78b61aa5bd7d5594140feca
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
