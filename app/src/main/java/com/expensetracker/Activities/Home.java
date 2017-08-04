@@ -6,11 +6,17 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +29,8 @@ import android.widget.ProgressBar;
 
 import com.expensetracker.Adapters.ExpenseAdapter;
 import com.expensetracker.Dbutils.ExpenseInfo;
+import com.expensetracker.Fragment.*;
+import com.expensetracker.Fragment.GroupView;
 import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ExpenseData;
 import com.expensetracker.Interfaces.ItemClickListener;
@@ -35,6 +43,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static android.R.attr.host;
 
 public class Home extends AppCompatActivity {
 
@@ -56,154 +66,190 @@ public class Home extends AppCompatActivity {
     private String navigationItems[];
     public static String TAG = "Home";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_home);
 
 
-        expense_container = (RecyclerView) findViewById(R.id.expense_container);
-        sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
-        progressBar.setVisibility(View.VISIBLE);
-        setLeftPane();
-      //  Log.e("token", refreshedToken);
+            // Setup Toolbar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            setLeftPane();
 
 
-        button = (FloatingActionButton) findViewById(R.id.AddExpense);
-        button.setOnClickListener(new View.OnClickListener() {
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        // Assign created adapter to viewPager
+        viewPager.setAdapter(new TabsExamplePagerAdapter(getSupportFragmentManager()));
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+            // This method setup all required method for TabLayout with Viewpager
+
+
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, AddExpense.class);
-                startActivity(intent);
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 
+        tabLayout.setupWithViewPager(viewPager);
 
-        //  UserInfo userInfo = new UserInfo(asyncResponse);
-        final ExpenseInfo expenseInfo = new ExpenseInfo();
-        expenseInfo.getallexpense(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
-            @Override
-            public void sendData(String data) {
 
-                try {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    JSONArray main = new JSONArray(data);
 
-                    Log.e(TAG, data);
+           /* expense_container = (RecyclerView) findViewById(R.id.expense_container);
+            sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+            progressBar.setVisibility(View.VISIBLE);
 
-                    for (int i = 0; i < main.length(); i++) {
-                        JSONObject item = main.getJSONObject(i);
+          //  Log.e("token", refreshedToken);
 
-                        int id = item.getInt("id");
-                        int groupid = item.getInt("groupID");
-                        int amount = item.getInt("amount");
-                        String date = item.getString("date");
 
-                        String description = item.getString("description");
-                        String category = item.getString("category");
+            button = (FloatingActionButton) findViewById(R.id.AddExpense);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, AddExpense.class);
+                    startActivity(intent);
+                }
+            });
 
-                        String groupName = item.getString("groupName");
-//                        if(item.optBoolean("groupName")){
-//
-//                        }
 
-                        expenseModel.add(new ExpenseModel(id, amount, date, category, groupid, description, groupName));
+            //  UserInfo userInfo = new UserInfo(asyncResponse);
+            final ExpenseInfo expenseInfo = new ExpenseInfo();
+            expenseInfo.getallexpense(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
+                @Override
+                public void sendData(String data) {
 
-                        for (ExpenseModel e : expenseModel) {
-                            Log.e(e.getDate(), e.getDate());
+                    try {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        JSONArray main = new JSONArray(data);
+
+                        Log.e(TAG, data);
+
+                        for (int i = 0; i < main.length(); i++) {
+                            JSONObject item = main.getJSONObject(i);
+
+                            int id = item.getInt("id");
+                            int groupid = item.getInt("groupID");
+                            int amount = item.getInt("amount");
+                            String date = item.getString("date");
+
+                            String description = item.getString("description");
+                            String category = item.getString("category");
+
+                            String groupName = item.getString("groupName");
+    //                        if(item.optBoolean("groupName")){
+    //
+    //                        }
+
+                            expenseModel.add(new ExpenseModel(id, amount, date, category, groupid, description, groupName));
+
+                            for (ExpenseModel e : expenseModel) {
+                                Log.e(e.getDate(), e.getDate());
+                            }
+
+                            Log.e("amount", String.valueOf(amount));
+
                         }
 
-                        Log.e("amount", String.valueOf(amount));
+                    } catch (Exception e) {
+                        Log.e("error", "error", e);
 
                     }
 
-                } catch (Exception e) {
-                    Log.e("error", "error", e);
+
+                    adapter = new ExpenseAdapter(expenseModel, expenseData);
+                    layoutManager = new LinearLayoutManager(context);
+                    expense_container.setLayoutManager(layoutManager);
+                    expense_container.setHasFixedSize(true);
+                    expense_container.setAdapter(adapter);
 
                 }
+            });
 
 
-                adapter = new ExpenseAdapter(expenseModel, expenseData);
-                layoutManager = new LinearLayoutManager(context);
-                expense_container.setLayoutManager(layoutManager);
-                expense_container.setHasFixedSize(true);
-                expense_container.setAdapter(adapter);
-
-            }
-        });
+            itemClickListener = new ItemClickListener() {
+                @Override
+                public void onItemClick(int clickedItemIndex) {
 
 
-        itemClickListener = new ItemClickListener() {
-            @Override
-            public void onItemClick(int clickedItemIndex) {
+                }
+            };
+
+            expenseData = new ExpenseData() {
+
+                @Override
+                public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, Updatexpense.class);
+
+                    intent.putExtra("id", id);
+                    intent.putExtra("description", description);
+                    intent.putExtra("date", date);
+                    intent.putExtra("category", category);
+                    intent.putExtra("groupName", groupName);
+                    intent.putExtra("amount", amount);
+
+                    Log.e(TAG, "id is" + id);
+                    startActivity(intent);
+
+                }
+            };
 
 
-            }
-        };
+            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-        expenseData = new ExpenseData() {
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
 
-            @Override
-            public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
-                Intent intent = new Intent();
-                intent.setClass(context, Updatexpense.class);
-
-                intent.putExtra("id", id);
-                intent.putExtra("description", description);
-                intent.putExtra("date", date);
-                intent.putExtra("category", category);
-                intent.putExtra("groupName", groupName);
-                intent.putExtra("amount", amount);
-
-                Log.e(TAG, "id is" + id);
-                startActivity(intent);
-
-            }
-        };
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                   final int id = (int) viewHolder.itemView.getTag();
+                    Log.d(TAG, "passing id: " + id);
 
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-               final int id = (int) viewHolder.itemView.getTag();
-                Log.d(TAG, "passing id: " + id);
-
-
-                new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
-                    @Override
-                    public void sendData(String data) {
-//                        Intent intent = new Intent();
-//                        intent.setClass(context, Home.class);
-//                        startActivity(intent);
-                      for(ExpenseModel e:expenseModel){
-                          if(e.getId() == id){
-                              expenseModel.remove(e);
-                              adapter.swapCursor(expenseModel);
+                    new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
+                        @Override
+                        public void sendData(String data) {
+    //                        Intent intent = new Intent();
+    //                        intent.setClass(context, Home.class);
+    //                        startActivity(intent);
+                          for(ExpenseModel e:expenseModel){
+                              if(e.getId() == id){
+                                  expenseModel.remove(e);
+                                  adapter.swapCursor(expenseModel);
+                              }
                           }
-                      }
 
 
-                    }
-                });
+                        }
+                    });
 
 
-            }
-        }).attachToRecyclerView(expense_container);
-
-
-
-
+                }
+            }).attachToRecyclerView(expense_container);
     }
-
+    */
+    }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
 
@@ -260,6 +306,8 @@ public class Home extends AppCompatActivity {
 //
 //    }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
@@ -278,7 +326,7 @@ public class Home extends AppCompatActivity {
 
 
         //  mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         navigationItems = getResources().getStringArray(R.array.navigationItems);
 //        setLeftPane();
@@ -296,21 +344,20 @@ public class Home extends AppCompatActivity {
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
-        ) {
+                this,
+                mDrawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close)
+       {
             public void onDrawerClosed(View view) {
                 Log.e(TAG, "ondrawer clossed");
-               // getSupportActionBar().setTitle(mTitle);
+                // getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
                 Log.e(TAG, "ondrawer opened");
-             //   getSupportActionBar().setTitle(mDrawerTitle);
+                //   getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -323,5 +370,39 @@ public class Home extends AppCompatActivity {
 
     }
 
+
+    public static class TabsExamplePagerAdapter extends FragmentPagerAdapter {
+        // As we are implementing two tabs
+        private static final int NUM_ITEMS = 2;
+        private String[] tabTitle = {"Expense", "Groups"};
+        public TabsExamplePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        // For each tab different fragment is returned
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new ExpenseView();
+                case 1:
+                    return new GroupView();
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // For simplicity of this tutorial this string is hardcoded
+            // Otherwise it should be access using string resource
+            return tabTitle[position];
+        }
+    }
 
 }
