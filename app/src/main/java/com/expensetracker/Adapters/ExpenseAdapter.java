@@ -47,7 +47,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
         //  holder.amount.setText(expenseDetails.get(position).getDescription());
 
-        Log.e(TAG, "Groupname " + String.valueOf(expenseDetails.get(position).getGroupname()));
+      //  Log.e(TAG, "Groupname " + String.valueOf(expenseDetails.get(position).getGroupname()));
 
         //    holder.category.setContentDescription(String.valueOf(R.string.category));
 
@@ -55,10 +55,17 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.description.setText(expenseDetails.get(position).getDescription());
         holder.category.setText(expenseDetails.get(position).getCategory());
         holder.date.setText(expenseDetails.get(position).getDate());
-        holder.groupname.setText(expenseDetails.get(position).getGroupname());
+
 
         if (expenseDetails.get(position).getUsermodel() != null) {
             holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
+        }
+
+        if(expenseDetails.get(position).getGroupModel()!=null){
+            holder.groupname.setText(expenseDetails.get(position).getGroupModel().getName());
+        }
+        else{
+            holder.groupname.setText(expenseDetails.get(position).getGroupname());
         }
 
 

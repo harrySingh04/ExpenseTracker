@@ -262,8 +262,8 @@ public class Home extends AppCompatActivity {
         }
     }
 
-    public void selectedItem(int position){
 
+<<<<<<< HEAD
         switch(position){
 
             case 0:
@@ -284,6 +284,8 @@ public class Home extends AppCompatActivity {
 
         }
     }
+=======
+>>>>>>> 9c95d79d70bb230bb78b61aa5bd7d5594140feca
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
