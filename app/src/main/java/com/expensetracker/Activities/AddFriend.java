@@ -1,15 +1,23 @@
 package com.expensetracker.Activities;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.expensetracker.Dbutils.FriendsInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
@@ -41,6 +50,9 @@ public class AddFriend extends AppCompatActivity {
     String username;
     Integer userid;
     ProgressBar progressBar;
+    ListView listView;
+    ArrayAdapter<String> listAdapter;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,72 @@ public class AddFriend extends AppCompatActivity {
         username = sharedPreferences.getString("username", "");
         userid = sharedPreferences.getInt("userid", 0);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        listView = (ListView) findViewById(R.id.contacts_list);
+        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        }
+
+
+
+      email.addTextChangedListener(new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+          }
+
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+              Log.e(TAG,"I am here");
+              Log.e(TAG, email.getText().toString());
+
+            Cursor cur =  ContactDetails(  email.getText().toString());
+
+              Log.e(TAG,"size "+cur.getCount());
+              listAdapter.clear();
+              while(cur.moveToNext()){
+                  Log.e(TAG,"I am here");
+
+                  listAdapter.add(cur.getString(
+                          cur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
+              }
+
+              listView.setAdapter(listAdapter);
+
+          }
+
+          @Override
+          public void afterTextChanged(Editable s) {
+
+          }
+      });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+            {
+
+
+              String val = ((TextView)arg1).getText().toString();
+
+                Log.e(TAG,val);
+
+                email.setText(val);
+
+           //     Toast.makeText(SuggestionActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+//        listAdapter.add("value1");
+//        listAdapter.add("value2");
 
 
         addFriend.setOnClickListener(new View.OnClickListener() {
@@ -67,16 +145,14 @@ public class AddFriend extends AppCompatActivity {
                     public void sendData(String data) {
                         progressBar.setVisibility(View.INVISIBLE);
 
-                        if(data.isEmpty()){
+                        if (data.isEmpty()) {
 
-                                Log.e(TAG, "thisd is the data for add" + data);
-                                Intent intent = new Intent();
-                                intent.setClass(context, FriendsView.class);
-                                startActivity(intent);
+                            Log.e(TAG, "thisd is the data for add" + data);
+                            Intent intent = new Intent();
+                            intent.setClass(context, FriendsView.class);
+                            startActivity(intent);
 
-                        }
-
-                       else if(Integer.parseInt(data) ==1){
+                        } else if (Integer.parseInt(data) == 1) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                             builder1.setMessage("Email ID does not exist with us. Please check the Email ID");
                             builder1.setCancelable(true);
@@ -90,8 +166,7 @@ public class AddFriend extends AppCompatActivity {
 
                             });
                             builder1.create().show();
-                        }
-                        else if(Integer.parseInt(data) ==2){
+                        } else if (Integer.parseInt(data) == 2) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                             builder1.setMessage("The person is already in your Friend List");
                             builder1.setCancelable(true);
@@ -106,7 +181,6 @@ public class AddFriend extends AppCompatActivity {
                             });
                             builder1.create().show();
                         }
-
 
 
                     }
@@ -124,38 +198,12 @@ public class AddFriend extends AppCompatActivity {
 
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.e("drawercliock", String.valueOf(view.getId()));
             MenuPane.menu(context, position);
-            // selectedItem();
         }
     }
 
-    public void selectedItem(int position) {
-
-        switch (position) {
-
-            case 0:
-                Log.e(TAG, "Item 1");
-                break;
-
-            case 1:
-                Log.e(TAG, "Item 2");
-                break;
-
-            case 2:
-                Log.e(TAG, "Item 3");
-                break;
-
-            case 3:
-                Log.e(TAG, "Item 4");
-                break;
-
-        }
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -181,9 +229,8 @@ public class AddFriend extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
+
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -232,14 +279,89 @@ public class AddFriend extends AppCompatActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-        //     mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-//        if (savedInstanceState == null) {
-//            //   selectItem(0);
-//        }
 
 
     }
 
 
+    public Cursor ContactDetails(String selectionCriteria) {
+
+        String[] selectionArgs = { "%"+selectionCriteria+"%" };
+        String columnName = ContactsContract.CommonDataKinds.Email.DATA +" LIKE ?";
+
+
+
+         String[] PROJECTION = {
+
+                // The contact's row id
+                 ContactsContract.CommonDataKinds.Email.DATA,
+
+                // A pointer to the contact that is guaranteed to be more permanent than _ID. Given
+                // a contact's current _ID value and LOOKUP_KEY, the Contacts Provider can generate
+                // a "permanent" contact URI.
+               //  ContactsContract.CommonDataKinds.Phone.NUMBER,
+
+                // ContactsContract.CommonDataKinds.Phone.
+
+                // In platform version 3.0 and later, the Contacts table contains
+                // DISPLAY_NAME_PRIMARY, which either contains the contact's displayable name or
+                // some other useful identifier such as an email address. This column isn't
+                // available in earlier versions of Android, so you must use Contacts.DISPLAY_NAME
+                // instead.
+               //  ContactsContract.Contacts.DISPLAY_NAME,
+
+                // In Android 3.0 and later, the thumbnail image is pointed to by
+                // PHOTO_THUMBNAIL_URI. In earlier versions, there is no direct pointer; instead,
+                // you generate the pointer from the contact's ID value and constants defined in
+                // android.provider.ContactsContract.Contacts.
+            //     ContactsContract.Contacts._ID,
+
+                // The sort order column for the returned Cursor, used by the AlphabetIndexer
+
+         //        ContactsContract.Contacts.
+
+
+
+
+        };
+
+
+        ContentResolver cr = getContentResolver();
+        Cursor cur = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                PROJECTION, columnName,selectionArgs, null);
+
+
+//        cr.
+//        "select * from "+ ContactsContract.Contacts.CONTENT_URI +" where "+ ContactsContract.Contacts.DISPLAY_NAME + "LIKE"
+//        + "%a%";
+        ;
+//        if (cur.getCount() > 0) {
+//            while (cur.moveToNext()) {
+//                String id = cur.getString(
+//                        cur.getColumnIndex(ContactsContract.Contacts._ID));
+//                String name = cur.getString(
+//                        cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+//                    //Query phone here.  Covered next
+//                }
+//
+//            }
+//
+//        }
+
+        return cur;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+
+            } else {
+           //     Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

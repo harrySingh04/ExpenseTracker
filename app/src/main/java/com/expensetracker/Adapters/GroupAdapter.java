@@ -21,8 +21,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     ArrayList<GroupModel> groupDetails = new ArrayList<>();
     public static final String class_name = "Recycler Adapter";
     GroupData groupData;
-    private int groupid;
-    public static String TAG= "groupView";
+  //  private int groupid;
+    public static String TAG= "group adapter";
 
     //    public RecyclerAdapter(NewsDetails newsDetails) {
 //
@@ -44,7 +44,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     public void onBindViewHolder(GroupAdapter.GroupViewHolder holder, int position) {
         Log.e(class_name, "onBindViewHolder");
         holder.name.setText(groupDetails.get(position).getName());
-        groupid = groupDetails.get(position).getGroup_id();
+
+        holder.bind(holder,position);
+
     }
 
     @Override
@@ -57,7 +59,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     public class GroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name;
-        String id;
+        int groupid;
 
         public GroupViewHolder(View view) {
             super(view);
@@ -66,12 +68,17 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
             view.setOnClickListener(this);
         }
 
+        public void bind(GroupAdapter.GroupViewHolder holder, int position){
+
+            groupid = groupDetails.get(position).getGroup_id();
+
+        }
+
 
 
         @Override
         public void onClick(View v) {
             Log.e(TAG,String.valueOf("value of group id in adapter"+groupid));
-
             groupData.groupDetails(groupid,name.getText().toString());
         }
     }

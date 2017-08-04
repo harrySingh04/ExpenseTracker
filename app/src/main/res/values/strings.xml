@@ -3,7 +3,7 @@
     <string name="group">Group: </string>
     <string name="date">Date: </string>
     <string name="category">Category: </string>
-    <string name="title_activity_single_group_details">SingleGroupDetails</string>
+    <string name="title_activity_single_group_details">Your Group Details</string>
     <string name="title_activity_add_expense">AddExpense</string>
     <string name="amount">Amount</string>
     <string name="description">Description: </string>
@@ -23,8 +23,8 @@
     <string name="you">You </string>
     <string name="piechart">Piechart </string>
     <string name="groupNamewithcolon">Group Name: </string>
-    <string name="title_activity_friends_view">FriendsView</string>
-    <string name="title_activity_add_group">AddGroup</string>
+    <string name="title_activity_friends_view">Your Friends</string>
+    <string name="title_activity_add_group">Add New Group</string>
     <string name="nofriendstext">Your Friendlist is empty</string>
     <string name="editgroup">Edit Group</string>
     <string name="nogrouptext">Your GroupList is Empty</string>
@@ -33,6 +33,13 @@
     <string name="fromwithcolon">From: </string>
     <string name="towithcolon">To: </string>
     <string name="nopiecharttext">There is no pie chart for your input </string>
+    <string name="title_activity_summary">Summary</string>
+    <string name="title_activity_single_group_expense">Your Group Expenses</string>
+
+
+
+
+
 
 
 

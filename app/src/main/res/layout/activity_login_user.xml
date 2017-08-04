@@ -23,7 +23,10 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:text="harry"
-        android:hint="@string/username" />
+        android:hint="@string/username"
+        android:background="@drawable/edit_box_shape"
+        style="@style/EditBox_custom_theme"
+        />
 
     <EditText
         android:layout_gravity="center_horizontal"
@@ -32,7 +35,10 @@
         android:layout_height="50dp"
         android:inputType="textPassword"
         android:text="harry"
-        android:hint="@string/password" />
+        android:hint="@string/password"
+        style="@style/EditBox_custom_theme"
+        android:background="@drawable/edit_box_shape"
+        />
 
     <Button
         android:layout_gravity="center_horizontal"
