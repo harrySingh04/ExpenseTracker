@@ -3,6 +3,8 @@
     package="com.expensetracker">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
 
     <application
         android:allowBackup="true"
@@ -73,9 +75,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.Updatexpense" />
-        <activity android:name=".Activities.SingleGroupExpense" />
+        <activity android:name=".Activities.SingleGroupExpense"
+            android:label="@string/title_activity_single_group_expense"
+            />
         <activity android:name=".Activities.EditGroup" />
-        <activity android:name=".Activities.Summary"></activity>
+        <activity android:name=".Activities.Summary"
+            android:label="@string/title_activity_summary"
+            ></activity>
     </application>
 
 </manifest>

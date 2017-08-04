@@ -577,18 +577,18 @@ public class Summary extends AppCompatActivity {
             adapter = new ExpenseAdapter(expenseModel, new ExpenseData() {
                 @Override
                 public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
-                    Intent intent = new Intent();
-                    intent.setClass(context, Updatexpense.class);
-
-                    intent.putExtra("id", id);
-                    intent.putExtra("description", description);
-                    intent.putExtra("date", date);
-                    intent.putExtra("category", category);
-                    intent.putExtra("groupName", groupName);
-                    intent.putExtra("amount", amount);
-
-                    Log.e(TAG, "id is" + id);
-                    startActivity(intent);
+//                    Intent intent = new Intent();
+//                    intent.setClass(context, Updatexpense.class);
+//
+//                    intent.putExtra("id", id);
+//                    intent.putExtra("description", description);
+//                    intent.putExtra("date", date);
+//                    intent.putExtra("category", category);
+//                    intent.putExtra("groupName", groupName);
+//                    intent.putExtra("amount", amount);
+//
+//                    Log.e(TAG, "id is" + id);
+//                    startActivity(intent);
 
                 }
             });

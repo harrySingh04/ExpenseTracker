@@ -25,6 +25,7 @@
             app:behavior_overlapTop="30dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,58 +35,135 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:hint="@string/amount"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:hint="@string/description" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/categorySpinner"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="@string/category"></Spinner>
+                        android:text="@string/amount"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"
+                        />
 
-                    <Spinner
-                        android:id="@+id/groupnameSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></Spinner>
-
+                    <EditText
+                        android:id="@+id/amount"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:background="@drawable/edit_box_shape"
+                        style="@style/EditBox_custom_theme"
+                        />
                 </LinearLayout>
 
 
-                <DatePicker
-                    android:id="@+id/datepicker"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></DatePicker>
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+
+                    android:background="@drawable/edit_box_shape"
+                    style="@style/EditBox_custom_theme"/>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <Spinner
+                    android:id="@+id/categorySpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/category"></Spinner>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <Spinner
+                    android:id="@+id/groupnameSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></Spinner>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/datepicker"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_box_shape"
+                    style="@style/EditBox_custom_theme"
+                    ></EditText>
+
+                </LinearLayout>
 
 
                 <Button
                     android:id="@+id/add_expense"
 
+                    style="@style/Button_custom_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    style="@style/Button_custom_theme"
                     android:background="@drawable/button_shape"
                     android:text="@string/Add" />
 

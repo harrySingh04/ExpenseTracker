@@ -1,5 +1,6 @@
 package com.expensetracker.Activities;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,10 +35,9 @@ import java.util.Calendar;
 
 public class AddExpense extends AppCompatActivity {
 
-    private EditText description;
+    private EditText description,amount,dp;
     private Spinner categorySpinner;
     private Spinner groupNameSpinner;
-    private EditText amount;
     private GroupInfo groupinfo;
     private AsyncResponse asyncResponse, add_data;
     private Context context;
@@ -45,7 +45,7 @@ public class AddExpense extends AppCompatActivity {
     private Button add_expense;
     public static String TAG = "Add Expense";
     private ExpenseInfo expenseInfo;
-    DatePicker dp;
+
     SharedPreferences sharedPreferences;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -73,13 +73,13 @@ public class AddExpense extends AppCompatActivity {
         groupNameSpinner = (Spinner) findViewById(R.id.groupnameSpinner);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
         expenseInfo = new ExpenseInfo();
-        dp = (DatePicker) findViewById(R.id.datepicker);
+        dp = (EditText)findViewById(R.id.datepicker);
 
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        dp.updateDate(year, month, day);
+//        final Calendar c = Calendar.getInstance();
+//        int year = c.get(Calendar.YEAR);
+//        int month = c.get(Calendar.MONTH);
+//        int day = c.get(Calendar.DAY_OF_MONTH);
+//        dp.updateDate(year, month, day);
 
 
 //        groupNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,12 +131,13 @@ public class AddExpense extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                int day = dp.getDayOfMonth();
-                int month = dp.getMonth() + 1;
-                int year = dp.getYear();
+//                int day = dp.getDayOfMonth();
+//                int month = dp.getMonth() + 1;
+//                int year = dp.getYear();
 
-                String strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
+               // String strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
 
+                String strDate = dp.getText().toString();
 
                 if (amount.getText().toString().isEmpty()) {
 
@@ -157,6 +158,22 @@ public class AddExpense extends AppCompatActivity {
                     intent.setClass(context, Home.class);
                     startActivity(intent);
                 }
+            }
+        });
+
+        dp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //showDatePickerDialog(v);
+
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dateDialog = new DatePickerDialog(context, datePickerListener, mYear, mMonth, mDay);
+                dateDialog.show();
+
+
             }
         });
 
@@ -258,6 +275,8 @@ public class AddExpense extends AppCompatActivity {
 //        }
 
 
+
+
     }
 
     public void userAuthentication() {
@@ -271,6 +290,16 @@ public class AddExpense extends AppCompatActivity {
 
 
     }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String dateYouChoosed = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+            dp.setText(dateYouChoosed);
+
+        }
+    };
 
 
 }

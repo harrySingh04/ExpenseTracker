@@ -1,5 +1,6 @@
 package com.expensetracker.Activities;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,7 +47,7 @@ public class Updatexpense extends AppCompatActivity {
     private Button update_expense;
     public static String TAG = "Add Expense";
     private ExpenseInfo expenseInfo;
-    private DatePicker dp;
+    private EditText dp;
     private SharedPreferences sharedPreferences;
     private String GroupPosition, categoryPosition;
     private int id;
@@ -67,20 +68,24 @@ public class Updatexpense extends AppCompatActivity {
         groupdetails = new ArrayList<GroupModel>();
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
         update_expense = (Button) findViewById(R.id.add_expense);
+
+        groupNameSpinner = (Spinner) findViewById(R.id.groupnameSpinner);
+        sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
+
+        dp = (EditText) findViewById(R.id.datepicker);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
-        groupNameSpinner = (Spinner) findViewById(R.id.groupnameSpinner);
-        sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
 
-        dp = (DatePicker) findViewById(R.id.datepicker);
+       // adapter.getCount();
+     //   int i = 0;
 
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        dp.updateDate(year, month, day);
+
+
+
+
 
 
         update_expense.setText("Update");
@@ -88,13 +93,29 @@ public class Updatexpense extends AppCompatActivity {
         String dataDescription = expenseData.getString("description");
         id = expenseData.getInt("id");
         int dataAmount = expenseData.getInt("amount");
-        categoryPosition = expenseData.getString("categoryPosition");
-        GroupPosition = expenseData.getString("groupPosition");
+        categoryPosition = expenseData.getString("category");
+        GroupPosition = expenseData.getString("groupName");
         String date = expenseData.getString("date");
+
+
+
+        Log.e(TAG,"adapter count"+adapter.getCount());
+        for (int i=0;i<=adapter.getCount()-1;i++) {
+
+            Log.e(TAG,"adapter"+i+adapter.getItem(i));
+          //  Log.e(TAG,"category"+i+categoryPosition);
+
+            if (adapter.getItem(i).equals(categoryPosition)) {
+                categorySpinner.setSelection(i);
+                break;
+            }
+            //     i++;
+        }
 
 
         description.setText(dataDescription);
         amount.setText(String.valueOf(dataAmount));
+        dp.setText(date);
         // categorySpinner.setSelection(categoryPosition);
 
 //        groupNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -162,12 +183,11 @@ public class Updatexpense extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                int day = dp.getDayOfMonth();
-                int month = dp.getMonth() + 1;
-                int year = dp.getYear();
 
-                String strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
 
+              // strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
+
+                String    strDate = dp.getText().toString();
 
 
                 Log.e(TAG, "I am here");
@@ -202,6 +222,22 @@ public class Updatexpense extends AppCompatActivity {
 
 
         expenseInfo = new ExpenseInfo();
+
+        dp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //showDatePickerDialog(v);
+
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dateDialog = new DatePickerDialog(context, datePickerListener, mYear, mMonth, mDay);
+                dateDialog.show();
+
+
+            }
+        });
 
     }
 
@@ -323,6 +359,16 @@ public class Updatexpense extends AppCompatActivity {
 
 
     }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String dateYouChoosed = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+            dp.setText(dateYouChoosed);
+
+        }
+    };
 
 
 }
