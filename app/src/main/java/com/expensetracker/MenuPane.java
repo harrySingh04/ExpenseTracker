@@ -33,7 +33,7 @@ public class MenuPane {
             ((Activity) (context)).finish();
         }
 
-        if (id ==1) {
+       /* if (id ==1) {
             Intent i = new Intent();
             i.setClass(context, GroupView.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -49,7 +49,7 @@ public class MenuPane {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
             ((Activity) (context)).finish();
-        }
+        }*/
 
         if (id == 3) {
             Intent i = new Intent();

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.expensetracker.Fragment.GroupView">
+    tools:context="com.expensetracker.Fragment.FriendView">
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -12,13 +12,14 @@
         android:visibility="invisible" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/single_group_container"
+        android:id="@+id/friendsrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:scrollbars="vertical" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_group"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -32,15 +33,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nogroupmessage"
+            android:id="@+id/nofriendmessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nogrouptext"
+            android:text="@string/nofriendstext"
             android:textAlignment="center"
             android:textSize="40dp"
             android:textStyle="bold"
             android:visibility="gone" />
-
 
     </LinearLayout>
 

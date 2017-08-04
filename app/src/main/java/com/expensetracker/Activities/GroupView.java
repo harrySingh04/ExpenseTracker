@@ -49,7 +49,7 @@ public class GroupView extends AppCompatActivity {
     private String navigationItems[];
     SharedPreferences sharedPreferences;
     ProgressBar progressBar;
-TextView nogrouptext;
+    TextView nogrouptext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

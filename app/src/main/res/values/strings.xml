@@ -37,12 +37,6 @@
     <string name="title_activity_single_group_expense">Your Group Expenses</string>
 
 
-
-
-
-
-
-
     <string-array name="category_array">
         <item>Restaurant</item>
         <item>Groceries</item>

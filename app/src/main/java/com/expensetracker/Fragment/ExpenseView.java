@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +91,7 @@ public class ExpenseView extends Fragment {
         // Inflate the layout for this fragment
 
         context = getContext();
+        final FragmentActivity fragmentActivity = getActivity();
         expense_container = (RecyclerView) view.findViewById(R.id.expense_container);
         expense_container.setVisibility(View.VISIBLE);
         sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
@@ -103,12 +105,12 @@ public class ExpenseView extends Fragment {
 
 
         button = (FloatingActionButton) view.findViewById(R.id.AddExpense);
-        button.setVisibility(View.VISIBLE);
+       // button.setVisibility(View.VISIBLE);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context, AddExpense.class);
+                intent.setClass(fragmentActivity, AddExpense.class);
                 startActivity(intent);
             }
         });
@@ -159,7 +161,7 @@ public class ExpenseView extends Fragment {
 
 
                 adapter = new ExpenseAdapter(expenseModel, expenseData);
-                layoutManager = new LinearLayoutManager(context);
+                layoutManager = new LinearLayoutManager(fragmentActivity);
                 expense_container.setLayoutManager(layoutManager);
                 expense_container.setHasFixedSize(true);
                 expense_container.setAdapter(adapter);
@@ -276,6 +278,11 @@ public class ExpenseView extends Fragment {
         mDrawerToggle.syncState();
     }*/
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        expenseModel.clear();
+    }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

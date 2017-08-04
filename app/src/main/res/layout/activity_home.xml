@@ -39,21 +39,6 @@ android:orientation="vertical">
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/AddExpense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:visibility="gone"
-        android:background="@color/white"
-        android:src="@drawable/plus_sign"
-        android:text="Add Item" />
-
-
     <include layout="@layout/menu_pane_holder" />
 
 </android.support.v4.widget.DrawerLayout>

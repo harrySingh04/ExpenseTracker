@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -82,7 +83,7 @@ public class Home extends AppCompatActivity {
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         // Assign created adapter to viewPager
-        viewPager.setAdapter(new TabsExamplePagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new ExpensePagerAdapter(getSupportFragmentManager()));
 
             TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
             // This method setup all required method for TabLayout with Viewpager
@@ -269,13 +270,13 @@ public class Home extends AppCompatActivity {
                 Log.e(TAG,"Item 1");
                 break;
 
-            case 1:
+           /* case 1:
                 Log.e(TAG,"Item 2");
                 break;
 
             case 2:
                 Log.e(TAG,"Item 3");
-                break;
+                break;*/
 
             case 3:
                 Log.e(TAG,"Item 4");
@@ -371,11 +372,11 @@ public class Home extends AppCompatActivity {
     }
 
 
-    public static class TabsExamplePagerAdapter extends FragmentPagerAdapter {
+    public static class ExpensePagerAdapter extends FragmentPagerAdapter {
         // As we are implementing two tabs
-        private static final int NUM_ITEMS = 2;
-        private String[] tabTitle = {"Expense", "Groups"};
-        public TabsExamplePagerAdapter(FragmentManager fm) {
+        private static final int NUM_ITEMS = 3;
+        private String[] tabTitle = {"Expense", "Groups","Friends"};
+        public ExpensePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -387,6 +388,8 @@ public class Home extends AppCompatActivity {
                     return new ExpenseView();
                 case 1:
                     return new GroupView();
+                case 2 :
+                    return  new FriendView();
                 default:
                     return null;
             }

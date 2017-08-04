@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:title="Home" />
 
-    <item
+   <!-- <item
         android:id="@+id/group"
         android:orderInCategory="102"
         android:title="Group" />
@@ -14,7 +14,7 @@
     <item
         android:id="@+id/friends"
         android:orderInCategory="103"
-        android:title="Friends" />
+        android:title="Friends" />-->
 
     <item
         android:id="@+id/graph"
