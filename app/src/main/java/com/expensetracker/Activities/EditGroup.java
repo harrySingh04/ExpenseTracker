@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,7 +63,10 @@ public class EditGroup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
-        //setLeftPane();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setLeftPane();
 
         groupname = (EditText) findViewById(R.id.groupName);
         Add = (Button) findViewById(R.id.addGroup);
@@ -157,7 +161,7 @@ public class EditGroup extends AppCompatActivity {
                     @Override
                     public void sendData(String data) {
                         Intent intent = new Intent();
-                        intent.setClass(context, GroupView.class);
+                        intent.setClass(context, Home.class);
                         startActivity(intent);
                     }
                 });

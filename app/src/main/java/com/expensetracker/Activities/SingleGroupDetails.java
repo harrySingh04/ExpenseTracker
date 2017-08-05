@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +47,7 @@ public class SingleGroupDetails extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-    private Button groupExpense, pieChart, editgroup,deletegroup;
+    private Button groupExpense, pieChart, editgroup, deletegroup;
     private int groupid;
     private String groupname;
     TextView grpame;
@@ -57,29 +58,35 @@ public class SingleGroupDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_details);
-        usermodel = new ArrayList<UserModel>();
+
         groupExpense = (Button) findViewById(R.id.groupexpense);
         pieChart = (Button) findViewById(R.id.piechart);
         editgroup = (Button) findViewById(R.id.editgroup);
-        deletegroup = (Button)findViewById(R.id.deletegroup);
-        context = this;
-        //setLeftPane();
 
-        //   Log.e(TAG,"value of groupname"+groupname);
+        deletegroup = (Button) findViewById(R.id.deletegroup);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
         grpame = (TextView) findViewById(R.id.group_name);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);
         groupInfo = new GroupInfo();
 
+        usermodel = new ArrayList<>();
         Bundle extras = getIntent().getExtras();
         groupid = extras.getInt("groupid");
         groupname = extras.getString("groupname");
-        Log.e(TAG, "value of group name" + groupname);
         grpame.setText(groupname);
-        //   Log.e(TAG, "value of id is: " + String.valueOf(groupid));
+        context = this;
 
-      //  GroupInfo groupInfo = new GroupInfo();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setLeftPane();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         groupInfo.getgroupmembers(groupid, new AsyncResponse() {
             @Override
@@ -188,7 +195,7 @@ public class SingleGroupDetails extends AppCompatActivity {
                             @Override
                             public void sendData(String data) {
                                 Intent intent = new Intent();
-                                intent.setClass(context,GroupView.class);
+                                intent.setClass(context, Home.class);
                                 startActivity(intent);
                             }
                         });
@@ -207,6 +214,7 @@ public class SingleGroupDetails extends AppCompatActivity {
 
             }
         });
+
 
     }
 

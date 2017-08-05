@@ -60,7 +60,10 @@ public class AddExpense extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
-       // setLeftPane();
+        // Setup Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setLeftPane();
         description = (EditText) findViewById(R.id.description);
         amount = (EditText) findViewById(R.id.amount);
         context = this;
@@ -76,25 +79,6 @@ public class AddExpense extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
         expenseInfo = new ExpenseInfo();
         dp = (EditText)findViewById(R.id.datepicker);
-
-//        final Calendar c = Calendar.getInstance();
-//        int year = c.get(Calendar.YEAR);
-//        int month = c.get(Calendar.MONTH);
-//        int day = c.get(Calendar.DAY_OF_MONTH);
-//        dp.updateDate(year, month, day);
-
-
-//        groupNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                int group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
-//                Log.e(TAG, String.valueOf(group_id));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
 
 
         groupinfo = new GroupInfo();

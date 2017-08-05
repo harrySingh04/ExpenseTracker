@@ -35,6 +35,9 @@
     <string name="nopiecharttext">There is no pie chart for your input </string>
     <string name="title_activity_summary">Summary</string>
     <string name="title_activity_single_group_expense">Your Group Expenses</string>
+    <string name="noExpenseMessage">You have not added any Expenses yet</string>
+
+
 
 
     <string-array name="category_array">
@@ -52,8 +55,6 @@
 
     <string-array name="navigationItems">
         <item>Home</item>
-        <item>Groups</item>
-        <item>Friends</item>
         <item>Summary</item>
         <item>Logout</item>
 

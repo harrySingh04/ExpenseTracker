@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.MenuItem;
@@ -62,7 +63,7 @@ public class SingleGroupExpense extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_single_group_expense);
 
         Intent intent = getIntent();
         groupID = intent.getIntExtra("groupid", 0);
@@ -73,14 +74,11 @@ public class SingleGroupExpense extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
         progressBar.setVisibility(View.VISIBLE);
 
-//        Log.e(TAG,"value id groupid is"+groupID);
-//        Log.e(TAG,"value id groupname is"+groupName);
-        //  String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         setLeftPane();
-        //  Log.e("token", refreshedToken);
 
-
-        //  UserInfo userInfo = new UserInfo(asyncResponse);
         GroupInfo groupInfo = new GroupInfo();
 
         groupInfo.getGroupExpense(groupID, new AsyncResponse() {
