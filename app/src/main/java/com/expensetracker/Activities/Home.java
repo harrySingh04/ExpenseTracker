@@ -1,7 +1,6 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,17 +9,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,23 +24,16 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.expensetracker.Adapters.ExpenseAdapter;
-import com.expensetracker.Dbutils.ExpenseInfo;
-import com.expensetracker.Fragment.*;
+import com.expensetracker.Fragment.ExpenseView;
+import com.expensetracker.Fragment.FriendView;
 import com.expensetracker.Fragment.GroupView;
-import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ExpenseData;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.ExpenseModel;
 import com.expensetracker.R;
-import com.google.firebase.iid.FirebaseInstanceId;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static android.R.attr.host;
 
 public class Home extends AppCompatActivity {
 
@@ -70,24 +58,23 @@ public class Home extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_home);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
 
 
-            // Setup Toolbar
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+        // Setup Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            setLeftPane();
+        setLeftPane();
 
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         // Assign created adapter to viewPager
         viewPager.setAdapter(new ExpensePagerAdapter(getSupportFragmentManager()));
 
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-            // This method setup all required method for TabLayout with Viewpager
-
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        // This method setup all required method for TabLayout with Viewpager
 
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -251,39 +238,18 @@ public class Home extends AppCompatActivity {
     }
     */
     }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
-           // selectedItem();
+            MenuPane.menu(context, position);
+            // selectedItem();
         }
     }
 
-    public void selectedItem(int position) {
-        switch (position) {
-
-            case 0:
-                Log.e(TAG, "Item 1");
-                break;
-
-           /* case 1:
-                Log.e(TAG,"Item 2");
-                break;
-
-            case 2:
-                Log.e(TAG,"Item 3");
-                break;*/
-
-            case 3:
-                Log.e(TAG, "Item 4");
-                break;
-
-        }
-
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -308,12 +274,11 @@ public class Home extends AppCompatActivity {
 //    }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
+        //   Log.e("possssssssssssssss", String.valueOf(item));
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -348,8 +313,7 @@ public class Home extends AppCompatActivity {
                 this,
                 mDrawerLayout,
                 R.string.drawer_open,
-                R.string.drawer_close)
-       {
+                R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 Log.e(TAG, "ondrawer clossed");
                 // getSupportActionBar().setTitle(mTitle);
@@ -375,7 +339,8 @@ public class Home extends AppCompatActivity {
     public static class ExpensePagerAdapter extends FragmentPagerAdapter {
         // As we are implementing two tabs
         private static final int NUM_ITEMS = 3;
-        private String[] tabTitle = {"Expense", "Groups","Friends"};
+        private String[] tabTitle = {"Expense", "Groups", "Friends"};
+
         public ExpensePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -388,8 +353,8 @@ public class Home extends AppCompatActivity {
                     return new ExpenseView();
                 case 1:
                     return new GroupView();
-                case 2 :
-                    return  new FriendView();
+                case 2:
+                    return new FriendView();
                 default:
                     return null;
             }
@@ -400,6 +365,7 @@ public class Home extends AppCompatActivity {
             return NUM_ITEMS;
 
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             // For simplicity of this tutorial this string is hardcoded

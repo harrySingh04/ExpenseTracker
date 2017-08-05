@@ -1,16 +1,18 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +21,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.expensetracker.Adapters.FriendsListAdapter;
-import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Dbutils.FriendsInfo;
 import com.expensetracker.Dbutils.GroupInfo;
+import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.UserModel;
@@ -56,12 +59,17 @@ public class AddGroup extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
+    TextView nofriendmessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
-        //setLeftPane();
+
+        // Setup Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setLeftPane();
 
         groupname = (EditText) findViewById(R.id.groupName);
         Add = (Button) findViewById(R.id.addGroup);
@@ -70,9 +78,10 @@ public class AddGroup extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE); //1
         context = this;
         groupInfo = new GroupInfo();
+        nofriendmessage = (TextView) findViewById(R.id.nofriendmessage);
 
         friendsInfo = new FriendsInfo();
-        friendsInfo.getallfriends(sharedPreferences.getInt("userid",0), asyncResponse = new AsyncResponse() {
+        friendsInfo.getallfriends(sharedPreferences.getInt("userid", 0), asyncResponse = new AsyncResponse() {
             @Override
             public void sendData(String data) {
 
@@ -81,28 +90,28 @@ public class AddGroup extends AppCompatActivity {
                 try {
                     JSONArray main = new JSONArray(data);
 
-                    for (int i = 0; i < main.length(); i++) {
-                        JSONObject item = main.getJSONObject(i);
-                        String username = item.getString("username");
-                        String email = item.getString("email");
-                        int userid = item.getInt("id");
+                    if (main.length() > 0) {
 
-                        userdetails.add(new UserModel(userid, username, email));
+                        for (int i = 0; i < main.length(); i++) {
+                            JSONObject item = main.getJSONObject(i);
+                            String username = item.getString("username");
+                            String email = item.getString("email");
+                            int userid = item.getInt("id");
+
+                            userdetails.add(new UserModel(userid, username, email));
+                        }
+
+
+                        adapter = new FriendsListAdapter(userdetails, itemClickListener);
+                        layoutManager = new LinearLayoutManager(context);
+                        friends_container.setLayoutManager(layoutManager);
+                        friends_container.setHasFixedSize(true);
+                        friends_container.setAdapter(adapter);
+
+
+                    } else {
+                        nofriendmessage.setVisibility(View.VISIBLE);
                     }
-
-                    for (UserModel g : userdetails) {
-                        Log.e("name of group", g.getUsername());
-                    }
-
-
-                    adapter = new FriendsListAdapter(userdetails, itemClickListener);
-                    layoutManager = new LinearLayoutManager(context);
-                    friends_container.setLayoutManager(layoutManager);
-                    friends_container.setHasFixedSize(true);
-                    friends_container.setAdapter(adapter);
-
-
-                    Log.e("this is trhe dta", data);
                 } catch (Exception e) {
                     Log.e("oiasdha", "lskdkj", e);
                 }
@@ -125,35 +134,43 @@ public class AddGroup extends AppCompatActivity {
         };
 
 
-
-
-
-
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                Log.e(TAG,String.valueOf(sharedPreferences.getInt("userid", 6)));
-                userids.add(sharedPreferences.getInt("userid", 6));
+                //    Log.e(TAG,String.valueOf(sharedPreferences.getInt("userid", 0)));
+                userids.add(sharedPreferences.getInt("userid", 0));
 
-                groupInfo.addGroupFromId(userids, groupname.getText().toString(),  userRegistered = new AsyncResponse() {
-                    @Override
-                    public void sendData(String data) {
+                if (!groupname.getText().toString().isEmpty()) {
+                    if (userids.size()>1) {
 
+
+                        groupInfo.addGroupFromId(userids, groupname.getText().toString(), userRegistered = new AsyncResponse() {
+                            @Override
+                            public void sendData(String data) {
+
+                            }
+                        });
+
+                        Intent intent = new Intent();
+                        intent.setClass(context, Home.class);
+                        startActivity(intent);
                     }
-                });
-
-                Intent intent = new Intent();
-                intent.setClass(context, GroupView.class);
-                startActivity(intent);
+                    else{
+                        String message = "You have not selected any friend";
+                        showAlertDialog(message);
+                    }
+                }
+                else{
+                    String message = "Please enter the group Name";
+                    showAlertDialog(message);
+                }
             }
         });
 
 
     }
-
-
 
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -162,7 +179,7 @@ public class AddGroup extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
+            MenuPane.menu(context, position);
             // selectedItem();
         }
     }
@@ -171,14 +188,14 @@ public class AddGroup extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-       // mDrawerToggle.syncState();
+        // mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-       // mDrawerToggle.onConfigurationChanged(newConfig);
+        // mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
 
@@ -248,6 +265,24 @@ public class AddGroup extends AppCompatActivity {
 //        if (savedInstanceState == null) {
 //            //   selectItem(0);
 //        }
+
+
+    }
+
+    public void showAlertDialog(String message) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+
+
+        });
+        builder1.create().show();
 
 
     }

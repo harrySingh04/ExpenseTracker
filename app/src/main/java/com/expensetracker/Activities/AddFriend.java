@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -58,7 +59,11 @@ public class AddFriend extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
-       // setLeftPane();
+
+        // Setup Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setLeftPane();
 
         email = (EditText) findViewById(R.id.useremail);
         addFriend = (Button) findViewById(R.id.add);
@@ -149,7 +154,7 @@ public class AddFriend extends AppCompatActivity {
 
                             Log.e(TAG, "thisd is the data for add" + data);
                             Intent intent = new Intent();
-                            intent.setClass(context, FriendsView.class);
+                            intent.setClass(context, Home.class);
                             startActivity(intent);
 
                         } else if (Integer.parseInt(data) == 1) {
@@ -241,6 +246,7 @@ public class AddFriend extends AppCompatActivity {
 
     public void setLeftPane() {
 
+        Log.e(TAG,"I am indside left pane");
 
         //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -296,29 +302,12 @@ public class AddFriend extends AppCompatActivity {
                 // The contact's row id
                  ContactsContract.CommonDataKinds.Email.DATA,
 
-                // A pointer to the contact that is guaranteed to be more permanent than _ID. Given
-                // a contact's current _ID value and LOOKUP_KEY, the Contacts Provider can generate
-                // a "permanent" contact URI.
+
                //  ContactsContract.CommonDataKinds.Phone.NUMBER,
-
                 // ContactsContract.CommonDataKinds.Phone.
-
-                // In platform version 3.0 and later, the Contacts table contains
-                // DISPLAY_NAME_PRIMARY, which either contains the contact's displayable name or
-                // some other useful identifier such as an email address. This column isn't
-                // available in earlier versions of Android, so you must use Contacts.DISPLAY_NAME
-                // instead.
                //  ContactsContract.Contacts.DISPLAY_NAME,
-
-                // In Android 3.0 and later, the thumbnail image is pointed to by
-                // PHOTO_THUMBNAIL_URI. In earlier versions, there is no direct pointer; instead,
-                // you generate the pointer from the contact's ID value and constants defined in
-                // android.provider.ContactsContract.Contacts.
             //     ContactsContract.Contacts._ID,
-
-                // The sort order column for the returned Cursor, used by the AlphabetIndexer
-
-         //        ContactsContract.Contacts.
+                 //ContactsContract.Contacts.
 
 
 

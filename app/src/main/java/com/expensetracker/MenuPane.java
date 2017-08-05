@@ -9,8 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.expensetracker.Activities.FriendsView;
-import com.expensetracker.Activities.GroupView;
+
 import com.expensetracker.Activities.Home;
 import com.expensetracker.Activities.LoginUser;
 import com.expensetracker.Activities.PieChartExpense;
@@ -51,7 +50,7 @@ public class MenuPane {
             ((Activity) (context)).finish();
         }*/
 
-        if (id == 3) {
+        if (id == 1) {
             Intent i = new Intent();
             i.setClass(context, Summary.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -60,7 +59,7 @@ public class MenuPane {
             ((Activity) (context)).finish();
         }
 
-        if (id == 4) {
+        if (id == 2) {
             Intent i = new Intent();
             SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("data",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();

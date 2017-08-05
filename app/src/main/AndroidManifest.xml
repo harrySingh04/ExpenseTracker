@@ -47,18 +47,14 @@
         <!-- </intent-filter> -->
         <!-- </service> -->
 
-        <activity
-            android:name=".Activities.GroupView"
-            android:label="Your Groups" />
+
         <activity
             android:name=".Activities.SingleGroupDetails"
             android:label="@string/title_activity_single_group_details" />
         <activity
             android:name=".Activities.AddExpense"
             android:label="@string/title_activity_add_expense" />
-        <activity
-            android:name=".Activities.FriendsView"
-            android:label="@string/title_activity_friends_view" />
+
         <activity android:name=".Activities.AddFriend" />
         <activity
             android:name=".Activities.AddGroup"
@@ -75,13 +71,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.Updatexpense" />
-        <activity android:name=".Activities.SingleGroupExpense"
-            android:label="@string/title_activity_single_group_expense"
-            />
+        <activity
+            android:name=".Activities.SingleGroupExpense"
+            android:label="@string/title_activity_single_group_expense" />
         <activity android:name=".Activities.EditGroup" />
-        <activity android:name=".Activities.Summary"
-            android:label="@string/title_activity_summary"
-            ></activity>
+        <activity
+            android:name=".Activities.Summary"
+            android:label="@string/title_activity_summary"></activity>
     </application>
 
 </manifest>
