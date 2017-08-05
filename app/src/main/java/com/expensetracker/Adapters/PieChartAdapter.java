@@ -61,6 +61,14 @@ public class PieChartAdapter extends RecyclerView.Adapter<PieChartAdapter.PieCha
         holder.expenseView.setText(String.valueOf(pieDetails.get(position).getAmount()));
 
     }
+    public void swapCursor( ArrayList<ExpenseModel> pieDetails) {
+
+        this.pieDetails =  pieDetails;
+        //  if (newCursor != null) {
+        // Force the RecyclerView to refresh
+        this.notifyDataSetChanged();
+        //   }
+    }
 
     public class PieChartHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             ImageView contactImage;

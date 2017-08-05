@@ -63,7 +63,7 @@ public class SingleGroupDetails extends AppCompatActivity {
         editgroup = (Button) findViewById(R.id.editgroup);
         deletegroup = (Button)findViewById(R.id.deletegroup);
         context = this;
-        setLeftPane();
+        //setLeftPane();
 
         //   Log.e(TAG,"value of groupname"+groupname);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -226,14 +226,14 @@ public class SingleGroupDetails extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        //mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
+       // mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override

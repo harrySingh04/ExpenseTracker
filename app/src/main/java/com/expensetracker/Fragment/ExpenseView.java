@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -93,6 +94,12 @@ public class ExpenseView extends Fragment {
         context = getContext();
         final FragmentActivity fragmentActivity = getActivity();
         expense_container = (RecyclerView) view.findViewById(R.id.expense_container);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        expense_container.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(expense_container.getContext(),
+                layoutManager.getOrientation());
+        expense_container.addItemDecoration(dividerItemDecoration);
         expense_container.setVisibility(View.VISIBLE);
         sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -161,8 +168,8 @@ public class ExpenseView extends Fragment {
 
 
                 adapter = new ExpenseAdapter(expenseModel, expenseData);
-                layoutManager = new LinearLayoutManager(fragmentActivity);
-                expense_container.setLayoutManager(layoutManager);
+               // layoutManager = new LinearLayoutManager(fragmentActivity);
+                //expense_container.setLayoutManager(layoutManager);
                 expense_container.setHasFixedSize(true);
                 expense_container.setAdapter(adapter);
 

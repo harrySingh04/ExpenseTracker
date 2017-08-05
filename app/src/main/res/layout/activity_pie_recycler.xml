@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
     <ImageView
         android:id="@+id/image_pie"
         android:background="@drawable/circle"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="10dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
     <TextView
         android:id="@+id/text_pie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:padding="30dp"/>
+        android:padding="10dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
     <TextView
         android:id="@+id/expense_pie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:paddingRight="10dp"/>
+        android:padding="10dp"/>
+    </RelativeLayout>
 </LinearLayout>

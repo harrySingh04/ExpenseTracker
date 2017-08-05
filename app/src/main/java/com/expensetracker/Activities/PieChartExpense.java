@@ -149,8 +149,8 @@ public class PieChartExpense extends AppCompatActivity {
         mchart = (PieChart) findViewById(R.id.chart);
         //Apply Styling
         mchart.getDescription().setEnabled(false);
-        mchart.setHoleRadius(54f);
-        mchart.setTransparentCircleRadius(50f);
+        mchart.setHoleRadius(0f);
+        mchart.setTransparentCircleRadius(0f);
         mchart.setUsePercentValues(true);
         mchart.setCenterText(groupName);
         mchart.setExtraLeftOffset(30);

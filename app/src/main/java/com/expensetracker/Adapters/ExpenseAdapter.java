@@ -1,11 +1,11 @@
 package com.expensetracker.Adapters;
 
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expensetracker.Interfaces.ExpenseData;
@@ -56,9 +56,29 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.category.setText(expenseDetails.get(position).getCategory());
         holder.date.setText(expenseDetails.get(position).getDate());
 
+        if(expenseDetails.get(position).getCategory().equals("Restaurant"))
+            holder.categoryImageView.setImageResource(R.drawable.restaurant);
+        else if (expenseDetails.get(position).getCategory().equals("Food"))
+            holder.categoryImageView.setImageResource(R.drawable.food);
+        else if (expenseDetails.get(position).getCategory().equals("Bills"))
+            holder.categoryImageView.setImageResource(R.drawable.bill);
+        else if (expenseDetails.get(position).getCategory().equals("Education"))
+            holder.categoryImageView.setImageResource(R.drawable.education);
+        else if (expenseDetails.get(position).getCategory().equals("Travelling"))
+            holder.categoryImageView.setImageResource(R.drawable.travelling);
+        else if (expenseDetails.get(position).getCategory().equals("gas"))
+            holder.categoryImageView.setImageResource(R.drawable.gas);
+        else if (expenseDetails.get(position).getCategory().equals("shopping"))
+            holder.categoryImageView.setImageResource(R.drawable.shopping);
+        else if (expenseDetails.get(position).getCategory().equals("Groceries"))
+            holder.categoryImageView.setImageResource(R.drawable.grocercies);
+        else if (expenseDetails.get(position).getCategory().equals("Other utilities"))
+            holder.categoryImageView.setImageResource(R.drawable.utilities);
+
+
 
         if (expenseDetails.get(position).getUsermodel() != null) {
-            holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
+            //holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
         }
 
         if(expenseDetails.get(position).getGroupModel()!=null){
@@ -95,6 +115,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         TextView amount, description, category, date, groupname, username;
         String totalDescription, categoryName, expenseDate, group;
         int id, totalAmount;
+        ImageView categoryImageView;
 
         public ExpenseViewHolder(View view) {
             super(view);
@@ -105,7 +126,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             category = (TextView) view.findViewById(R.id.category);
             date = (TextView) view.findViewById((R.id.date));
             groupname = (TextView) view.findViewById((R.id.groupname));
-            username = (TextView) view.findViewById((R.id.username));
+          //  username = (TextView) view.findViewById((R.id.username));
+            categoryImageView = (ImageView) view.findViewById(R.id.image_category);
             view.setOnClickListener(this);
 //            groupname.setContentDescription(String.valueOf(R.string.group));
 //            category.setContentDescription(String.valueOf(R.string.category));
