@@ -36,6 +36,10 @@
     <string name="title_activity_summary">Summary</string>
     <string name="title_activity_single_group_expense">Your Group Expenses</string>
     <string name="noExpenseMessage">You have not added any Expenses yet</string>
+    <string name="noDataMessage">Please select the date and group for displaying summary of your data</string>
+
+
+
 
 
 
@@ -49,7 +53,7 @@
         <item>shopping</item>
         <item>Education</item>
         <item>Travelling</item>
-        <item>Other utilities</item>
+        <item>Utilities</item>
     </string-array>
 
 

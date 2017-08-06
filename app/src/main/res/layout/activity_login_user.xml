@@ -1,63 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.expensetracker.Activities.LoginUser"
     android:background="@color/white"
-    android:paddingTop="20dp"
-    >
 
-    <ImageView
+    android:paddingTop="20dp"
+    tools:context="com.expensetracker.Activities.LoginUser">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:src="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/username"
+            style="@style/EditBox_custom_theme"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/edit_box_shape"
+            android:hint="@string/username"
+            android:text="harry" />
+
+        <EditText
+            android:id="@+id/password"
+            style="@style/EditBox_custom_theme"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/edit_box_shape"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:text="harry" />
+
+        <Button
+            android:id="@+id/login"
+            style="@style/Button_custom_theme"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_shape"
+            android:text="Login" />
+
+        <Button
+            android:id="@+id/register"
+            style="@style/Button_custom_theme"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_shape"
+            android:text="Register" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:paddingBottom="10dp"
-        />
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
-    <EditText
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/username"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="harry"
-        android:hint="@string/username"
-        android:background="@drawable/edit_box_shape"
-        style="@style/EditBox_custom_theme"
-        />
-
-    <EditText
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/password"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:inputType="textPassword"
-        android:text="harry"
-        android:hint="@string/password"
-        style="@style/EditBox_custom_theme"
-        android:background="@drawable/edit_box_shape"
-        />
-
-    <Button
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/login"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="Login"
-        style="@style/Button_custom_theme"
-        android:background="@drawable/button_shape"
-        />
-
-    <Button
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/register"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="Register"
-        style="@style/Button_custom_theme"
-        android:background="@drawable/button_shape"
-        />
-
-</LinearLayout>
+</FrameLayout>

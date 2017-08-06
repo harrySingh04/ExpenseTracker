@@ -1,40 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="0dip"
-    android:layout_weight="1"
-    android:background="@color/colorPrimary">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/white" />
 
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/pie_recycler"
+        android:layout_height="match_parent"
+        tools:context="com.expensetracker.Activities.PieChartExpense">
+
+
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    />
+
+
+                <TextView
+                    android:id="@+id/nopiechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/nopiecharttext"
+                    android:textSize="30dp"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/expense_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" />
+
+
+            </LinearLayout>
+
+
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <include layout="@layout/menu_pane_holder" />
+
+    </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>

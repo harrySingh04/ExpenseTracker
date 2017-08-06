@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.expensetracker.Dbutils.UserInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
@@ -28,6 +29,7 @@ public class LoginUser extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static String TAG = "LoginUser";
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class LoginUser extends AppCompatActivity {
         context = this;
         login = (Button) findViewById(R.id.login);
         register = (Button) findViewById(R.id.register);
+        progressBar = (ProgressBar)findViewById(R.id.progressbar);
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +63,9 @@ public class LoginUser extends AppCompatActivity {
                         @Override
                         public void sendData(String data) {
                             try {
-                                Log.e(TAG, "data comming from apllicaton" + data);
+                                progressBar.setVisibility(View.VISIBLE);
                                 if (!data.equals("null")) {
-
+                                    progressBar.setVisibility(View.GONE);
                                     JSONObject main = new JSONObject(data);
                                     String name = main.getString("username");
                                     int id = main.getInt("id");
@@ -81,6 +84,7 @@ public class LoginUser extends AppCompatActivity {
                                 } else {
                                     String message = "You seem to have entered the wrong credentials. Please enter the correct credentials";
                                     showAlertDialog(message);
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, "error", e);

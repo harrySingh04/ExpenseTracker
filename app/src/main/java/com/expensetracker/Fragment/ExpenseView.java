@@ -76,8 +76,9 @@ public class ExpenseView extends Fragment {
         final FragmentActivity fragmentActivity = getActivity();
         expense_container = (RecyclerView) view.findViewById(R.id.expense_container);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         expense_container.setLayoutManager(layoutManager);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(expense_container.getContext(),
                 layoutManager.getOrientation());
         expense_container.addItemDecoration(dividerItemDecoration);

@@ -115,7 +115,6 @@ public class SingleGroupDetails extends AppCompatActivity {
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adapter);
 
-
                     }
 
                 } catch (Exception e) {
@@ -149,13 +148,8 @@ public class SingleGroupDetails extends AppCompatActivity {
         pieChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent();
                 intent.setClass(context, PieChartExpense.class);
-
-                Log.e(TAG, groupname);
-                Log.e(TAG, "group id is : " + String.valueOf(groupid));
-
                 intent.putExtra("groupid", groupid);
                 intent.putExtra("groupname", groupname);
                 startActivity(intent);
@@ -234,14 +228,14 @@ public class SingleGroupDetails extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        //mDrawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-       // mDrawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override

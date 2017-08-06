@@ -64,6 +64,8 @@ public class EditGroup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
 
+        Log.e(TAG, "I am in edit group");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setLeftPane();
@@ -91,7 +93,7 @@ public class EditGroup extends AppCompatActivity {
             public void sendData(String data) {
 
 
-                Log.e(TAG, "data beibng reciebved"+data);
+                Log.e(TAG, "data beibng reciebved" + data);
 
                 try {
                     JSONArray main = new JSONArray(data);
@@ -185,13 +187,15 @@ public class EditGroup extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        //mDrawerToggle.syncState();
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-       // mDrawerToggle.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
 
@@ -208,6 +212,8 @@ public class EditGroup extends AppCompatActivity {
 
     public void setLeftPane() {
 
+
+        Log.e(TAG, "I am in setleft pane");
 
         //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -253,6 +259,22 @@ public class EditGroup extends AppCompatActivity {
 //        }
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent i = new Intent();
+        i.setClass(context, SingleGroupDetails.class);
+
+        i.putExtra("groupname", grpname);
+        i.putExtra("groupid", groupid);
+
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
     }
 
 

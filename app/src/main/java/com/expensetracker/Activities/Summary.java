@@ -2,7 +2,6 @@ package com.expensetracker.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -58,7 +58,7 @@ public class Summary extends AppCompatActivity {
     // Button submit;
     private RecyclerView expense_container;
     private ExpenseAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
     TextView from, to;
     Spinner groupNameSpinner;
     public static String TAG = "summary";
@@ -76,6 +76,7 @@ public class Summary extends AppCompatActivity {
     private ListView mDrawerList;
     private String navigationItems[];
     private ActionBarDrawerToggle mDrawerToggle;
+    TextView noDataMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,6 @@ public class Summary extends AppCompatActivity {
         // Setup Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         setLeftPane();
 
         //  submit = (Button) findViewById(R.id.submit);
@@ -103,7 +103,7 @@ public class Summary extends AppCompatActivity {
         nopiecharttext = (TextView) findViewById(R.id.nopiechart);
         mchart = (PieChart) findViewById(R.id.chart);
         expense_container = (RecyclerView) findViewById(R.id.expense_container);
-
+        noDataMessage = (TextView) findViewById(R.id.noDataMessage);
 
 
         final GroupInfo expenseInfo = new GroupInfo();
@@ -170,14 +170,14 @@ public class Summary extends AppCompatActivity {
                         String name = item.getString("name");
                         int group_id = item.getInt("group_id");
                         int userid = item.getInt("user_id");
-                        Log.e("name", name);
+                        //       Log.e("name", name);
                         groupdetails.add(new GroupModel(name, userid, group_id));
                     }
                     groupdetails.add(new GroupModel("No group"));
 
-                    Log.e("this is trhe dta", data);
+                    //        Log.e("this is trhe dta", data);
                 } catch (Exception e) {
-                    Log.e("oiasdha", "lskdkj", e);
+                    //          Log.e("oiasdha", "lskdkj", e);
                 }
 
 
@@ -244,12 +244,10 @@ public class Summary extends AppCompatActivity {
                 displayPiechart();
 
 
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
 
 
             }
@@ -289,7 +287,7 @@ public class Summary extends AppCompatActivity {
                 if (to.getText().toString() != null && !to.getText().toString().isEmpty()) {
                     if (groupName != null) {
 
-
+                        noDataMessage.setVisibility(View.GONE);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         Date fromdate = sdf.parse(from.getText().toString());
                         Date todate = sdf.parse(to.getText().toString());
@@ -301,34 +299,8 @@ public class Summary extends AppCompatActivity {
                                     PieChartData.add(new ExpenseModel(e.getId(), e.getAmount(), e.getDate(), e.getDescription(), e.getCategory(), e.getUsermodel(), e.getGroupModel()));
                                 }
                             }
-
-                            for (ExpenseModel expense : this.expenseModel) {
-
-
-                                Log.e(TAG, "0 line amount is" + String.valueOf(expense.getAmount()));
-
-
-                            }
-
-//                            Log.e(TAG,"1 "+String.valueOf(sdf.parse(e.getDate()).before(todate)));
-//                            Log.e(TAG,"2 "+String.valueOf(sdf.parse(e.getDate()).after(fromdate)));
-//                            Log.e(TAG,"3 "+String.valueOf(sdf.parse(e.getDate()).equals(todate)));
-//                            Log.e(TAG,"4 "+String.valueOf(sdf.parse(e.getDate()).equals(fromdate)));
-//                            Log.e(TAG,"5 "+String.valueOf(e.getGroupModel().getName().equals(groupName)));
-//                            Log.e(TAG, "6 " + String.valueOf(e.getGroupModel().getName()));
-//                            Log.e(TAG, "7 " + String.valueOf(groupName));
-//                            Log.e(TAG, "8 " + String.valueOf(fromdate));
-//                            Log.e(TAG, "9 " + String.valueOf(e.getDate()));
                         }
 
-
-                        //      Log.e(TAG, "before adding data in pie chart");
-//
-//                        for (ExpenseModel p : PieChartData) {
-//                            Log.e(TAG, p.getGroupModel().getName());
-//                        }
-//
-//                        Log.e(TAG, "After adding data in pie chart");
 
                         if (this.expenseModel != null) {
 
@@ -338,7 +310,7 @@ public class Summary extends AppCompatActivity {
 
 //                            This point i need new arryalist
 
-                            setAdapterForSingleGroup( PieChartData );
+                            setAdapterForSingleGroup(PieChartData);
 
 
                             PieChartData = processData(PieChartData);
@@ -395,11 +367,9 @@ public class Summary extends AppCompatActivity {
                 ArrayList<ExpenseModel> dataForAdapter = processDataForAdapter(((ExpenseModel) e.getData()).getUsermodel().getUser_id());
 
 
-
-                if(adapter !=null){
+                if (adapter != null) {
                     adapter.swapCursor(dataForAdapter);
                 }
-
 
 
 //                for (ExpenseModel expense : dataForAdapter) {
@@ -448,7 +418,7 @@ public class Summary extends AppCompatActivity {
         });
 
         addData(eModel);
-       Legend l = mchart.getLegend();
+        Legend l = mchart.getLegend();
 //        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
 //        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
 //        l.setOrientation(Legend.LegendOrientation.VERTICAL);
@@ -458,8 +428,6 @@ public class Summary extends AppCompatActivity {
 //        l.setYOffset(10f);
 
         l.setEnabled(false);
-
-
 
 
     }
@@ -474,14 +442,6 @@ public class Summary extends AppCompatActivity {
             yVals.add(new PieEntry(eModel.get(i).getAmount(), eModel.get(i).getUsermodel().getUsername(),
                     eModel.get(i)
             ));
-
-
-//            yVals.get(i).setData( expenseModel.get(i));
-//
-//            yVals.get(i).setData();
-
-            //  yVals.add(new PieEntry();
-
 
         }
 
@@ -577,10 +537,6 @@ public class Summary extends AppCompatActivity {
             }
 
 
-            for (ExpenseModel expense : this.expenseModel) {
-                //     Log.e(TAG, "amount" + String.valueOf(expense.getUsermodel().getUser_id()));
-                Log.e(TAG, "amount" + String.valueOf(expense.getAmount()));
-            }
         } catch (Exception e) {
             Log.e(TAG, "errpr", e);
         }
@@ -589,80 +545,54 @@ public class Summary extends AppCompatActivity {
 
     }
 
-    public void setAdapterForSingleGroup(ArrayList<ExpenseModel> expenseModel){
+    public void setAdapterForSingleGroup(ArrayList<ExpenseModel> expenseModel) {
 
 
         if (expenseModel != null) {
             adapter = new ExpenseAdapter(expenseModel, new ExpenseData() {
                 @Override
                 public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
-//                    Intent intent = new Intent();
-//                    intent.setClass(context, Updatexpense.class);
-//
-//                    intent.putExtra("id", id);
-//                    intent.putExtra("description", description);
-//                    intent.putExtra("date", date);
-//                    intent.putExtra("category", category);
-//                    intent.putExtra("groupName", groupName);
-//                    intent.putExtra("amount", amount);
-//
-//                    Log.e(TAG, "id is" + id);
-//                    startActivity(intent);
-
                 }
             });
             layoutManager = new LinearLayoutManager(context);
             expense_container.setLayoutManager(layoutManager);
             expense_container.setHasFixedSize(true);
             expense_container.setAdapter(adapter);
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(expense_container.getContext(),
+                    layoutManager.getOrientation());
+            expense_container.addItemDecoration(dividerItemDecoration);
         }
-
-
-
-
     }
 
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.e("drawercliock", String.valueOf(view.getId()));
-            MenuPane.menu(context,position);
+            MenuPane.menu(context, position);
             // selectedItem();
         }
     }
-
 
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-      //  mDrawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-       // mDrawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

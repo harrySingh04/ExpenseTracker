@@ -1,6 +1,5 @@
 package com.expensetracker.Activities;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +36,7 @@ import java.util.Calendar;
 
 public class AddExpense extends AppCompatActivity {
 
-    private EditText description,amount,dp;
+    private EditText description, amount, dp;
     private Spinner categorySpinner;
     private Spinner groupNameSpinner;
     private GroupInfo groupinfo;
@@ -78,7 +77,7 @@ public class AddExpense extends AppCompatActivity {
         groupNameSpinner = (Spinner) findViewById(R.id.groupnameSpinner);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
         expenseInfo = new ExpenseInfo();
-        dp = (EditText)findViewById(R.id.datepicker);
+        dp = (EditText) findViewById(R.id.datepicker);
 
 
         groupinfo = new GroupInfo();
@@ -121,7 +120,7 @@ public class AddExpense extends AppCompatActivity {
 //                int month = dp.getMonth() + 1;
 //                int year = dp.getYear();
 
-               // String strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
+                // String strDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
 
                 String strDate = dp.getText().toString();
 
@@ -165,11 +164,37 @@ public class AddExpense extends AppCompatActivity {
 
 
     }
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), Home.class);
-        startActivityForResult(myIntent, 0);
-        return true;
 
+    public void userAuthentication() {
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+        if (sharedPreferences.getString("username", "").isEmpty()) {
+            Intent intent = new Intent();
+            intent.setClass(context, LoginUser.class);
+            startActivity(intent);
+        }
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String dateYouChoosed = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+            dp.setText(dateYouChoosed);
+        }
+    };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+      //  Log.e("possssssssssssssss", String.valueOf(item));
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -188,14 +213,14 @@ public class AddExpense extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-     //   mDrawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-        //mDrawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
 
@@ -205,7 +230,6 @@ public class AddExpense extends AppCompatActivity {
 //        return true;
 //
 //    }
-
 
 
     public void setLeftPane() {
@@ -248,38 +272,14 @@ public class AddExpense extends AppCompatActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-        //     mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-//        if (savedInstanceState == null) {
-//            //   selectItem(0);
-//        }
-
 
 
 
     }
 
-    public void userAuthentication() {
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
-        if (sharedPreferences.getString("username", "").isEmpty()) {
-            Intent intent = new Intent();
-            intent.setClass(context, LoginUser.class);
-            startActivity(intent);
-        }
 
 
-    }
 
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String dateYouChoosed = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-            dp.setText(dateYouChoosed);
-
-        }
-    };
 
 
 }

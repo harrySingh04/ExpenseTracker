@@ -72,7 +72,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             holder.categoryImageView.setImageResource(R.drawable.shopping);
         else if (expenseDetails.get(position).getCategory().equals("Groceries"))
             holder.categoryImageView.setImageResource(R.drawable.grocercies);
-        else if (expenseDetails.get(position).getCategory().equals("Other utilities"))
+        else if (expenseDetails.get(position).getCategory().equals("Utilities"))
             holder.categoryImageView.setImageResource(R.drawable.utilities);
 
 

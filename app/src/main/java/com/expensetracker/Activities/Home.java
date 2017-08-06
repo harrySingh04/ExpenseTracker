@@ -305,7 +305,7 @@ public class Home extends AppCompatActivity {
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+     //  getSupportActionBar().setHomeButtonEnabled(true);
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -315,13 +315,13 @@ public class Home extends AppCompatActivity {
                 R.string.drawer_open,
                 R.string.drawer_close) {
             public void onDrawerClosed(View view) {
-                Log.e(TAG, "ondrawer clossed");
+             //   Log.e(TAG, "ondrawer clossed");
                 // getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
-                Log.e(TAG, "ondrawer opened");
+            //    Log.e(TAG, "ondrawer opened");
                 //   getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }

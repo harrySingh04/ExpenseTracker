@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +46,7 @@ public class SingleGroupExpense extends AppCompatActivity {
 
     private RecyclerView expense_container;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
     private ArrayList<ExpenseModel> expenseModel = new ArrayList<ExpenseModel>();
     private final Context context = this;
     private ProgressBar progressBar;
@@ -70,6 +71,7 @@ public class SingleGroupExpense extends AppCompatActivity {
         groupName = intent.getStringExtra("groupname");
         expense_container = (RecyclerView) findViewById(R.id.expense_container);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
+
 
         progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
         progressBar.setVisibility(View.VISIBLE);
@@ -114,11 +116,11 @@ public class SingleGroupExpense extends AppCompatActivity {
 
                         expenseModel.add(new ExpenseModel(id, groupID, amount, date, category, description, groupName, userModel));
 
-                        for (ExpenseModel e : expenseModel) {
-                            Log.e(e.getDate(), e.getDate());
-                        }
+//                        for (ExpenseModel e : expenseModel) {
+//                            Log.e(e.getDate(), e.getDate());
+//                        }
 
-                        Log.e("amount", String.valueOf(amount));
+                    //    Log.e("amount", String.valueOf(amount));
 
                     }
 
@@ -130,7 +132,11 @@ public class SingleGroupExpense extends AppCompatActivity {
 
                 adapter = new ExpenseAdapter(expenseModel, expenseData);
                 layoutManager = new LinearLayoutManager(context);
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 expense_container.setLayoutManager(layoutManager);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(expense_container.getContext(),
+                        layoutManager.getOrientation());
+                expense_container.addItemDecoration(dividerItemDecoration);
                 expense_container.setHasFixedSize(true);
                 expense_container.setAdapter(adapter);
 
@@ -313,6 +319,22 @@ public class SingleGroupExpense extends AppCompatActivity {
 //        }
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent i = new Intent();
+        i.setClass(context, SingleGroupDetails.class);
+
+        i.putExtra("groupname",groupName);
+        i.putExtra("groupid",groupID);
+
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
     }
 
 }
