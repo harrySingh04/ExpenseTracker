@@ -50,30 +50,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/amount"
-                            android:textSize="20dp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/amount"
-                            style="@style/EditBox_custom_theme"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/edit_box_shape"
-                            android:inputType="number" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -88,6 +64,7 @@
                             android:id="@+id/description"
                             style="@style/EditBox_custom_theme"
                             android:layout_width="match_parent"
+                            android:textCursorDrawable="@null"
                             android:layout_height="wrap_content"
                             android:background="@drawable/edit_box_shape" />
 
@@ -97,7 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -109,17 +86,16 @@
 
                         <Spinner
                             android:id="@+id/categorySpinner"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/category"></Spinner>
 
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -131,16 +107,15 @@
 
                         <Spinner
                             android:id="@+id/groupnameSpinner"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"></Spinner>
 
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -151,16 +126,38 @@
                             android:textStyle="bold" />
 
 
-                        <EditText
+                        <TextView
                             android:id="@+id/datepicker"
                             style="@style/EditBox_custom_theme"
-                            android:layout_width="100dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/edit_box_shape"
                             android:clickable="true" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/amount"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/amount"
+                            style="@style/EditBox_custom_theme"
+                            android:layout_width="150dp"
+                            android:textCursorDrawable="@null"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_box_shape"
+                            android:inputType="number" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/add_expense"

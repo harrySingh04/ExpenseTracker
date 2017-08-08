@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.expensetracker.Dbutils.ExpenseInfo;
 import com.expensetracker.Dbutils.GroupInfo;
@@ -36,7 +37,8 @@ import java.util.Calendar;
 
 public class AddExpense extends AppCompatActivity {
 
-    private EditText description, amount, dp;
+    private EditText description, amount;
+    TextView dp;
     private Spinner categorySpinner;
     private Spinner groupNameSpinner;
     private GroupInfo groupinfo;
@@ -52,6 +54,7 @@ public class AddExpense extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
+    private Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +80,11 @@ public class AddExpense extends AppCompatActivity {
         groupNameSpinner = (Spinner) findViewById(R.id.groupnameSpinner);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
         expenseInfo = new ExpenseInfo();
-        dp = (EditText) findViewById(R.id.datepicker);
+        dp = (TextView) findViewById(R.id.datepicker);
 
+        dp.setText(myCalendar.get(Calendar.YEAR) + "-"
+                + (myCalendar.get(Calendar.MONTH) + 1) + "-"
+                + myCalendar.get(Calendar.DATE));
 
         groupinfo = new GroupInfo();
 

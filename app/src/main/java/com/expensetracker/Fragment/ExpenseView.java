@@ -154,8 +154,7 @@ public class ExpenseView extends Fragment {
                     Log.e("error", "error", e);
 
                 }
-
-
+                
                 adapter = new ExpenseAdapter(expenseModel, expenseData);
                // layoutManager = new LinearLayoutManager(fragmentActivity);
                 //expense_container.setLayoutManager(layoutManager);
