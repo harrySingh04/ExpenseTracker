@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.expensetracker.Adapters.ExpenseAdapter;
 import com.expensetracker.Adapters.PieChartAdapter;
@@ -71,6 +72,7 @@ public class PieChartExpense extends AppCompatActivity {
     private ListView mDrawerList;
     private String navigationItems[];
     private ActionBarDrawerToggle mDrawerToggle;
+    TextView noPieChartMessage;
 
 
     @Override
@@ -96,15 +98,22 @@ public class PieChartExpense extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(pieRecycler.getContext(),
                 layoutManager.getOrientation());
         pieRecycler.addItemDecoration(dividerItemDecoration);
+        noPieChartMessage = (TextView) findViewById(R.id.noPieChartMessage);
 
-        GroupInfo groupInfo = new GroupInfo();
+        GroupInfo groupInfo = new GroupInfo(context);
         groupInfo.getGroupExpense(groupID, new AsyncResponse() {
             @Override
             public void sendData(String data) {
                 progressBar.setVisibility(View.INVISIBLE);
 
+
                 try {
                     JSONArray main = new JSONArray(data);
+
+                    if(main.length()>0){
+
+
+
                     for (int i = 0; i < main.length(); i++) {
                         JSONObject item = main.getJSONObject(i);
 
@@ -138,6 +147,10 @@ public class PieChartExpense extends AppCompatActivity {
                     });
                     pieRecycler.setAdapter(expenseAdapter);
 
+                }
+                else{
+                    noPieChartMessage.setVisibility(View.VISIBLE);
+                }
 
                 } catch (Exception e) {
                     Log.e("error", "error", e);

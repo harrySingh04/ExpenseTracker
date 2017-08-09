@@ -52,7 +52,7 @@ public class ExpenseView extends Fragment {
 
     private FloatingActionButton button;
     SharedPreferences sharedPreferences;
-    public static String TAG = "Home";
+    public static String TAG = "Expense View";
     TextView noExpenseStaticMessage;
 
 
@@ -107,7 +107,7 @@ public class ExpenseView extends Fragment {
 
 
         //  UserInfo userInfo = new UserInfo(asyncResponse);
-        final ExpenseInfo expenseInfo = new ExpenseInfo();
+        final ExpenseInfo expenseInfo = new ExpenseInfo(context);
         expenseInfo.getallexpense(sharedPreferences.getInt("userid", 0), new AsyncResponse() {
             @Override
             public void sendData(String data) {
@@ -208,7 +208,7 @@ public class ExpenseView extends Fragment {
                 Log.d(TAG, "passing id: " + id);
 
 
-                new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
+                new ExpenseInfo(context).deleteexpense(id, new AsyncResponse() {
                     @Override
                     public void sendData(String data) {
                         for (ExpenseModel e : expenseModel) {
@@ -217,6 +217,10 @@ public class ExpenseView extends Fragment {
                                 adapter.swapCursor(expenseModel);
                                 break;
                             }
+                        }
+
+                        if(expenseModel.isEmpty()){
+                            noExpenseStaticMessage.setVisibility(View.VISIBLE);
                         }
 
 

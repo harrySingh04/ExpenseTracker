@@ -84,10 +84,10 @@ public class EditGroup extends AppCompatActivity {
         groupid = intent.getIntExtra("groupid", 0);
         groupname.setText(grpname);
 
-        groupInfo = new GroupInfo();
+        groupInfo = new GroupInfo(context);
 
 
-        friendsInfo = new FriendsInfo();
+        friendsInfo = new FriendsInfo(context);
         friendsInfo.getallfriends(sharedPreferences.getInt("userid", 0), asyncResponse = new AsyncResponse() {
             @Override
             public void sendData(String data) {

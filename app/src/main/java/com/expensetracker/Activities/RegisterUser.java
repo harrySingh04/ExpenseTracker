@@ -108,7 +108,7 @@ public class RegisterUser extends AppCompatActivity {
         });
 
 
-        userInfo = new UserInfo();
+        userInfo = new UserInfo(context);
 
     }
 

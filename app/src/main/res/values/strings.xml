@@ -37,6 +37,14 @@
     <string name="title_activity_single_group_expense">Your Group Expenses</string>
     <string name="noExpenseMessage">You have not added any Expenses yet</string>
     <string name="noDataMessage">Please select the date and group for displaying summary of your data</string>
+    <string name="noPieCharttext">There is not enough data for your Pie chart </string>
+    <string name="noDataForGraph">There is not enough data for your Graph </string>
+
+
+
+
+
+
 
 
 

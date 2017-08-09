@@ -137,7 +137,7 @@ public class Updatexpense extends AppCompatActivity {
 //        });
 
 
-        groupinfo = new GroupInfo();
+        groupinfo = new GroupInfo(context);
 
         groupinfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
@@ -225,7 +225,7 @@ public class Updatexpense extends AppCompatActivity {
         });
 
 
-        expenseInfo = new ExpenseInfo();
+        expenseInfo = new ExpenseInfo(context);
 
         dp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,14 +283,14 @@ public class Updatexpense extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-      //  mDrawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-       // mDrawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
 

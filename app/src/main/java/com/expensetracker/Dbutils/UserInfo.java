@@ -1,5 +1,6 @@
 package com.expensetracker.Dbutils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.expensetracker.Constants;
@@ -18,14 +19,15 @@ import java.net.URL;
 
 public class UserInfo {
 
+    Context context;
 
-    public UserInfo() {
-
+    public UserInfo(Context context) {
+this.context = context;
     }
 
     public void get_users(String username, String password, AsyncResponse asyncResponse) {
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
         String stringurl = Constants.GET_USER;
         URL url = null;
         JSONObject jsonObject = null;
@@ -38,13 +40,14 @@ public class UserInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
 
     }
 
     public void insert_user(String username, String password, String email, AsyncResponse asyncResponse) {
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
         String stringurl = Constants.REGISTER_USER;
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
@@ -62,13 +65,14 @@ public class UserInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
     }
 
 
     public void delete_user(int id, AsyncResponse asyncResponse) {
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
         String stringurl = Constants.DELETE_USER;
         URL url = null;
         JSONObject jsonObject = null;
@@ -81,13 +85,14 @@ public class UserInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
     }
 
 
     public void edit_user(int id, String password, String email, AsyncResponse asyncResponse) {
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
 
         String stringurl = Constants.EDIT_USER;
 
@@ -102,12 +107,13 @@ public class UserInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
     }
 
     public void reg_new_token(int userid,String token,AsyncResponse asyncResponse){
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
 
         String stringurl = Constants.UPDATE_TOKEN;
 
@@ -125,7 +131,8 @@ public class UserInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
 
     }
 
