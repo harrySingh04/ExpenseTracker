@@ -63,7 +63,7 @@ public class FriendsInfo {
 
             jsonObject.put("userid", userid);
             jsonObject.put("SingleEmail", email);
-            jsonObject.put("username", email);
+            jsonObject.put("username", username);
 
         } catch (Exception e) {
             e.printStackTrace();

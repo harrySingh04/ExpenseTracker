@@ -49,11 +49,38 @@ public class RegisterUser extends AppCompatActivity {
                 if (username.getText().toString().isEmpty()) {
                     String message = "Username cannot be empty";
                     showAlertDialog(message);
+                } else if (username.getText().toString().contains(" ")) {
+                    String message = "Username cannot have spaces";
+                    showAlertDialog(message);
                 } else if (password.getText().toString().isEmpty()) {
                     String message = "Password cannot be empty";
                     showAlertDialog(message);
                 } else if (email.getText().toString().isEmpty()) {
-                    String message = "Password cannot be empty";
+                    String message = "Email cannot be empty";
+                    showAlertDialog(message);
+                } else if (!email.getText().toString().contains("@")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (!email.getText().toString().contains(".")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().matches("@.")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().endsWith("@")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().endsWith(".")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().startsWith("@")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().startsWith(".")) {
+                    String message = "Please enter correct Email ID";
+                    showAlertDialog(message);
+                } else if (email.getText().toString().contains(" ")) {
+                    String message = "Please enter correct Email ID";
                     showAlertDialog(message);
                 } else {
 

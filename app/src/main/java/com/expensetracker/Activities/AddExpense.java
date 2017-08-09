@@ -148,6 +148,7 @@ public class AddExpense extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(context, Home.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -178,6 +179,7 @@ public class AddExpense extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(context, LoginUser.class);
             startActivity(intent);
+            finish();
         }
     }
 

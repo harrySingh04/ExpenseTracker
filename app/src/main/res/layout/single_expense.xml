@@ -48,13 +48,15 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
                 android:textSize="25dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
 
             <TextView
                 android:id="@+id/groupname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                />
 
             <TextView
                 android:id="@+id/date"

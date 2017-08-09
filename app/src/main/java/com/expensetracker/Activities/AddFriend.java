@@ -55,12 +55,15 @@ public class AddFriend extends AppCompatActivity {
     public static String TAG = "Add friend";
     Context context;
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     String username;
     Integer userid;
     ProgressBar progressBar;
     ListView listView;
     ArrayAdapter<String> listAdapter;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    //  boolean permission_granted;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +79,14 @@ public class AddFriend extends AppCompatActivity {
         addFriend = (Button) findViewById(R.id.add);
         context = this;
         sharedPreferences = getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         username = sharedPreferences.getString("username", "");
         userid = sharedPreferences.getInt("userid", 0);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         listView = (ListView) findViewById(R.id.contacts_list);
         listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow);
+     //   sharedPreferences.getBoolean("permission_granted", false);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
@@ -88,59 +94,58 @@ public class AddFriend extends AppCompatActivity {
         }
 
 
-
-      email.addTextChangedListener(new TextWatcher() {
-          @Override
-          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-          }
-
-          @Override
-          public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-              Log.e(TAG,"I am here");
-              Log.e(TAG, email.getText().toString());
-
-            Cursor cur =  ContactDetails(  email.getText().toString());
-
-              Log.e(TAG,"size "+cur.getCount());
-              listAdapter.clear();
-              while(cur.moveToNext()){
-                  Log.e(TAG,"I am here");
-
-                  listAdapter.add(cur.getString(
-                          cur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
-              }
-
-              listView.setAdapter(listAdapter);
-
-          }
-
-          @Override
-          public void afterTextChanged(Editable s) {
-
-          }
-      });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        email.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (sharedPreferences.getBoolean("permission_granted", false)) {
 
 
-              String val = ((TextView)arg1).getText().toString();
+                    Log.e(TAG, "I am here");
+                    Log.e(TAG, email.getText().toString());
 
-                Log.e(TAG,val);
+                    Cursor cur = ContactDetails(email.getText().toString());
 
-                email.setText(val);
+                    Log.e(TAG, "size " + cur.getCount());
+                    listAdapter.clear();
+                    while (cur.moveToNext()) {
+                        Log.e(TAG, "I am here");
 
-           //     Toast.makeText(SuggestionActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                        listAdapter.add(cur.getString(
+                                cur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
+                    }
+
+                    listView.setAdapter(listAdapter);
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
+
+                String val = ((TextView) arg1).getText().toString();
+
+                Log.e(TAG, val);
+
+                email.setText(val);
+
+                //     Toast.makeText(SuggestionActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 //        listAdapter.add("value1");
@@ -254,7 +259,7 @@ public class AddFriend extends AppCompatActivity {
 
     public void setLeftPane() {
 
-        Log.e(TAG,"I am indside left pane");
+        Log.e(TAG, "I am indside left pane");
 
         //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -300,32 +305,29 @@ public class AddFriend extends AppCompatActivity {
 
     public Cursor ContactDetails(String selectionCriteria) {
 
-        String[] selectionArgs = { "%"+selectionCriteria+"%" };
-        String columnName = ContactsContract.CommonDataKinds.Email.DATA +" LIKE ?";
+        String[] selectionArgs = {"%" + selectionCriteria + "%"};
+        String columnName = ContactsContract.CommonDataKinds.Email.DATA + " LIKE ?";
 
 
-
-         String[] PROJECTION = {
+        String[] PROJECTION = {
 
                 // The contact's row id
-                 ContactsContract.CommonDataKinds.Email.DATA,
+                ContactsContract.CommonDataKinds.Email.DATA,
 
 
-               //  ContactsContract.CommonDataKinds.Phone.NUMBER,
+                //  ContactsContract.CommonDataKinds.Phone.NUMBER,
                 // ContactsContract.CommonDataKinds.Phone.
-               //  ContactsContract.Contacts.DISPLAY_NAME,
-            //     ContactsContract.Contacts._ID,
-                 //ContactsContract.Contacts.
-
-
+                //  ContactsContract.Contacts.DISPLAY_NAME,
+                //     ContactsContract.Contacts._ID,
+                //ContactsContract.Contacts.
 
 
         };
 
 
         ContentResolver cr = getContentResolver();
-        Cursor cur = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                PROJECTION, columnName,selectionArgs, null);
+        Cursor cur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                PROJECTION, columnName, selectionArgs, null);
 
 
 //        cr.
@@ -354,10 +356,14 @@ public class AddFriend extends AppCompatActivity {
                                            int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
+
+                // sharedPreferences.getBoolean("permission_granted");
+
+                editor.putBoolean("permission_granted", true);
+                editor.commit();
 
             } else {
-           //     Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+                //     Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
             }
         }
     }
