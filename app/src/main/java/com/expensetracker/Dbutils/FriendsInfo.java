@@ -1,5 +1,6 @@
 package com.expensetracker.Dbutils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -21,14 +22,15 @@ public class FriendsInfo {
 
 
     private static String TAG = "FriendsInfo";
+    Context context;
 
-    public FriendsInfo() {
-
+    public FriendsInfo(Context context) {
+this.context = context;
     }
 
     public void getallfriends(int userid, AsyncResponse asyncResponse) {
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
         String stringurl = Constants.GET_FRIEND;
         URL url = null;
         JSONObject jsonObject = null;
@@ -41,7 +43,8 @@ public class FriendsInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
 
     }
 
@@ -53,7 +56,7 @@ public class FriendsInfo {
         Log.e(TAG, String.valueOf(email));
 
 
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+      //  NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_FRIEND;
         URL url = null;
         JSONObject jsonObject = null;
@@ -69,7 +72,8 @@ public class FriendsInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
 
     }
 
@@ -77,7 +81,7 @@ public class FriendsInfo {
 
         Log.e(TAG, "userid: "+String.valueOf(userid));
         Log.e(TAG, "friend id: "+String.valueOf(friendid));
-        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+
         String stringurl = Constants.DELETE_FRIEND;
         URL url = null;
         JSONObject jsonObject = null;
@@ -91,7 +95,8 @@ public class FriendsInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        networkUtils.execute(asyncTaskdata);
+        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
+        networkUtils.forceLoad();
 
     }
 

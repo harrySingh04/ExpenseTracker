@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.expensetracker.Adapters.ExpenseAdapter;
 import com.expensetracker.Dbutils.ExpenseInfo;
@@ -59,6 +60,7 @@ public class SingleGroupExpense extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
+    TextView noDataMessage;
 
 
     @Override
@@ -71,17 +73,16 @@ public class SingleGroupExpense extends AppCompatActivity {
         groupName = intent.getStringExtra("groupname");
         expense_container = (RecyclerView) findViewById(R.id.expense_container);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
-
-
-        progressBar = (ProgressBar)findViewById(R.id.progressbar) ;
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);
+        noDataMessage = (TextView) findViewById(R.id.noDataMessage);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setLeftPane();
 
-        GroupInfo groupInfo = new GroupInfo();
+        GroupInfo groupInfo = new GroupInfo(context);
 
         groupInfo.getGroupExpense(groupID, new AsyncResponse() {
             @Override
@@ -94,36 +95,40 @@ public class SingleGroupExpense extends AppCompatActivity {
 
 
 
-                    for (int i = 0; i < main.length(); i++) {
-                        JSONObject item = main.getJSONObject(i);
+                    Log.e(TAG, "data of expense" + String.valueOf(data));
 
-                        int id = item.getInt("id");
-                        int amount = item.getInt("amount");
-                        String date = item.getString("date");
-                        String description = item.getString("description");
-                        String category = item.getString("category");
+                    if (main.length() > 0) {
+                        for (int i = 0; i < main.length(); i++) {
+                            JSONObject item = main.getJSONObject(i);
 
-                        JSONObject userDetails = item.getJSONObject("userDetails");
-                        int userID = userDetails.getInt("id");
-                        String username = userDetails.getString("username");
-                        String email = userDetails.getString("email");
+                            int id = item.getInt("id");
+                            int amount = item.getInt("amount");
+                            String date = item.getString("date");
+                            String description = item.getString("description");
+                            String category = item.getString("category");
 
-                        UserModel userModel = new UserModel(userID, username, email);
+                            JSONObject userDetails = item.getJSONObject("userDetails");
+                            int userID = userDetails.getInt("id");
+                            String username = userDetails.getString("username");
+                            String email = userDetails.getString("email");
+
+                            UserModel userModel = new UserModel(userID, username, email);
 
 //                        if(item.optBoolean("groupName")){
 //
 //                        }
 
-                        expenseModel.add(new ExpenseModel(id, groupID, amount, date, category, description, groupName, userModel));
+                            expenseModel.add(new ExpenseModel(id, groupID, amount, date, category, description, groupName, userModel));
 
 //                        for (ExpenseModel e : expenseModel) {
 //                            Log.e(e.getDate(), e.getDate());
 //                        }
+                            //    Log.e("amount", String.valueOf(amount));
+                        }
 
-                    //    Log.e("amount", String.valueOf(amount));
-
+                    } else {
+                        noDataMessage.setVisibility(View.VISIBLE);
                     }
-
                 } catch (Exception e) {
                     Log.e("error", "error", e);
 
@@ -167,7 +172,7 @@ public class SingleGroupExpense extends AppCompatActivity {
                 intent.putExtra("amount", amount);
 
                 Log.e(TAG, "id is" + id);
-               // startActivity(intent);
+                // startActivity(intent);
 
             }
         };
@@ -186,7 +191,7 @@ public class SingleGroupExpense extends AppCompatActivity {
                 Log.d(TAG, "passing id: " + id);
 
 
-                new ExpenseInfo().deleteexpense(id, new AsyncResponse() {
+                new ExpenseInfo(context).deleteexpense(id, new AsyncResponse() {
                     @Override
                     public void sendData(String data) {
                         Intent intent = new Intent();
@@ -328,8 +333,8 @@ public class SingleGroupExpense extends AppCompatActivity {
         Intent i = new Intent();
         i.setClass(context, SingleGroupDetails.class);
 
-        i.putExtra("groupname",groupName);
-        i.putExtra("groupid",groupID);
+        i.putExtra("groupname", groupName);
+        i.putExtra("groupid", groupID);
 
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

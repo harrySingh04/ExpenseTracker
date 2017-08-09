@@ -78,7 +78,7 @@ public class GroupView extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         nogrouptext = (TextView)view.findViewById(R.id.nogroupmessage);
 
-        GroupInfo groupInfo = new GroupInfo();
+        GroupInfo groupInfo = new GroupInfo(context);
         groupInfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
             public void sendData(String data) {

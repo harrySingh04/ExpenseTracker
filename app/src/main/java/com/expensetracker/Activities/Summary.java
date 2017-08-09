@@ -97,7 +97,7 @@ public class Summary extends AppCompatActivity {
         groupdetails = new ArrayList<>();
         from = (TextView) findViewById(R.id.from);
         to = (TextView) findViewById(R.id.to);
-        groupinfo = new GroupInfo();
+        groupinfo = new GroupInfo(context);
         this.expenseModel = new ArrayList<>();
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         nopiecharttext = (TextView) findViewById(R.id.nopiechart);
@@ -106,7 +106,7 @@ public class Summary extends AppCompatActivity {
         noDataMessage = (TextView) findViewById(R.id.noDataMessage);
 
 
-        final GroupInfo expenseInfo = new GroupInfo();
+        final GroupInfo expenseInfo = new GroupInfo(context);
         expenseInfo.getAllGroupExpensesForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
             public void sendData(String data) {

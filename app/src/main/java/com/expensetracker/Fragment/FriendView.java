@@ -80,7 +80,7 @@ public class FriendView extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);
         staticnofriendtext = (TextView) view.findViewById(R.id.nofriendmessage);
-        friendsInfo = new FriendsInfo();
+        friendsInfo = new FriendsInfo(context);
         friendsInfo.getallfriends(sharedPreferences.getInt("userid", 0), new AsyncResponse() {
             @Override
             public void sendData(String data) {
@@ -158,7 +158,7 @@ public class FriendView extends Fragment {
                 Log.d(TAG, "passing id: " + friendid);
                 SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences("data", MODE_PRIVATE);
                 final int userid = sharedPreferences.getInt("userid", 0);
-                new FriendsInfo().deletefriend(userid, friendid, new AsyncResponse() {
+                new FriendsInfo(context).deletefriend(userid, friendid, new AsyncResponse() {
                     @Override
                     public void sendData(String data) {
 //                        Intent intent = new Intent();
