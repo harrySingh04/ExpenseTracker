@@ -15,7 +15,6 @@
         android:id="@+id/friendsrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:scrollbars="vertical" />
 
     <android.support.design.widget.FloatingActionButton

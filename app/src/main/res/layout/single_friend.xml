@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="0dp"
+    android:layout_height="120dp"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_margin="5dp">
+    android:padding="10dp"
+    android:layout_margin="0dp">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_gravity="clip_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         card_view:cardElevation="20dp"
         android:padding="10dp"
         android:layout_margin="5dp"
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/usernameWithColon"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textSize="15dp"
             android:textStyle="bold"
             />
@@ -36,7 +35,7 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:layout_toRightOf="@+id/usernameText"
             android:textSize="15dp" />
 
@@ -46,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/username"
             android:text="@string/emailwithcolon"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textSize="15dp"
             android:textStyle="bold"
             />
@@ -55,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/username"
-            android:padding="5dp"
+            android:padding="2dp"
             android:layout_toRightOf="@+id/emailText"
             android:textSize="15dp" />
 
