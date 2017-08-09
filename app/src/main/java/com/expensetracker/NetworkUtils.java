@@ -1,6 +1,7 @@
 package com.expensetracker;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.expensetracker.Interfaces.AsyncResponse;
@@ -9,27 +10,36 @@ import com.expensetracker.Model.AsyncData;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Scanner;
 
 /**
  * Created by user on 09-07-2017.
  */
 
-public class NetworkUtils extends AsyncTask<AsyncData, String, String> {
+public class NetworkUtils extends AsyncTaskLoader<String> {
 
     AsyncResponse asyncResponse;
+   AsyncData asyncData;
 
-    public NetworkUtils(AsyncResponse asyncResponse) {
+    public NetworkUtils(Context context, AsyncResponse asyncResponse,AsyncData asyncData) {
+        super(context);
         this.asyncResponse = asyncResponse;
+        this.asyncData = asyncData;
+    }
+
+
+    @Override
+    protected void onStartLoading() {
+
     }
 
     @Override
-    protected String doInBackground(AsyncData... params) {
-
+    public String loadInBackground() {
 
         try {
 
-            HttpURLConnection con = (HttpURLConnection) params[0].getUrl().openConnection();
+            HttpURLConnection con = (HttpURLConnection) asyncData.getUrl().openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -37,7 +47,7 @@ public class NetworkUtils extends AsyncTask<AsyncData, String, String> {
             con.setRequestMethod("POST");
 
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-            wr.write(params[0].getData().toString());
+            wr.write(asyncData.getData().toString());
             wr.flush();
 
 //display what returns the POST request
@@ -57,7 +67,7 @@ public class NetworkUtils extends AsyncTask<AsyncData, String, String> {
             }
 
         } catch (Exception e) {
-            Log.e("error","error",e);
+            Log.e("error", "error", e);
         }
 
         return null;
@@ -65,9 +75,11 @@ public class NetworkUtils extends AsyncTask<AsyncData, String, String> {
 
     }
 
+
     @Override
-    protected void onPostExecute(String data) {
+    public void deliverResult(String data) {
         asyncResponse.sendData(data);
+
     }
 
 

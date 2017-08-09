@@ -69,7 +69,7 @@ public class SingleGroupDetails extends AppCompatActivity {
         grpame = (TextView) findViewById(R.id.group_name);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);
-        groupInfo = new GroupInfo();
+
 
         usermodel = new ArrayList<>();
         Bundle extras = getIntent().getExtras();
@@ -77,6 +77,7 @@ public class SingleGroupDetails extends AppCompatActivity {
         groupname = extras.getString("groupname");
         grpame.setText(groupname);
         context = this;
+        groupInfo = new GroupInfo(context);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

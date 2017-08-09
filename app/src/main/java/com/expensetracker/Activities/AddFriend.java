@@ -85,7 +85,7 @@ public class AddFriend extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         listView = (ListView) findViewById(R.id.contacts_list);
         listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow);
-     //   sharedPreferences.getBoolean("permission_granted", false);
+        //   sharedPreferences.getBoolean("permission_granted", false);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
@@ -103,7 +103,7 @@ public class AddFriend extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (sharedPreferences.getBoolean("permission_granted", false)) {
+                if (sharedPreferences.getBoolean("permission_granted", true)) {
 
 
                     Log.e(TAG, "I am here");
@@ -135,13 +135,10 @@ public class AddFriend extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-
-
                 String val = ((TextView) arg1).getText().toString();
-
-                Log.e(TAG, val);
-
+                //   Log.e(TAG, val);
                 email.setText(val);
+                email.setSelection(email.getText().length());
 
                 //     Toast.makeText(SuggestionActivity.this, "" + position, Toast.LENGTH_SHORT).show();
             }
@@ -209,7 +206,7 @@ public class AddFriend extends AppCompatActivity {
         });
 
 
-        friendsInfo = new FriendsInfo();
+        friendsInfo = new FriendsInfo(context);
 
 
     }
@@ -364,6 +361,9 @@ public class AddFriend extends AppCompatActivity {
 
             } else {
                 //     Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+                editor.putBoolean("permission_granted", false);
+                editor.commit();
+
             }
         }
     }

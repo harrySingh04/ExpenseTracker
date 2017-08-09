@@ -40,8 +40,9 @@ public class LoginUser extends AppCompatActivity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         final EditText password = (EditText) findViewById(R.id.password);
-        userInfo = new UserInfo();
+
         context = this;
+        userInfo = new UserInfo(context);
         login = (Button) findViewById(R.id.login);
         register = (Button) findViewById(R.id.register);
         progressBar = (ProgressBar)findViewById(R.id.progressbar);

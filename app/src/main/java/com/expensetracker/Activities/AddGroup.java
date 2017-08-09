@@ -78,11 +78,11 @@ public class AddGroup extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(context);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE); //1
         context = this;
-        groupInfo = new GroupInfo();
+        groupInfo = new GroupInfo(context);
         nofriendmessage = (TextView) findViewById(R.id.nofriendmessage);
         StaticContentforFriends = (TextView)findViewById(R.id.StaticContentforFriends);
 
-        friendsInfo = new FriendsInfo();
+        friendsInfo = new FriendsInfo(context);
         friendsInfo.getallfriends(sharedPreferences.getInt("userid", 0), asyncResponse = new AsyncResponse() {
             @Override
             public void sendData(String data) {

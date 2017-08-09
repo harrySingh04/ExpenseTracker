@@ -1,5 +1,6 @@
 package com.expensetracker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -21,6 +22,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     UserInfo userinfo;
 
 
+
     @Override
     public void onTokenRefresh() {
 
@@ -28,7 +30,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
         Log.e(REG_TOKEN,recent_token);
 
-        userinfo = new UserInfo();
+        userinfo = new UserInfo(getApplicationContext());
         sharedPreferences = getApplicationContext().getSharedPreferences("data",MODE_PRIVATE);
         int id = sharedPreferences.getInt("userid",0);
         userinfo.reg_new_token(id,REG_TOKEN, new AsyncResponse() {

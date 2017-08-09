@@ -79,14 +79,14 @@ public class AddExpense extends AppCompatActivity {
         categorySpinner.setAdapter(adapter);
         groupNameSpinner = (Spinner) findViewById(R.id.groupnameSpinner);
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE);
-        expenseInfo = new ExpenseInfo();
+        expenseInfo = new ExpenseInfo(context);
         dp = (TextView) findViewById(R.id.datepicker);
 
         dp.setText(myCalendar.get(Calendar.YEAR) + "-"
                 + (myCalendar.get(Calendar.MONTH) + 1) + "-"
                 + myCalendar.get(Calendar.DATE));
 
-        groupinfo = new GroupInfo();
+        groupinfo = new GroupInfo(context);
 
         groupinfo.getAllGroupsForUser(sharedPreferences.getInt("userid", 1), new AsyncResponse() {
             @Override
