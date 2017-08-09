@@ -1,6 +1,7 @@
 package com.expensetracker.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -77,7 +78,12 @@ public class Home extends AppCompatActivity {
         // This method setup all required method for TabLayout with Viewpager
 
 
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        Intent intent = getIntent();
+        int var = intent.getIntExtra("fragmentNumber",0);
+
+        viewPager.setCurrentItem(var);
+
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

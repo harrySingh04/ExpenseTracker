@@ -154,6 +154,7 @@ public class AddGroup extends AppCompatActivity {
                         });
 
                         Intent intent = new Intent();
+                        intent.putExtra("fragmentNumber",1);
                         intent.setClass(context, Home.class);
                         startActivity(intent);
                     }

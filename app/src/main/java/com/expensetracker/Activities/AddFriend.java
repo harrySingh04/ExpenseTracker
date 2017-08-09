@@ -12,6 +12,10 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -31,9 +35,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expensetracker.Dbutils.FriendsInfo;
+import com.expensetracker.Fragment.FriendView;
 import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.MenuPane;
 import com.expensetracker.R;
+
+import static com.expensetracker.R.string.Add;
 
 public class AddFriend extends AppCompatActivity {
 
@@ -154,6 +161,7 @@ public class AddFriend extends AppCompatActivity {
 
                             Log.e(TAG, "thisd is the data for add" + data);
                             Intent intent = new Intent();
+                            intent.putExtra("fragmentNumber",2);
                             intent.setClass(context, Home.class);
                             startActivity(intent);
 

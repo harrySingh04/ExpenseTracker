@@ -13,6 +13,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,12 @@ import com.expensetracker.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 
 /**
@@ -154,7 +160,7 @@ public class ExpenseView extends Fragment {
                     Log.e("error", "error", e);
 
                 }
-                
+
                 adapter = new ExpenseAdapter(expenseModel, expenseData);
                // layoutManager = new LinearLayoutManager(fragmentActivity);
                 //expense_container.setLayoutManager(layoutManager);
