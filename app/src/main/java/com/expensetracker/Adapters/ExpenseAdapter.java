@@ -129,11 +129,11 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             category = (TextView) view.findViewById(R.id.category);
             date = (TextView) view.findViewById((R.id.date));
             groupname = (TextView) view.findViewById((R.id.groupname));
-<<<<<<< HEAD
-           // username = (TextView) view.findViewById((R.id.owner));
-=======
+
+            username = (TextView) view.findViewById((R.id.owner));
+
         //    username = (TextView) view.findViewById((R.id.username));
->>>>>>> branch3
+
             categoryImageView = (ImageView) view.findViewById(R.id.image_category);
             view.setOnClickListener(this);
 //            groupname.setContentDescription(String.valueOf(R.string.group));
