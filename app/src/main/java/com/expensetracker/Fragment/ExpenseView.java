@@ -118,9 +118,12 @@ public class ExpenseView extends Fragment {
             @Override
             public void sendData(String data) {
 
+                Log.e(TAG,"value of data"+data);
+
                 try {
                     progressBar.setVisibility(View.INVISIBLE);
                     JSONArray main = new JSONArray(data);
+
 
                     if (main.length() > 0) {
 

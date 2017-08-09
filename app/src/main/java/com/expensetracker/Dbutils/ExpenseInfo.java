@@ -70,7 +70,7 @@ public class ExpenseInfo {
     }
 
 
-    public void editexpense(int id, int amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
+    public void editexpense(int id, float amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
 
 
 
@@ -119,7 +119,7 @@ public class ExpenseInfo {
         networkUtils.forceLoad();
     }
 
-    public void addexpense(int amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
+    public void addexpense(float amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
 
 
         String stringurl = Constants.ADD_EXPENSE;

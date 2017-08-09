@@ -194,20 +194,20 @@ public class Updatexpense extends AppCompatActivity {
                 String    strDate = dp.getText().toString();
 
 
-                Log.e(TAG, "I am here");
-                Log.e(TAG,String.valueOf(id));
-                Log.e(TAG,String.valueOf(amount.getText().toString()));
-                Log.e(TAG,strDate);
-                Log.e(TAG,String.valueOf( sharedPreferences.getInt("userid", 1)));
-                Log.e(TAG,description.getText().toString());
-                Log.e(TAG, categorySpinner.getSelectedItem().toString());
-                Log.e(TAG,String.valueOf(((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id()));
+//                Log.e(TAG, "I am here");
+//                Log.e(TAG,String.valueOf(id));
+//                Log.e(TAG,String.valueOf(amount.getText().toString()));
+//                Log.e(TAG,strDate);
+//                Log.e(TAG,String.valueOf( sharedPreferences.getInt("userid", 1)));
+//                Log.e(TAG,description.getText().toString());
+//                Log.e(TAG, categorySpinner.getSelectedItem().toString());
+//                Log.e(TAG,String.valueOf(((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id()));
 
 
                 //Integer.parseInt(amount.getText().toString())
                 //description.getText().toString()
                 Integer group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
-                expenseInfo.editexpense(id, Integer.parseInt(amount.getText().toString()), strDate,
+                expenseInfo.editexpense(id, Float.parseFloat(amount.getText().toString()), strDate,
                         sharedPreferences.getInt("userid", 1), description.getText().toString(),
                         categorySpinner.getSelectedItem().toString(), group_id, new AsyncResponse() {
                             @Override
@@ -256,28 +256,7 @@ public class Updatexpense extends AppCompatActivity {
         }
     }
 
-    public void selectedItem(int position){
 
-        switch(position){
-
-            case 0:
-                Log.e(TAG,"Item 1");
-                break;
-
-            case 1:
-                Log.e(TAG,"Item 2");
-                break;
-
-            case 2:
-                Log.e(TAG,"Item 3");
-                break;
-
-            case 3:
-                Log.e(TAG,"Item 4");
-                break;
-
-        }
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -305,7 +284,7 @@ public class Updatexpense extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        Log.e("possssssssssssssss", String.valueOf(item));
+     //   Log.e("possssssssssssssss", String.valueOf(item));
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

@@ -2,12 +2,14 @@ package com.expensetracker.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -131,14 +133,16 @@ public class AddExpense extends AppCompatActivity {
                 String strDate = dp.getText().toString();
 
                 if (amount.getText().toString().isEmpty()) {
-
+                    String message = "Please enter Amount";
+                    showAlertDialog(message);
                 } else if (description.getText().toString().isEmpty()) {
-
+                    String message = "Please enter description";
+                    showAlertDialog(message);
                 } else {
 
                     Log.e(TAG, "I am here");
                     Integer group_id = ((GroupModel) groupNameSpinner.getSelectedItem()).getGroup_id();
-                    expenseInfo.addexpense(Integer.parseInt(amount.getText().toString()), strDate, sharedPreferences.getInt("userid", 1), description.getText().toString(), categorySpinner.getSelectedItem().toString(), group_id,
+                    expenseInfo.addexpense(Float.parseFloat(amount.getText().toString()), strDate, sharedPreferences.getInt("userid", 1), description.getText().toString(), categorySpinner.getSelectedItem().toString(), group_id,
                             add_data = new AsyncResponse() {
                                 @Override
                                 public void sendData(String data) {
@@ -196,7 +200,7 @@ public class AddExpense extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-      //  Log.e("possssssssssssssss", String.valueOf(item));
+        //  Log.e("possssssssssssssss", String.valueOf(item));
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -282,12 +286,25 @@ public class AddExpense extends AppCompatActivity {
         };
 
 
-
     }
 
+    public void showAlertDialog(String message) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
 
 
+        });
+        builder1.create().show();
 
+
+    }
 
 
 }

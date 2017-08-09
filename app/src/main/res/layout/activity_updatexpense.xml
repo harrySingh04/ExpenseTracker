@@ -69,7 +69,7 @@
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/edit_box_shape"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal|numberSigned" />
                     </LinearLayout>
 
 
