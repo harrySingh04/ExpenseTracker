@@ -28,7 +28,7 @@ public class ExpenseInfo {
 
     public void getsingleexpense(int id, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_SINGLE_EXPENSE;
         URL url = null;
         JSONObject jsonObject = null;
@@ -40,17 +40,14 @@ public class ExpenseInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
-
+        networkUtils.execute(asyncTaskdata);
 
     }
 
     public void getallexpense(int userid, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
         String stringurl = Constants.GET_ALL_EXPENSE;
 
@@ -65,15 +62,14 @@ public class ExpenseInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
 
     public void editexpense(int id, float amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
 
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.EDIT_EXPENSE;
         URL url = null;
         JSONObject jsonObject = null;
@@ -92,17 +88,14 @@ public class ExpenseInfo {
             Log.e(TAG, "error" + e);
             e.printStackTrace();
         }
-
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
-
+        networkUtils.execute(asyncTaskdata);
     }
 
 
     public void deleteexpense(int id, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.DELETE_EXPENSE;
         URL url = null;
         JSONObject jsonObject = null;
@@ -115,13 +108,12 @@ public class ExpenseInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
     public void addexpense(float amount, String date, int user_id, String description, String category, Integer groupid, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_EXPENSE;
         URL url = null;
         JSONObject jsonObject = null;
@@ -139,13 +131,12 @@ public class ExpenseInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
     public void addexpense(int amount, String date, int user_id, String description, String category, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_EXPENSE;
         URL url = null;
         JSONObject jsonObject = null;
@@ -170,8 +161,7 @@ public class ExpenseInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
 

@@ -19,7 +19,7 @@ import java.net.URL;
 
 public class UserInfo {
 
-    Context context;
+Context context;
 
     public UserInfo(Context context) {
 this.context = context;
@@ -27,7 +27,7 @@ this.context = context;
 
     public void get_users(String username, String password, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_USER;
         URL url = null;
         JSONObject jsonObject = null;
@@ -40,14 +40,13 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
 
     }
 
     public void insert_user(String username, String password, String email, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.REGISTER_USER;
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
@@ -65,14 +64,13 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
 
     public void delete_user(int id, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.DELETE_USER;
         URL url = null;
         JSONObject jsonObject = null;
@@ -85,14 +83,13 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
 
     public void edit_user(int id, String password, String email, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
         String stringurl = Constants.EDIT_USER;
 
@@ -107,13 +104,12 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
     public void reg_new_token(int userid,String token,AsyncResponse asyncResponse){
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
         String stringurl = Constants.UPDATE_TOKEN;
 
@@ -131,8 +127,7 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
 
     }
 

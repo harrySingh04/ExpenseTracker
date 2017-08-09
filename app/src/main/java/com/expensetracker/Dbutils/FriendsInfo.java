@@ -25,12 +25,12 @@ public class FriendsInfo {
     Context context;
 
     public FriendsInfo(Context context) {
-this.context = context;
+        this.context = context;
     }
 
     public void getallfriends(int userid, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_FRIEND;
         URL url = null;
         JSONObject jsonObject = null;
@@ -43,8 +43,7 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
 
     }
 
@@ -56,7 +55,7 @@ this.context = context;
         Log.e(TAG, String.valueOf(email));
 
 
-      //  NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_FRIEND;
         URL url = null;
         JSONObject jsonObject = null;
@@ -72,8 +71,7 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
 
     }
 
@@ -81,7 +79,7 @@ this.context = context;
 
         Log.e(TAG, "userid: "+String.valueOf(userid));
         Log.e(TAG, "friend id: "+String.valueOf(friendid));
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.DELETE_FRIEND;
         URL url = null;
         JSONObject jsonObject = null;
@@ -95,8 +93,7 @@ this.context = context;
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
 
     }
 

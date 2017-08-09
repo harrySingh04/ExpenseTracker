@@ -30,7 +30,7 @@ public class GroupInfo {
 
     public void addgroup(ArrayList<String> email, String groupname, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_GROUP;
         URL url = null;
         JSONObject jsonObject = null;
@@ -44,14 +44,14 @@ public class GroupInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
 
     }
 
     public void addGroupFromId(ArrayList<Integer> ids, String groupname, AsyncResponse asyncResponse) {
 
 
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.ADD_GROUP_FROM_ID;
         URL url = null;
         JSONObject jsonObject = null;
@@ -72,13 +72,15 @@ public class GroupInfo {
             e.printStackTrace();
         }
 
+        Log.e(TAG, String.valueOf(jsonObject));
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
+
     }
 
     public void deletegroup(int group_id, AsyncResponse asyncResponse) {
 
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
         String stringurl = Constants.DELETE_GROUP;
 
@@ -92,16 +94,24 @@ public class GroupInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
-
+        networkUtils.execute(asyncTaskdata);
     }
 
 
     public void updateGroup(int group_id, ArrayList<Integer> ids, String groupname, AsyncResponse asyncResponse) {
 
+
+        Log.e(TAG, String.valueOf(group_id));
+        Log.e(TAG, String.valueOf(groupname));
+
+
+        for (Integer i : ids) {
+            Log.e(TAG,"I am in loop");
+            Log.e(TAG, String.valueOf(i));
+        }
+
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
 
         String stringurl = Constants.EDIT_GROUP;
 
@@ -117,24 +127,24 @@ public class GroupInfo {
             jsonObject.put("groupname", groupname);
             jsonObject.put("userids", arr);
 
-            Log.e(TAG, "value of json" + jsonObject);
+            Log.e(TAG,"value of json"+jsonObject);
             for (Integer i : ids) {
                 arr.put(i);
             }
+
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
 
     public void getgroupmembers(int group_id, AsyncResponse asyncResponse) {
 
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_GROUP_MEMBERS;
         URL url = null;
         JSONObject jsonObject = null;
@@ -147,13 +157,13 @@ public class GroupInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
     public void getAllGroupsForUser(int user_id, AsyncResponse asyncResponse) {
 
 
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_GROUP_MEMBERS_FOR_SINGLE_USER;
         URL url = null;
         JSONObject jsonObject = null;
@@ -166,14 +176,14 @@ public class GroupInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
+
     }
 
     public void getGroupExpense(int groupID, AsyncResponse asyncResponse) {
 
         Log.e(TAG, String.valueOf(groupID));
-
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_GROUP_EXPENSE;
         URL url = null;
         JSONObject jsonObject = null;
@@ -186,13 +196,13 @@ public class GroupInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
     }
 
-    public void getAllGroupExpensesForUser(int userid, AsyncResponse asyncResponse) {
+    public void getAllGroupExpensesForUser(int userid, AsyncResponse asyncResponse){
 
 
+        NetworkUtils networkUtils = new NetworkUtils(asyncResponse);
         String stringurl = Constants.GET_ALL_GROUP_EXPENSES_FOR_USER;
         URL url = null;
         JSONObject jsonObject = null;
@@ -205,8 +215,9 @@ public class GroupInfo {
             e.printStackTrace();
         }
         AsyncData asyncTaskdata = new AsyncData(url, jsonObject);
-        NetworkUtils networkUtils = new NetworkUtils(context, asyncResponse, asyncTaskdata);
-        networkUtils.forceLoad();
+        networkUtils.execute(asyncTaskdata);
+
+
 
 
     }
