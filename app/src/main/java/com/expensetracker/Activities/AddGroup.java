@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -59,7 +60,7 @@ public class AddGroup extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String navigationItems[];
-    TextView nofriendmessage;
+    TextView nofriendmessage,StaticContentforFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class AddGroup extends AppCompatActivity {
         context = this;
         groupInfo = new GroupInfo();
         nofriendmessage = (TextView) findViewById(R.id.nofriendmessage);
+        StaticContentforFriends = (TextView)findViewById(R.id.StaticContentforFriends);
 
         friendsInfo = new FriendsInfo();
         friendsInfo.getallfriends(sharedPreferences.getInt("userid", 0), asyncResponse = new AsyncResponse() {
@@ -111,6 +113,10 @@ public class AddGroup extends AppCompatActivity {
 
                     } else {
                         nofriendmessage.setVisibility(View.VISIBLE);
+                        StaticContentforFriends.setVisibility(View.INVISIBLE);
+                        Add.setEnabled(false);
+                        Add.setBackgroundColor(Color.GRAY);
+
                     }
                 } catch (Exception e) {
                     Log.e("oiasdha", "lskdkj", e);
@@ -156,6 +162,7 @@ public class AddGroup extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.setClass(context, Home.class);
                         startActivity(intent);
+                        finish();
                     }
                     else{
                         String message = "You have not selected any friend";

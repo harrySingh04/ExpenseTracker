@@ -50,22 +50,24 @@ public class LoginUser extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                progressBar.setVisibility(View.VISIBLE);
                 if (username.getText().toString().isEmpty()) {
                     String message = "Username cannot be empty";
                     showAlertDialog(message);
+                    progressBar.setVisibility(View.GONE);
                 } else if (password.getText().toString().isEmpty()) {
                     String message = "Password cannot be empty";
                     showAlertDialog(message);
+                    progressBar.setVisibility(View.GONE);
                 } else {
 
                     userInfo.get_users(username.getText().toString(), password.getText().toString(), new AsyncResponse() {
                         @Override
                         public void sendData(String data) {
                             try {
-                                progressBar.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.GONE);
                                 if (!data.equals("null")) {
-                                    progressBar.setVisibility(View.GONE);
+
                                     JSONObject main = new JSONObject(data);
                                     String name = main.getString("username");
                                     int id = main.getInt("id");
@@ -79,12 +81,15 @@ public class LoginUser extends AppCompatActivity {
                                     editor.commit();
 
                                     Intent intent = new Intent();
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.setClass(context, Home.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     String message = "You seem to have entered the wrong credentials. Please enter the correct credentials";
                                     showAlertDialog(message);
-                                    progressBar.setVisibility(View.GONE);
+                                //    progressBar.setVisibility(View.GONE);
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, "error", e);
@@ -103,6 +108,7 @@ public class LoginUser extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(context, RegisterUser.class);
                 startActivity(intent);
+                finish();
 
             }
         });
