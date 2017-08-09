@@ -78,7 +78,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
 
         if (expenseDetails.get(position).getUsermodel() != null) {
-            //holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
+            holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
+        }
+        else{
+            holder.username.setVisibility(View.GONE);
         }
 
         if(expenseDetails.get(position).getGroupModel()!=null){
@@ -126,7 +129,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             category = (TextView) view.findViewById(R.id.category);
             date = (TextView) view.findViewById((R.id.date));
             groupname = (TextView) view.findViewById((R.id.groupname));
-          //  username = (TextView) view.findViewById((R.id.username));
+            username = (TextView) view.findViewById((R.id.username));
             categoryImageView = (ImageView) view.findViewById(R.id.image_category);
             view.setOnClickListener(this);
 //            groupname.setContentDescription(String.valueOf(R.string.group));
@@ -149,8 +152,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
         @Override
         public void onClick(View v) {
-
-
             expenseData.expenseDetails(id, totalDescription, totalAmount, expenseDate, categoryName, group);
         }
     }
