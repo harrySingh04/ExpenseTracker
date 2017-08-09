@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -35,10 +36,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         int resID = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
 //
-        Log.e(TAG, "name of image" + remoteMessage.getNotification().getIcon());
-        Log.e(TAG, "value of image int" + String.valueOf(resID));
-        Log.e(TAG, "value of inbuilt image" + String.valueOf(R.drawable.bill));
+//        Log.e(TAG, "name of image" + remoteMessage.getNotification().getIcon());
+//        Log.e(TAG, "value of image int" + String.valueOf(resID));
+//        Log.e(TAG, "value of inbuilt image" + String.valueOf(R.drawable.bill));
+
+        notificationbuilder.setLargeIcon(BitmapFactory.decodeResource( getResources(),resID));
         notificationbuilder.setSmallIcon(resID);
+
         notificationbuilder.setContentIntent(pendingIntent);
         Log.d(TAG, "I am here");
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
