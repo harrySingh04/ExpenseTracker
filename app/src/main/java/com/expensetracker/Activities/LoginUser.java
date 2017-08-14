@@ -45,7 +45,7 @@ public class LoginUser extends AppCompatActivity {
         userInfo = new UserInfo(context);
         login = (Button) findViewById(R.id.login);
         register = (Button) findViewById(R.id.register);
-        progressBar = (ProgressBar)findViewById(R.id.progressbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +75,13 @@ public class LoginUser extends AppCompatActivity {
                                     String email = main.getString("email");
                                     sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE); //1
                                     editor = sharedPreferences.edit();
-
                                     editor.putString("username", name);
                                     editor.putString("email", email);
                                     editor.putInt("userid", id);
                                     editor.commit();
 
                                     Intent intent = new Intent();
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.setClass(context, Home.class);
                                     startActivity(intent);
@@ -90,7 +89,7 @@ public class LoginUser extends AppCompatActivity {
                                 } else {
                                     String message = "You seem to have entered the wrong credentials. Please enter the correct credentials";
                                     showAlertDialog(message);
-                                //    progressBar.setVisibility(View.GONE);
+                                    //    progressBar.setVisibility(View.GONE);
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, "error", e);
@@ -105,7 +104,6 @@ public class LoginUser extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent();
                 intent.setClass(context, RegisterUser.class);
                 startActivity(intent);

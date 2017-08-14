@@ -88,6 +88,13 @@ public class AddFriend extends AppCompatActivity {
         //   sharedPreferences.getBoolean("permission_granted", false);
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
             //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
@@ -163,7 +170,7 @@ public class AddFriend extends AppCompatActivity {
 
                             Log.e(TAG, "thisd is the data for add" + data);
                             Intent intent = new Intent();
-                            intent.putExtra("fragmentNumber",2);
+                            intent.putExtra("fragmentNumber", 2);
                             intent.setClass(context, Home.class);
                             startActivity(intent);
 
@@ -211,15 +218,6 @@ public class AddFriend extends AppCompatActivity {
 
     }
 
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            MenuPane.menu(context, position);
-        }
-    }
-
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -234,14 +232,6 @@ public class AddFriend extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -254,9 +244,17 @@ public class AddFriend extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            MenuPane.menu(context, position);
+        }
+    }
+
+
     public void setLeftPane() {
 
-        Log.e(TAG, "I am indside left pane");
+        //    Log.e(TAG, "I am indside left pane");
 
         //  mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
