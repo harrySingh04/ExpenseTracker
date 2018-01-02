@@ -56,7 +56,7 @@ public class ExpenseInfo {
         try {
             url = new URL(stringurl);
             jsonObject = new JSONObject();
-            jsonObject.put("userID", userid);
+            jsonObject.put("id", userid);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -31,6 +31,7 @@ import com.expensetracker.Interfaces.ExpenseData;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.ExpenseModel;
+import com.expensetracker.Model.GroupModel;
 import com.expensetracker.Model.UserModel;
 import com.expensetracker.R;
 
@@ -102,7 +103,7 @@ public class SingleGroupExpense extends AppCompatActivity {
                             JSONObject item = main.getJSONObject(i);
 
                             int id = item.getInt("id");
-                            int amount = item.getInt("amount");
+                            String amount = item.getString("amount");
                             String date = item.getString("date");
                             String description = item.getString("description");
                             String category = item.getString("category");
@@ -114,11 +115,12 @@ public class SingleGroupExpense extends AppCompatActivity {
 
                             UserModel userModel = new UserModel(userID, username, email);
 
+                            GroupModel groupModel = new GroupModel( groupID,groupName);
 //                        if(item.optBoolean("groupName")){
 //
 //                        }
 
-                            expenseModel.add(new ExpenseModel(id, groupID, amount, date, category, description, groupName, userModel));
+                            expenseModel.add(new ExpenseModel(id, Float.valueOf(amount), date, category, description , userModel,groupModel));
 
 //                        for (ExpenseModel e : expenseModel) {
 //                            Log.e(e.getDate(), e.getDate());
@@ -160,7 +162,7 @@ public class SingleGroupExpense extends AppCompatActivity {
         expenseData = new ExpenseData() {
 
             @Override
-            public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
+            public void expenseDetails(int id, String description, Float amount, String date, String category, String groupName) {
                 Intent intent = new Intent();
                 intent.setClass(context, Updatexpense.class);
 

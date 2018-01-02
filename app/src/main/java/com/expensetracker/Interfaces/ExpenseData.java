@@ -7,7 +7,7 @@ package com.expensetracker.Interfaces;
 public interface ExpenseData {
 
 
-    public void expenseDetails(int id, String description,int amount,String date,String category,String groupName);
+    public void expenseDetails(int id, String description,Float amount,String date,String category,String groupName);
 
 
 }

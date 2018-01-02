@@ -77,18 +77,18 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
 
 
-        if (expenseDetails.get(position).getUsermodel() != null) {
-            holder.username.setText(expenseDetails.get(position).getUsermodel().getUsername());
+        if (expenseDetails.get(position).getUserDetails() != null) {
+            holder.username.setText(expenseDetails.get(position).getUserDetails().getUsername());
         }
         else{
             holder.username.setVisibility(View.GONE);
         }
 
-        if(expenseDetails.get(position).getGroupModel()!=null){
-            holder.groupname.setText(expenseDetails.get(position).getGroupModel().getName());
+        if(expenseDetails.get(position).getGroupDetails()!=null){
+            holder.groupname.setText(expenseDetails.get(position).getGroupDetails().getName());
         }
         else{
-            holder.groupname.setText(expenseDetails.get(position).getGroupname());
+            holder.groupname.setText(expenseDetails.get(position).getGroupDetails().getName());
         }
 
 
@@ -117,7 +117,9 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
         TextView amount, description, category, date, groupname, username;
         String totalDescription, categoryName, expenseDate, group;
-        int id, totalAmount;
+        int id;
+
+        float totalAmount;
         ImageView categoryImageView;
 
         public ExpenseViewHolder(View view) {
@@ -146,7 +148,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             totalDescription = expenseDetails.get(position).getDescription();
             categoryName = expenseDetails.get(position).getCategory();
             expenseDate = expenseDetails.get(position).getDate();
-            group = expenseDetails.get(position).getGroupname();
+            group = expenseDetails.get(position).getGroupDetails().getName();
             id = expenseDetails.get(position).getId();
             holder.itemView.setTag(id);
 

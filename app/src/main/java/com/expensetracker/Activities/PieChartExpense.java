@@ -28,6 +28,7 @@ import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ExpenseData;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.ExpenseModel;
+import com.expensetracker.Model.GroupModel;
 import com.expensetracker.Model.UserModel;
 import com.expensetracker.R;
 import com.github.mikephil.charting.charts.PieChart;
@@ -118,7 +119,7 @@ public class PieChartExpense extends AppCompatActivity {
                         JSONObject item = main.getJSONObject(i);
 
                         int id = item.getInt("id");
-                        int amount = item.getInt("amount");
+                        String amount = item.getString("amount");
                         String date = item.getString("date");
                         String description = item.getString("description");
                         String category = item.getString("category");
@@ -130,7 +131,9 @@ public class PieChartExpense extends AppCompatActivity {
 
                         UserModel userModel = new UserModel(userID, username, email);
 
-                        expenseModel.add(new ExpenseModel(id, groupID, amount, date, category, description, groupName, userModel));
+                        GroupModel groupModel = new GroupModel(groupID,groupName);
+
+                        expenseModel.add(new ExpenseModel(id,Float.valueOf(amount), date, category, description , userModel,groupModel));
 
                     }
 
@@ -142,7 +145,7 @@ public class PieChartExpense extends AppCompatActivity {
                     displayPieChart(dataForAdapter);
                     expenseAdapter = new ExpenseAdapter(expenseModel, new ExpenseData() {
                         @Override
-                        public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
+                        public void expenseDetails(int id, String description, Float amount, String date, String category, String groupName) {
                         }
                     });
                     pieRecycler.setAdapter(expenseAdapter);
@@ -187,7 +190,7 @@ public class PieChartExpense extends AppCompatActivity {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
 
-                ArrayList<ExpenseModel> dataForAdapter = processDataForAdapter(((ExpenseModel) e.getData()).getUsermodel().getUser_id());
+                ArrayList<ExpenseModel> dataForAdapter = processDataForAdapter(((ExpenseModel) e.getData()).getUserDetails().getUser_id());
                 if (expenseAdapter != null) {
                     expenseAdapter.swapCursor(dataForAdapter);
                 }
@@ -214,7 +217,7 @@ public class PieChartExpense extends AppCompatActivity {
         ArrayList<PieEntry> yVals = new ArrayList<PieEntry>();
 
         for (int i = 0; i <= dataForAdapter.size() - 1; i++) {
-            yVals.add(new PieEntry(dataForAdapter.get(i).getAmount(), dataForAdapter.get(i).getUsermodel().getUsername(), dataForAdapter.get(i)));
+            yVals.add(new PieEntry(dataForAdapter.get(i).getAmount(), dataForAdapter.get(i).getUserDetails().getUsername(), dataForAdapter.get(i)));
 
 
         }
@@ -294,12 +297,12 @@ public class PieChartExpense extends AppCompatActivity {
         ArrayList<ExpenseModel> copy = new ArrayList<>();
 
         for (ExpenseModel e : expenseModel) {
-            copy.add(new ExpenseModel(e.getId(), e.getAmount(), e.getDate(), e.getDescription(), e.getCategory(), e.getUsermodel(), e.getGroupModel()));
+            copy.add(new ExpenseModel(e.getId(), e.getAmount(), e.getDate(), e.getDescription(), e.getCategory(), e.getUserDetails(), e.getGroupDetails()));
         }
 
         for (int i = 0; i <= copy.size() - 1; i++) {
             for (int j = i + 1; j <= copy.size() - 1; j++) {
-                if (copy.get(i).getUsermodel().getUser_id() == copy.get(j).getUsermodel().getUser_id()) {
+                if (copy.get(i).getUserDetails().getUser_id() == copy.get(j).getUserDetails().getUser_id()) {
                     copy.get(i).setAmount(copy.get(i).getAmount() + copy.get(j).getAmount());
                     copy.remove(copy.get(j));
                     j -= 1;
@@ -428,7 +431,7 @@ public class PieChartExpense extends AppCompatActivity {
         ArrayList<ExpenseModel> dataForAdapter = new ArrayList<ExpenseModel>();
         try {
             for (ExpenseModel e : this.expenseModel) {
-                if (e.getUsermodel().getUser_id() == userID) {
+                if (e.getUserDetails().getUser_id() == userID) {
                     dataForAdapter.add(e);
                 }
             }
@@ -446,7 +449,7 @@ public class PieChartExpense extends AppCompatActivity {
 
         for(ExpenseModel e:expenseModel){
 
-            String data = e.getUsermodel().getUsername()+":"+e.getAmount();
+            String data = e.getUserDetails().getUsername()+":"+e.getAmount();
 
             legendEntries.add(new LegendEntry(data, SQUARE, 10, 10, null, Color.BLACK));
 

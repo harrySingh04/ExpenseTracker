@@ -29,6 +29,8 @@ import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.Interfaces.ExpenseData;
 import com.expensetracker.Interfaces.ItemClickListener;
 import com.expensetracker.Model.ExpenseModel;
+import com.expensetracker.Model.GroupModel;
+import com.expensetracker.Model.UserModel;
 import com.expensetracker.R;
 
 import org.json.JSONArray;
@@ -42,8 +44,12 @@ import java.util.Comparator;
 import java.util.Date;
 
 
-/**
- * A simple {@link Fragment} subclass.
+/**c
+ * A.
+ *
+ *
+ *
+ * jjjjjjjjj {@link Fragment} subclass.
  */
 public class ExpenseView extends Fragment {
 
@@ -118,7 +124,7 @@ public class ExpenseView extends Fragment {
             @Override
             public void sendData(String data) {
 
-                Log.e(TAG,"value of data"+data);
+                Log.e(TAG, "value of data" + data);
 
                 try {
                     progressBar.setVisibility(View.INVISIBLE);
@@ -128,34 +134,36 @@ public class ExpenseView extends Fragment {
                     if (main.length() > 0) {
 
 
+                        Log.e(TAG, data);
 
-                    Log.e(TAG, data);
+                        for (int i = 0; i < main.length(); i++) {
+                            JSONObject item = main.getJSONObject(i);
 
-                    for (int i = 0; i < main.length(); i++) {
-                        JSONObject item = main.getJSONObject(i);
-
-                        int id = item.getInt("id");
-                        int groupid = item.getInt("groupID");
-                        int amount = item.getInt("amount");
-                        String date = item.getString("date");
-                        String description = item.getString("description");
-                        String category = item.getString("category");
-                        String groupName = item.getString("groupName");
-//                        if(item.optBoolean("groupName")){
+                            int id = item.getInt("id");
+                            //    int groupid = item.getInt("groupID");
+                            String amount = item.getString("amount");
+                            String date = item.getString("date");
+                            String description = item.getString("description");
+                            String category = item.getString("category");
+                            //    String groupName = item.getString("groupName");
 //
-//                        }
+                            JSONObject userdetails = item.getJSONObject("userDetails");
+                            JSONObject groupdetail = item.getJSONObject("groupDetails");
 
-                        expenseModel.add(new ExpenseModel(id, amount, date, category, groupid, description, groupName));
+                            UserModel userdetail = new UserModel(userdetails.getInt("id"), null, null);
+                            GroupModel groupModel = new GroupModel(groupdetail.getString("name"), groupdetail.getInt("group_id"), null);
+
+
+                            expenseModel.add(new ExpenseModel(id, Float.valueOf(amount), date, description, category, userdetail, groupModel));
 
 //                        for (ExpenseModel e : expenseModel) {
 //                            Log.e(e.getDate(), e.getDate());
 //                        }
 
-                        //   Log.e("amount", String.valueOf(amount));
+                            //   Log.e("amount", String.valueOf(amount));
 
-                    }
-                }
-                    else{
+                        }
+                    } else {
                         noExpenseStaticMessage.setVisibility(View.VISIBLE);
                     }
 
@@ -165,7 +173,7 @@ public class ExpenseView extends Fragment {
                 }
 
                 adapter = new ExpenseAdapter(expenseModel, expenseData);
-               // layoutManager = new LinearLayoutManager(fragmentActivity);
+                // layoutManager = new LinearLayoutManager(fragmentActivity);
                 //expense_container.setLayoutManager(layoutManager);
                 expense_container.setHasFixedSize(true);
                 expense_container.setAdapter(adapter);
@@ -186,7 +194,7 @@ public class ExpenseView extends Fragment {
         expenseData = new ExpenseData() {
 
             @Override
-            public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
+            public void expenseDetails(int id, String description, Float amount, String date, String category, String groupName) {
                 Intent intent = new Intent();
                 intent.setClass(context, Updatexpense.class);
 
@@ -228,7 +236,7 @@ public class ExpenseView extends Fragment {
                             }
                         }
 
-                        if(expenseModel.isEmpty()){
+                        if (expenseModel.isEmpty()) {
                             noExpenseStaticMessage.setVisibility(View.VISIBLE);
                         }
 

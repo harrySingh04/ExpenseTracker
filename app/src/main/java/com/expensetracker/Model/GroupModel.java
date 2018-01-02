@@ -1,40 +1,29 @@
 package com.expensetracker.Model;
 
-import java.util.ArrayList;
+import com.expensetracker.Model.UserModel;
 
-/**
- * Created by user on 09-07-2017.
- */
+import java.util.ArrayList;
 
 public class GroupModel {
 
-
     String name;
-    Integer user_id;
     Integer group_id;
-    ArrayList<UserModel> group_members;
+    ArrayList<UserModel> userDetails;
 
-    public GroupModel(String name, int user_id, int group_id) {
+
+
+    public GroupModel(String name, Integer group_id, ArrayList<UserModel> userDetails) {
         super();
         this.name = name;
-        this.user_id = user_id;
         this.group_id = group_id;
+        this.userDetails = userDetails;
     }
 
-    public GroupModel(String name, int group_id, int user_id, ArrayList<UserModel> group_members) {
+
+    public GroupModel(int group_id, String name) {
+        super();
         this.name = name;
         this.group_id = group_id;
-        this.user_id = user_id;
-        this.group_members = group_members;
-    }
-
-    public GroupModel(Integer group_id,String name ) {
-        this.name = name;
-        this.group_id = group_id;
-    }
-
-    public GroupModel(String name) {
-        this.name = name;
     }
 
     public String getName() {
@@ -45,26 +34,20 @@ public class GroupModel {
         this.name = name;
     }
 
-    public Integer getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
-    }
-
     public Integer getGroup_id() {
         return group_id;
     }
 
-    public void setGroup_id(Integer group_id) {
+    public void setGroup_id(int group_id) {
         this.group_id = group_id;
     }
 
+    public ArrayList<UserModel> getUserDetails() {
+        return userDetails;
+    }
 
-    public String toString(){
-
-        return name;
+    public void setUserDetails(ArrayList<UserModel> userDetails) {
+        this.userDetails = userDetails;
     }
 
 

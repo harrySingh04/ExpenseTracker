@@ -121,7 +121,7 @@ public class Summary extends AppCompatActivity {
                         JSONObject item = main.getJSONObject(i);
 
                         int expense_id = item.getInt("id");
-                        int amount = item.getInt("amount");
+                        String amount = item.getString("amount");
                         String date = item.getString("date");
                         String description = item.getString("description");
                         String category = item.getString("category");
@@ -133,7 +133,7 @@ public class Summary extends AppCompatActivity {
                         UserModel userModel = new UserModel(usdetails.getInt("id"), usdetails.getString("username"), usdetails.getString("email"));
                         GroupModel groupModel = new GroupModel(groupDetails.getInt("group_id"), groupDetails.getString("name"));
 
-                        expenseModel.add(new ExpenseModel(expense_id, amount, date, description, category, userModel, groupModel));
+                        expenseModel.add(new ExpenseModel(expense_id, Float.valueOf(amount), date, description, category, userModel, groupModel));
 
 //                        for (ExpenseModel e : expenseModel) {
 //                            Log.e(TAG, e.getDate());
@@ -169,11 +169,18 @@ public class Summary extends AppCompatActivity {
                         JSONObject item = main.getJSONObject(i);
                         String name = item.getString("name");
                         int group_id = item.getInt("group_id");
-                        int userid = item.getInt("user_id");
-                        //       Log.e("name", name);
-                        groupdetails.add(new GroupModel(name, userid, group_id));
+
+                        JSONObject userdetails = item.getJSONObject("UserModel");
+
+                        ArrayList<UserModel> userModels = new ArrayList<UserModel>();
+
+                        for (int j = 0; j < userdetails.length(); j++) {
+                            userModels.add(new UserModel(userdetails.getInt("user_id"), null, null));
+                        }
+
+                        groupdetails.add(new GroupModel(name, group_id, userModels));
                     }
-                    groupdetails.add(new GroupModel("No group"));
+                    groupdetails.add(new GroupModel("No group", null, null));
 
                     //        Log.e("this is trhe dta", data);
                 } catch (Exception e) {
@@ -295,8 +302,8 @@ public class Summary extends AppCompatActivity {
                         for (ExpenseModel e : this.expenseModel) {
                             if ((sdf.parse(e.getDate()).before(todate) && sdf.parse(e.getDate()).after(fromdate))
                                     || sdf.parse(e.getDate()).equals(todate) || sdf.parse(e.getDate()).equals(fromdate)) {
-                                if (e.getGroupModel().getName().equals(groupName)) {
-                                    PieChartData.add(new ExpenseModel(e.getId(), e.getAmount(), e.getDate(), e.getDescription(), e.getCategory(), e.getUsermodel(), e.getGroupModel()));
+                                if (e.getGroupDetails().getName().equals(groupName)) {
+                                    PieChartData.add(new ExpenseModel(e.getId(), e.getAmount(), e.getDate(), e.getDescription(), e.getCategory(), e.getUserDetails(), e.getGroupDetails()));
                                 }
                             }
                         }
@@ -364,7 +371,7 @@ public class Summary extends AppCompatActivity {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
 
-                ArrayList<ExpenseModel> dataForAdapter = processDataForAdapter(((ExpenseModel) e.getData()).getUsermodel().getUser_id());
+                ArrayList<ExpenseModel> dataForAdapter = processDataForAdapter(((ExpenseModel) e.getData()).getUserDetails().getUser_id());
 
 
                 if (adapter != null) {
@@ -437,9 +444,9 @@ public class Summary extends AppCompatActivity {
         ArrayList<PieEntry> yVals = new ArrayList<PieEntry>();
 
         for (int i = 0; i <= eModel.size() - 1; i++) {
-            Log.e(TAG, eModel.get(i).getUsermodel().getUsername());
+            Log.e(TAG, eModel.get(i).getUserDetails().getUsername());
             Log.e(TAG, String.valueOf(eModel.get(i).getAmount()));
-            yVals.add(new PieEntry(eModel.get(i).getAmount(), eModel.get(i).getUsermodel().getUsername(),
+            yVals.add(new PieEntry(eModel.get(i).getAmount(), eModel.get(i).getUserDetails().getUsername(),
                     eModel.get(i)
             ));
 
@@ -500,7 +507,7 @@ public class Summary extends AppCompatActivity {
 
         for (int i = 0; i <= expenseModellocal.size() - 1; i++) {
             for (int j = i + 1; j <= expenseModellocal.size() - 1; j++) {
-                if (expenseModellocal.get(i).getUsermodel().getUser_id() == expenseModellocal.get(j).getUsermodel().getUser_id()) {
+                if (expenseModellocal.get(i).getUserDetails().getUser_id() == expenseModellocal.get(j).getUserDetails().getUser_id()) {
                     expenseModellocal.get(i).setAmount(expenseModellocal.get(i).getAmount() + expenseModellocal.get(j).getAmount());
                     expenseModellocal.remove(expenseModellocal.get(j));
                     j -= 1;
@@ -528,8 +535,8 @@ public class Summary extends AppCompatActivity {
             for (ExpenseModel e : this.expenseModel) {
                 if ((sdf.parse(e.getDate()).before(todate) && sdf.parse(e.getDate()).after(fromdate))
                         || sdf.parse(e.getDate()).equals(todate) || sdf.parse(e.getDate()).equals(fromdate)) {
-                    if (e.getGroupModel().getName().equals(groupName)) {
-                        if (e.getUsermodel().getUser_id() == userID) {
+                    if (e.getGroupDetails().getName().equals(groupName)) {
+                        if (e.getUserDetails().getUser_id() == userID) {
                             dataForAdapter.add(e);
                         }
                     }
@@ -551,7 +558,7 @@ public class Summary extends AppCompatActivity {
         if (expenseModel != null) {
             adapter = new ExpenseAdapter(expenseModel, new ExpenseData() {
                 @Override
-                public void expenseDetails(int id, String description, int amount, String date, String category, String groupName) {
+                public void expenseDetails(int id, String description, Float amount, String date, String category, String groupName) {
                 }
             });
             layoutManager = new LinearLayoutManager(context);

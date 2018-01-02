@@ -27,6 +27,7 @@ import com.expensetracker.Dbutils.GroupInfo;
 import com.expensetracker.Interfaces.AsyncResponse;
 import com.expensetracker.MenuPane;
 import com.expensetracker.Model.GroupModel;
+import com.expensetracker.Model.UserModel;
 import com.expensetracker.R;
 
 import org.json.JSONArray;
@@ -149,11 +150,18 @@ public class Updatexpense extends AppCompatActivity {
                         JSONObject item = main.getJSONObject(i);
                         String name = item.getString("name");
                         int group_id = item.getInt("group_id");
-                        int userid = item.getInt("user_id");
-                        Log.e("name", name);
-                        groupdetails.add(new GroupModel(name, userid, group_id));
+
+                        JSONObject userdetails = item.getJSONObject("UserModel");
+
+                        ArrayList<UserModel> userModels = new ArrayList<UserModel>();
+
+                        for (int j = 0;j<userdetails .length();j++) {
+                            userModels.add(new UserModel(userdetails.getInt("user_id"),null,null));
+                        }
+
+                        groupdetails.add(new GroupModel(name, group_id,userModels));
                     }
-                    groupdetails.add(new GroupModel("No group"));
+                    groupdetails.add(new GroupModel("No group",null,null));
 
                     Log.e("this is trhe dta", data);
                 } catch (Exception e) {

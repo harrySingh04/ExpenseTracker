@@ -383,18 +383,6 @@ public class Home extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-     //   Log.e(TAG,"back presses");
-
-    //    Intent i = new Intent();
-      //  i.setClass(context, SingleGroupDetails.class);
-
-//        i.putExtra("groupname", grpname);
-//        i.putExtra("groupid", groupid);
-
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-   //     startActivity(i);
         finish();
     }
 

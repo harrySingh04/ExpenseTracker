@@ -1,80 +1,80 @@
 package com.expensetracker.Model;
 
-import android.support.annotation.NonNull;
-import android.text.format.DateUtils;
-
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by user on 03-07-2017.
- */
+public class ExpenseModel {
 
-public class ExpenseModel  {
+    private Integer id;
+    private Float amount;
+    private String date;
+    private String description;
+    private String category;
+    private UserModel userDetails;
+    private GroupModel groupDetails;
 
-    int id;
-    int amount;
-    String date;
-    String category;
-    int groupid;
-    String groupname;
-    String description;
-    UserModel usermodel;
-    GroupModel groupModel;
+//	public ExpenseModel(Integer id, Float amount, String date, String description, String category) {
+//		super();
+//		this.id = id;
+//		this.amount = amount;
+//		this.date = date;
+//		this.description = description;
+//		this.category = category;
+//	}
+//
+//	public ExpenseModel(Float amount, String date, String decription, String category) {
+//		super();
+//		this.amount = amount;
+//		this.date = date;
+//		this.description = decription;
+//		this.category = category;
+//	}
+//
+//	public ExpenseModel(int id, Float amount, String date, String decription, String category) {
+//		super();
+//		this.id = id;
+//		this.amount = amount;
+//		this.date = date;
+//		this.description = decription;
+//		this.category = category;
+//	}
 
-    public ExpenseModel(int id, int amount, String date, String category, int groupid, String description,String groupname) {
+    public ExpenseModel(Integer id, Float amount, String date, String description, String category,
+                        UserModel userDetails) {
+        super();
         this.id = id;
         this.amount = amount;
         this.date = date;
-        this.category = category;
-        this.groupid = groupid;
-        this.groupname = groupname;
         this.description = description;
+        this.category = category;
+        this.userDetails = userDetails;
     }
 
-    public ExpenseModel(int id, int amount, String date, String category, int groupid, String description) {
+    public ExpenseModel(Integer id, Float amount, String date, String description, String category,
+                          UserModel userDetails, GroupModel groupDetails) {
+        super();
         this.id = id;
         this.amount = amount;
         this.date = date;
-        this.category = category;
-        this.groupid = groupid;
         this.description = description;
+        this.category = category;
+        this.userDetails = userDetails;
+        this.groupDetails = groupDetails;
     }
 
-    public ExpenseModel(int id,int groupid,int amount, String date, String category, String description,String groupname, UserModel usermodel) {
-       this.groupname = groupname;
-        this.groupid = groupid;
-        this.id = id;
-        this.amount = amount;
-        this.date = date;
-        this.category = category;
-        this.description = description;
-        this.usermodel = usermodel;
-    }
-
-    public ExpenseModel(int id, int amount, String date,  String description,String category, UserModel usermodel, GroupModel groupModel) {
-        this.id = id;
-        this.amount = amount;
-        this.date = date;
-        this.category = category;
-        this.description = description;
-        this.usermodel = usermodel;
-        this.groupModel = groupModel;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
@@ -86,30 +86,6 @@ public class ExpenseModel  {
         this.date = date;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public int getGroupid() {
-        return groupid;
-    }
-
-    public void setGroupid(int groupid) {
-        this.groupid = groupid;
-    }
-
-    public String getGroupname() {
-        return groupname;
-    }
-
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -118,24 +94,28 @@ public class ExpenseModel  {
         this.description = description;
     }
 
-    public UserModel getUsermodel() {
-        return usermodel;
+    public String getCategory() {
+        return category;
     }
 
-    public void setUsermodel(UserModel usermodel) {
-        this.usermodel = usermodel;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public GroupModel getGroupModel() {
-        return groupModel;
+    public UserModel getUserDetails() {
+        return userDetails;
     }
 
-    public void setGroupModel(GroupModel groupModel) {
-        this.groupModel = groupModel;
+    public void setUserDetails(UserModel userDetails) {
+        this.userDetails = userDetails;
     }
 
+    public GroupModel getGroupDetails() {
+        return groupDetails;
+    }
+
+    public void setGroupDetails(GroupModel groupDetails) {
+        this.groupDetails = groupDetails;
+    }
 
 }
-
-
-

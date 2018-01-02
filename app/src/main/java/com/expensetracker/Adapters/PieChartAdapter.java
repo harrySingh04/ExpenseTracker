@@ -57,7 +57,7 @@ public class PieChartAdapter extends RecyclerView.Adapter<PieChartAdapter.PieCha
 
 
         holder.contactImage.setImageResource(R.drawable.images);
-        holder.nameView.setText(pieDetails.get(position).getUsermodel().getUsername());
+        holder.nameView.setText(pieDetails.get(position).getUserDetails().getUsername());
         holder.expenseView.setText(String.valueOf(pieDetails.get(position).getAmount()));
 
     }
